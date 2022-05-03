@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:26:48 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 16:23:12 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/03 17:01:43 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ int lexer_token_quote(char *input, int *i, t_token **list_token)
 		if (token_str == NULL)
 			return (1);
 		if (input[*i] == '\"')
-			token = token_new(e_double_quote, token_str);
+			token = token_new(e_word | e_double_quote, token_str);
 		else
-			token = token_new(e_single_quote, token_str);
+			token = token_new(e_word | e_single_quote, token_str);
 		if (token == NULL)
 			return (1);
 		token_add_back(list_token, token);

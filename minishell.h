@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 16:14:57 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/03 17:48:07 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,20 @@ typedef struct s_info
 
 typedef enum e_key_token
 {
-	e_white_space,
-	e_word,
-	e_single_quote,
-	e_double_quote,
-	e_redir,
-	e_pipe,
-	e_left_bracket,
-	e_right_bracket
+	e_word = 1,
+	e_single_quote = 2,
+	e_double_quote = 4,
+	e_redir = 8,
+	e_redir_file = 16,
+	e_pipe = 32,
+	e_left_bracket = 64,
+	e_right_bracket = 128
+	// e_white_space
 }	key_token;
 
 typedef struct s_token
 {
-	key_token		key;
+	int				key;
 	char			*value;
 	int				connect;
 	struct s_token	*next;
@@ -66,7 +67,7 @@ typedef struct s_cmd_arg
 
 typedef struct s_table_cmd
 {
-	t_cmd_arg	*arguments;
+	t_cmd_arg	*commands;
 	char		**in;
 	char		**out;
 }	t_table_cmd;
@@ -93,5 +94,7 @@ t_token *lexer(char *input);
 
 /* signal */
 void	sig_prog(int sig);
+
+t_table_cmd *parser(t_token *list_token);
 
 #endif
