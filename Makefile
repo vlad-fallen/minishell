@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/03 17:47:28 by mbutter          ###   ########.fr        #
+#    Updated: 2022/05/03 16:44:35 by echrysta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,9 @@ SRCS		=	main.c \
 				lexer_token_utils.c \
 				lexer_token.c \
 				lexer.c\
-				signal.c \
-				parser.c
+				signal.c\
+				dollar_pars.c\
+				print_list_token.c
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS)) 
 

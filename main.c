@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 18:08:52 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/03 19:10:59 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ int main()
 		}
 		add_history(line);
 		list_token = lexer(line);
+		print_list_token(list_token);
+		list_token = dollar_pars(list_token);
+		print_list_token(list_token);
 		free(line);
 	}
 }
