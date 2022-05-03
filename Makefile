@@ -6,12 +6,16 @@
 #    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/01 16:18:37 by mbutter          ###   ########.fr        #
+#    Updated: 2022/05/02 18:12:16 by mbutter          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS		=	main.c \
-				env_init.c
+				env_init.c \
+				token_list.c \
+				lexer_token_utils.c \
+				lexer_token.c \
+				lexer.c
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS)) 
 

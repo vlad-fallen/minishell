@@ -6,7 +6,7 @@
 #    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/06 15:42:55 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/02 16:51:17 by mbutter          ###   ########.fr        #
+#    Updated: 2022/05/03 13:49:14 by mbutter          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ $(NAME):	$(OBJS)
 all:		$(NAME)
 
 clean:
-			$(RM) $(OBJS) $(BONUS_OBJS) $(D_FILES)
+			$(RM) $(OBJS) $(BONUS_OBJS) $(D_FILES) $(D_FILES_B)
 
 fclean:		clean
 			$(RM) $(NAME)

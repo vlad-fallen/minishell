@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/01 14:13:59 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/03 12:42:34 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ int main()
 		printf("%s\n", environ[i++]);
 	} */
 	char *line;
+	t_token *list_token;
 
 	env_init();
 	while (1)
 	{
 		line = readline("minishell ");
-		
+		list_token = lexer(line);
 	}
 }
