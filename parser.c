@@ -1,41 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 13:58:16 by mbutter          ###   ########.fr       */
+/*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
+/*   Updated: 2022/05/03 15:08:59 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main()
+t_cmd_arg *cmd_create(void)
 {
-	/* 
-	line = readline("minishell> ");
-	free(line);
-	extern char **environ;
+	t_cmd_arg *new_cmd;
 
-	if (environ == NULL)
-		printf("NULL\n");
-	else
-		printf("not null\n");
+	new_cmd = (t_cmd_arg *)malloc(sizeof(t_cmd_arg));
+	if (new_cmd == NULL)
+		return (NULL);
+	new_cmd->arguments = NULL;
+	new_cmd->next = NULL;
+	return (new_cmd);
+}
 
-	int i = 0;
-	while (environ[i] != NULL)
+void add_token_to_cmd()
+{
+	
+}
+
+t_table_cmd *parser(t_token *list_token)
+{
+	t_table_cmd	*table;
+	t_cmd_arg	*cmd;
+	
+	while (list_token)
 	{
-		printf("%s\n", environ[i++]);
-	} */
-	char *line;
-	t_token *list_token;
-
-	env_init();
-	while (1)
-	{
-		line = readline("minishell ");
-		list_token = lexer(line);
+		if (list_token->key == )
+		list_token = list_token->next;
 	}
 }

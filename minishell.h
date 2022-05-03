@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 13:25:59 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/03 14:38:57 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,17 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_cmd_arg
+{
+	t_token				*arguments;
+	struct s_cmd_arg	*next;
+}	t_cmd_arg;
+
 typedef struct s_table_cmd
 {
-	
+	t_cmd_arg	*arguments;
+	char		**in;
+	char		**out;
 }	t_table_cmd;
 
 t_info	g_envp;
