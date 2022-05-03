@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 15:08:59 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/03 15:50:03 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_cmd_arg *cmd_create(void)
 	return (new_cmd);
 }
 
-void add_token_to_cmd()
+void add_token_to_cmd(t_token **list_token, )
 {
 	
 }

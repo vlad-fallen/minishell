@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 14:38:57 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/03 16:14:57 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_token
 {
 	key_token		key;
 	char			*value;
+	int				connect;
 	struct s_token	*next;
 }	t_token;
 

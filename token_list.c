@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 16:29:52 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/01 16:48:29 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/03 16:20:44 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_token	*token_new(key_token key, char *value)
 	{
 		list->key = key;
 		list->value = ft_strdup(value);
+		list->connect = 0;
 		list->next = NULL;
 	}
 	return (list);
