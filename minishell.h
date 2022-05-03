@@ -90,4 +90,7 @@ int lexer_token_quote(char *input, int *i, t_token **list_token);
 int lexer_token_word(char *input, int *i, t_token **list_token);
 t_token *lexer(char *input);
 
+/* signal */
+void	sig_prog(int sig);
+
 #endif

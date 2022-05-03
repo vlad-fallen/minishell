@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+int	print_exit(void)
+{
+	write(1, "exit\n", 5);
+	return (1);
+}
+
 int main()
 {
 	/* 
@@ -33,9 +39,19 @@ int main()
 	t_token *list_token;
 
 	env_init();
+		signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sig_prog);
 	while (1)
 	{
-		line = readline("minishell ");
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, sig_prog);
+		line = readline("minishell$>");
+		if (!line)
+		{
+			return (print_exit());
+		}
+		add_history(line);
 		list_token = lexer(line);
+		free(line);
 	}
 }

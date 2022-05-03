@@ -15,7 +15,8 @@ SRCS		=	main.c \
 				token_list.c \
 				lexer_token_utils.c \
 				lexer_token.c \
-				lexer.c
+				lexer.c\
+				signal.c
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS)) 
 
