@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/07 14:12:31 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/07 16:06:47 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef enum e_key_token
 	e_single_quote,
 	e_double_quote,
 	e_redir,
+	e_redir_file,
 	e_pipe,
 	e_left_bracket,
 	e_right_bracket
@@ -67,8 +68,9 @@ typedef struct s_cmd_arg
 typedef struct s_table_cmd
 {
 	t_cmd_arg	*commands;
-	char		**in;
-	char		**out;
+	t_cmd_arg	**in;
+	t_cmd_arg	**out;
+	t_cmd_arg	**out_append;
 }	t_table_cmd;
 
 t_info	g_envp;

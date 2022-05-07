@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 18:05:06 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/07 18:35:36 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,52 @@ void cmd_add_back(t_cmd_arg **list_cmd, t_cmd_arg *new_cmd)
 	}
 }
 
+t_token *create_redir_file_token(t_token **list_token)
+{
+	t_token *tmp_token;
+	t_token *redir_file;
+	char	*tmp_str;
+
+	redir_file = token_new(e_redir_file, NULL);
+	tmp_token = (*list_token)->next;
+	token_destroy((*list_token));
+	(*list_token) = tmp_token;
+	while ((*list_token)->connect)
+	{
+		tmp_str = redir_file->value;
+		tmp_token = (*list_token)->next;
+		redir_file->value = ft_strjoin(tmp_str, (*list_token)->value);
+		token_destroy(*list_token);
+		(*list_token) = tmp_token;
+	}
+	return (redir_file);
+}
+
+void inout_add_to_table(t_token **list_token, t_table_cmd **table)
+{
+	t_token *redir_file;
+
+	if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, ">", 2))
+	{
+		redir_file = create_redir_file_token(list_token);
+		token_add_back(&((*table)->out), redir_file);
+	}
+	else if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, ">>", 3))
+	{
+		redir_file = create_redir_file_token(list_token);
+		token_add_back(&((*table)->out_append), redir_file);
+	}
+	else if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, "<", 2))
+	{
+		redir_file = create_redir_file_token(list_token);
+		token_add_back(&((*table)->in), redir_file);
+	}
+	else if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, "<<", 3))
+	{
+		// heredoc
+	}
+}
+
 t_table_cmd *parser(t_token *list_token)
 {
 	t_table_cmd	*table;
@@ -68,8 +114,18 @@ t_table_cmd *parser(t_token *list_token)
 	{
 		cmd = cmd_create();
 		if (list_token->key == e_word || list_token->key == e_single_quote || list_token->key == e_double_quote)
+		{
 			add_token_to_cmd(&list_token, &cmd);
-		cmd_add_back(&(table->commands), cmd);
+			cmd_add_back(&(table->commands), cmd);
+		}
+		else if (list_token->key == e_redir)
+		{
+			inout_add_to_table(&list_token, &table);
+		}
+		else
+		{
+			// delete pipe token and bracket token
+		}
 		//list_token = list_token->next;
 	}
 	return (table);

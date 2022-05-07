@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 16:29:52 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 16:20:44 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/07 15:48:31 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,18 @@ void	token_destroy(t_token *token)
 {
 	t_token *tmp;
 
+	if (token != NULL)
+	{
+		free(token->value);
+		token->value = NULL;
+		free(token);
+	}
+}
+
+/* void	token_destroy(t_token *token)
+{
+	t_token *tmp;
+
 	while (token != NULL)
 	{
 		tmp = token->next;
@@ -57,4 +69,4 @@ void	token_destroy(t_token *token)
 		free(token);
 		token = tmp;
 	}
-}
+} */
