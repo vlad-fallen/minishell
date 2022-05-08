@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/08 14:59:52 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/08 18:26:59 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ typedef struct s_token
 
 typedef struct s_cmd_arg
 {
-	t_token				*arguments;
+	// t_token				*arguments;
+	// заменил структуру на массив строк для экзекьютура
+	char				**arguments;
 	struct s_cmd_arg	*next;
 }	t_cmd_arg;
 
