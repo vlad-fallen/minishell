@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 19:10:59 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/08 15:02:54 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int main()
 	} */
 	char *line;
 	t_token *list_token;
+	t_table_cmd *table;
 
 	env_init();
 		signal(SIGQUIT, SIG_IGN);
@@ -54,7 +55,8 @@ int main()
 		list_token = lexer(line);
 		print_list_token(list_token);
 		list_token = dollar_pars(list_token);
-		print_list_token(list_token);
+		//print_list_token(list_token);
+		table = parser(list_token);
 		free(line);
 	}
 }

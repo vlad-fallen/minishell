@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/07 18:35:36 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/08 15:10:30 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_token *create_redir_file_token(t_token **list_token)
 	t_token *redir_file;
 	char	*tmp_str;
 
-	redir_file = token_new(e_redir_file, NULL);
+	redir_file = token_new(e_redir_file, "");
 	tmp_token = (*list_token)->next;
 	token_destroy((*list_token));
 	(*list_token) = tmp_token;
@@ -105,6 +105,7 @@ t_table_cmd *parser(t_token *list_token)
 {
 	t_table_cmd	*table;
 	t_cmd_arg	*cmd;
+	t_token		*tmp;
 	
 	table = (t_table_cmd *)malloc(sizeof(t_table_cmd));
 	table->commands = NULL;
@@ -117,6 +118,7 @@ t_table_cmd *parser(t_token *list_token)
 		{
 			add_token_to_cmd(&list_token, &cmd);
 			cmd_add_back(&(table->commands), cmd);
+			//printf("1\n");
 		}
 		else if (list_token->key == e_redir)
 		{
@@ -125,6 +127,9 @@ t_table_cmd *parser(t_token *list_token)
 		else
 		{
 			// delete pipe token and bracket token
+			tmp = list_token->next;
+			token_destroy(list_token);
+			list_token = tmp;
 		}
 		//list_token = list_token->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/07 16:06:47 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/08 14:59:52 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ typedef struct s_cmd_arg
 typedef struct s_table_cmd
 {
 	t_cmd_arg	*commands;
-	t_cmd_arg	**in;
-	t_cmd_arg	**out;
-	t_cmd_arg	**out_append;
+	t_token		*in;
+	t_token		*out;
+	t_token		*out_append;
 }	t_table_cmd;
 
 t_info	g_envp;

@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 16:29:52 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/07 15:48:31 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/08 14:49:39 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	token_add_back(t_token **lst, t_token *new)
 
 void	token_destroy(t_token *token)
 {
-	t_token *tmp;
-
 	if (token != NULL)
 	{
 		free(token->value);
