@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/08 15:02:54 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/09 14:19:26 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int main()
 		list_token = dollar_pars(list_token);
 		//print_list_token(list_token);
 		table = parser(list_token);
+		executor(table);
 		free(line);
 	}
 }

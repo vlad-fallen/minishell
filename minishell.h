@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/08 18:26:59 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/09 14:18:41 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ void	sig_prog(int sig);
 /* pasing */
 t_token     *dollar_pars(t_token *list_token);
 t_table_cmd *parser(t_token *list_token);
+
+/* executor */
+void executor(t_table_cmd *table);
 
 /* для тестов*/
 void	print_list_token(t_token *list_token);
