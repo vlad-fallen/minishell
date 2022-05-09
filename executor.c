@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/09 14:21:05 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/09 14:48:53 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,5 @@ void executor(t_table_cmd *table)
 	{
 		exec_proc(table->commands->arguments, g_envp.env);
 	}
+	waitpid(proc_id, NULL, 0);
 }
