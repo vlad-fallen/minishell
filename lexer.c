@@ -3,26 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 13:38:04 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/10 16:53:12 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token *lexer_utils(t_token *list_token)
+void find_duplicate_flags(t_token **list_token)
 {
 	t_token *tmp_prev;
 	t_token *tmp_next;
 
-	tmp_prev = list_token;
-	tmp_next = list_token;
-	if (tmp_next->next)
-		tmp_next = tmp_next->next;
-	else
-		return (list_token);
+	if (!(*list_token) && !(*list_token)->next)
+		return ;
+	tmp_prev = *list_token;
+	tmp_next = (*list_token)->next;
 	while (tmp_prev->next && tmp_next->next)
 	{
 		if (tmp_prev->value[0] == '-')
@@ -33,7 +31,6 @@ t_token *lexer_utils(t_token *list_token)
 		tmp_prev = tmp_prev->next;
 		tmp_next = tmp_next->next;
 	}
-	return (list_token);
 }
 
 t_token *lexer(char *input)
@@ -64,6 +61,6 @@ t_token *lexer(char *input)
 	}
 	if (input[i] != '\0')
 		token_destroy(list_token);
-	list_token = lexer_utils(list_token);
+	find_duplicate_flags(&list_token);
 	return (list_token);
 }

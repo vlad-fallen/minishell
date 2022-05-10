@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 15:29:00 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/10 16:50:39 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void executor(t_table_cmd *table)
 		if(check_builtin(table))
 			run_builtin(table);
 		else
-			exec_proc(table->commands->arguments, g_envp.env);
+		exec_proc(table->commands->arguments, g_envp.env);
 	}
 	waitpid(proc_id, NULL, 0);
 }
