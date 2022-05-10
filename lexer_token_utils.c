@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 17:28:54 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 17:48:34 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/10 15:44:02 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,27 @@ int ft_wordlen(char *str)
 		len++;
 	}
 	return (len);
+}
+
+void delete_duplicate_flag(t_token **list_token)
+{
+	t_token *tmp_prev;
+	t_token *tmp_next;
+
+	if (!(*list_token) && !(*list_token)->next)
+		return ;
+	tmp_prev = (*list_token);
+	tmp_next = (*list_token)->next;
+	while (tmp_prev->next && tmp_next->next)
+	{
+		if (tmp_prev->value[0] == '-')
+		{
+			if (check_str(tmp_prev->value, tmp_next->value))
+				del_elem(tmp_next, list_token);
+		}
+		tmp_prev = tmp_prev->next;
+		tmp_next = tmp_next->next;
+	}
 }
 
 /* int lexer_token_whitespace(char *input, int *i, t_token **list_token)

@@ -6,34 +6,22 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 14:44:01 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/10 16:07:04 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token *lexer_utils(t_token *list_token)
+int check_lexer_syntax(t_token *list_token)
 {
-	t_token *tmp_prev;
-	t_token *tmp_next;
-
-	tmp_prev = list_token;
-	tmp_next = list_token;
-	if (tmp_next->next)
-		tmp_next = tmp_next->next;
-	else
-		return (list_token);
-	while (tmp_prev->next && tmp_next->next)
+	if (list_token && list_token->key == e_pipe)
+		return (-1);
+	while (list_token)
 	{
-		if (tmp_prev->value[0] == '-')
-		{
-			if (check_str(tmp_prev->value, tmp_next->value))
-				del_elem(tmp_next, list_token);
-		}	
-		tmp_prev = tmp_prev->next;
-		tmp_next = tmp_next->next;
+		if (list_token->key == e_pipe && list_token->next == NULL)
+			return (-1);
 	}
-	return (list_token);
+	return (0);
 }
 
 t_token *lexer(char *input)
@@ -62,8 +50,14 @@ t_token *lexer(char *input)
 		while (input[i] && ft_isspace(input[i]))
 			i++;
 	}
-	if (input[i] != '\0')
-		token_destroy(list_token);
-	list_token = lexer_utils(list_token);
+	delete_duplicate_flag(&list_token);
+	if (input[i] != '\0' || check_lexer_syntax(list_token))
+	{
+		while (list_token)
+		{
+			token_destroy(list_token);
+			list_token = list_token->next;
+		}
+	}
 	return (list_token);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 11:56:27 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/10 15:40:35 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	del_elem(t_token *del, t_token *head); //для удаления токен
 /* lexer */
 int     ft_quotelen(char *str);
 int     ft_wordlen(char *str);
+void delete_duplicate_flag(t_token **list_token); // для исключения повторяющихся флагов
 int     lexer_token_whitespace(char *input, int *i, t_token **list_token);
 int     lexer_token_pipe(char *input, int *i, t_token **list_token);
 int     lexer_token_bracket(char *input, int *i, t_token **list_token);
@@ -95,7 +96,6 @@ int     lexer_token_redir(char *input, int *i, t_token **list_token);
 int     lexer_token_quote(char *input, int *i, t_token **list_token);
 int     lexer_token_word(char *input, int *i, t_token **list_token);
 t_token *lexer(char *input);
-t_token *lexer_utils(t_token *list_token); // для исключения повторяющихся флагов
 
 /* signal */
 void	sig_prog(int sig);
