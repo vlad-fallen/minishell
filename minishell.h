@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/09 14:18:41 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/10 11:56:27 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void env_init(void);
 t_token	*token_new(key_token key, char *value);
 void	token_add_back(t_token **lst, t_token *new);
 void	token_destroy(t_token *token);
+void	del_elem(t_token *del, t_token *head); //для удаления токена
 
 /* lexer */
 int     ft_quotelen(char *str);
@@ -94,12 +95,14 @@ int     lexer_token_redir(char *input, int *i, t_token **list_token);
 int     lexer_token_quote(char *input, int *i, t_token **list_token);
 int     lexer_token_word(char *input, int *i, t_token **list_token);
 t_token *lexer(char *input);
+t_token *lexer_utils(t_token *list_token); // для исключения повторяющихся флагов
 
 /* signal */
 void	sig_prog(int sig);
 
 /* pasing */
 t_token     *dollar_pars(t_token *list_token);
+int			check_str(char *str1, char *str2);
 t_table_cmd *parser(t_token *list_token);
 
 /* executor */

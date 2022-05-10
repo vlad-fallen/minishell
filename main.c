@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/09 14:19:26 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/10 13:47:56 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	print_exit(void)
 {
-	write(1, "exit\n", 5);
-	return (1);
+	write(2, "exit\n", 5);
+	exit (0);
 }
 
 int main()
@@ -40,20 +40,19 @@ int main()
 	t_table_cmd *table;
 
 	env_init();
-		signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_prog);
+	rl_outstream = stderr;
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, sig_prog);
-		line = readline("minishell$>");
+		line = readline("minishell$> ");
 		if (!line)
-		{
-			return (print_exit());
-		}
+			print_exit();
 		add_history(line);
 		list_token = lexer(line);
-		print_list_token(list_token);
+		//print_list_token(list_token);
 		list_token = dollar_pars(list_token);
 		//print_list_token(list_token);
 		table = parser(list_token);
