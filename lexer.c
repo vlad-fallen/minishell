@@ -6,31 +6,22 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 16:53:12 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/10 17:21:29 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void find_duplicate_flags(t_token **list_token)
+int check_syntax(t_token *list_token)
 {
-	t_token *tmp_prev;
-	t_token *tmp_next;
-
-	if (!(*list_token) && !(*list_token)->next)
-		return ;
-	tmp_prev = *list_token;
-	tmp_next = (*list_token)->next;
-	while (tmp_prev->next && tmp_next->next)
+	if (list_token && list_token->key == e_pipe)
+		return (-1);
+	while (list_token)
 	{
-		if (tmp_prev->value[0] == '-')
-		{
-			if (check_str(tmp_prev->value, tmp_next->value))
-				del_elem(tmp_next, list_token);
-		}	
-		tmp_prev = tmp_prev->next;
-		tmp_next = tmp_next->next;
+		if (list_token->key == e_pipe && list_token->next == NULL)
+			return (-1);
 	}
+	return (0);
 }
 
 t_token *lexer(char *input)
@@ -59,8 +50,9 @@ t_token *lexer(char *input)
 		while (input[i] && ft_isspace(input[i]))
 			i++;
 	}
-	if (input[i] != '\0')
-		token_destroy(list_token);
 	find_duplicate_flags(&list_token);
+	list_token = dollar_pars(list_token);
+	if (input[i] != '\0' && check_syntax(list_token))
+		token_destroy_all(list_token);
 	return (list_token);
 }

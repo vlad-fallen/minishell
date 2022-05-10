@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 13:47:56 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/10 17:21:28 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int main()
 		add_history(line);
 		list_token = lexer(line);
 		//print_list_token(list_token);
-		list_token = dollar_pars(list_token);
 		//print_list_token(list_token);
 		table = parser(list_token);
 		executor(table);

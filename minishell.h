@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 16:53:32 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/10 17:11:44 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void env_init(void);
 t_token	*token_new(key_token key, char *value);
 void	token_add_back(t_token **lst, t_token *new);
 void	token_destroy(t_token *token);
+void	token_destroy_all(t_token *token);
 void	del_elem(t_token *del, t_token *head); //для удаления токена
 
 /* lexer */
