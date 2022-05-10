@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:26:48 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 17:01:43 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/10 16:15:58 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int lexer_token_quote(char *input, int *i, t_token **list_token)
 		return (1);
 	if (len > 0)
 	{
+		printf("%d\n", len);
 		token_str = ft_substr(input, *i + 1, len - 2);
 		if (token_str == NULL)
 			return (1);

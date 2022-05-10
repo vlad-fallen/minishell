@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 11:56:27 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/10 15:46:02 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ t_table_cmd *parser(t_token *list_token);
 
 /* executor */
 void executor(t_table_cmd *table);
+
+/* builtin */
+int	echo(t_table_cmd *table);
 
 /* для тестов*/
 void	print_list_token(t_token *list_token);
