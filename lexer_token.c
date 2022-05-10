@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:26:48 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 17:01:43 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/09 15:46:12 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int lexer_token_pipe(char *input, int *i, t_token **list_token)
 	{
 		token_str = ft_substr(input, *i, 1);
 		if (token_str == NULL)
-			return (1);
+			return (-1);
 		token = token_new(e_pipe, token_str);
 		if (token == NULL)
-			return (1);
+			return (-1);
 		token_add_back(list_token, token);
 		free(token_str);
 		(*i)++;
@@ -41,13 +41,13 @@ int lexer_token_bracket(char *input, int *i, t_token **list_token)
 	{
 		token_str = ft_substr(input, *i, 1);
 		if (token_str == NULL)
-			return(1);
+			return(-1);
 		if (input[*i] == '(')
 			token = token_new(e_left_bracket, token_str);
 		else
 			token = token_new(e_right_bracket, token_str);
 		if (token == NULL)
-			return (1);
+			return (-1);
 		token_add_back(list_token, token);
 		free(token_str);
 		(*i)++;
@@ -71,10 +71,10 @@ int lexer_token_redir(char *input, int *i, t_token **list_token)
 			len++;
 		token_str = ft_substr(input, *i, len);
 		if (token_str == NULL)
-			return (1);
+			return (-1);
 		token = token_new(e_redir, token_str);
 		if (token == NULL)
-			return (1);
+			return (-1);
 		token_add_back(list_token, token);
 		free(token_str);
 		(*i) += len;
@@ -90,18 +90,18 @@ int lexer_token_quote(char *input, int *i, t_token **list_token)
 
 	len = ft_quotelen(&input[*i]);
 	if (len == -1)
-		return (1);
+		return (-1);
 	if (len > 0)
 	{
 		token_str = ft_substr(input, *i + 1, len - 2);
 		if (token_str == NULL)
-			return (1);
+			return (-1);
 		if (input[*i] == '\"')
 			token = token_new(e_word | e_double_quote, token_str);
 		else
 			token = token_new(e_word | e_single_quote, token_str);
 		if (token == NULL)
-			return (1);
+			return (-1);
 		token_add_back(list_token, token);
 		free(token_str);
 		(*i) += len;
@@ -119,15 +119,15 @@ int lexer_token_word(char *input, int *i, t_token **list_token)
 
 	len = ft_wordlen(&input[*i]);
 	if (len == -1)
-		return (1);
+		return (-1);
 	if (len > 0)
 	{
 		token_str = ft_substr(input, *i, len);
 		if (token_str == NULL)
-			return (1);
+			return (-1);
 		token = token_new(e_word, token_str);
 		if (token == NULL)
-			return (1);
+			return (-1);
 		token_add_back(list_token, token);
 		free(token_str);
 		(*i) += len;

@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/03 16:23:47 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/09 15:53:55 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ t_token *lexer(char *input)
 	{
 		/* if (lexer_token_whitespace(input, &i, &list_token) == 1)
 			break ; */
-		if (lexer_token_pipe(input, &i, &list_token) == 1)
+		if (lexer_token_pipe(input, &i, &list_token) == -1)
 			break ;
-		if (lexer_token_bracket(input, &i, &list_token) == 1)
+		if (lexer_token_bracket(input, &i, &list_token) == -1)
 			break ;
-		if (lexer_token_redir(input, &i, &list_token) == 1)
+		if (lexer_token_redir(input, &i, &list_token) == -1)
 			break ;
-		if (lexer_token_quote(input, &i, &list_token) == 1)
+		if (lexer_token_quote(input, &i, &list_token) == -1)
 			break ;
-		if (lexer_token_word(input, &i, &list_token) == 1)
+		if (lexer_token_word(input, &i, &list_token) == -1)
 			break ;
 		while (input[i] && ft_isspace(input[i]))
 			i++;
