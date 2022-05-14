@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/14 18:03:52 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 18:13:50 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,11 +161,11 @@ t_table_cmd *parser(t_token *list_token)
 		{
 			add_token_to_table(&list_token, &table);
 		}
-		if (list_token->key == e_redir)
+		if (list_token && list_token->key == e_redir)
 		{
 			inout_add_to_table(&list_token, &table);
 		}
-		if (list_token->key == e_pipe)
+		if (list_token && list_token->key == e_pipe)
 		{
 			tmp = list_token->next;
 			token_destroy(list_token);
