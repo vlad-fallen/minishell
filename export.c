@@ -1,37 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_list_token.c                                 :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 17:33:46 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/14 14:48:10 by echrysta         ###   ########.fr       */
+/*   Created: 2022/05/14 14:55:40 by echrysta          #+#    #+#             */
+/*   Updated: 2022/05/14 16:10:32 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_list_token(t_token *list_token)
+int	export_fun()
 {
-	t_token *tmp;
 
-	tmp = list_token;
-	while (tmp)
-	{
-		printf("list_token->next %s\n", tmp->value);
-		tmp = tmp->next;
-	}
-}
-
-void	print_list_env(t_env_var *list_token)
-{
-	t_env_var *tmp;
-
-	tmp = list_token;
-	while (tmp)
-	{
-		printf("%s%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
-	}
 }

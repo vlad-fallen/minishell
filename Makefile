@@ -6,7 +6,7 @@
 #    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/10 15:06:10 by echrysta         ###   ########.fr        #
+#    Updated: 2022/05/14 16:38:58 by echrysta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,13 @@ SRCS		=	main.c \
 				lexer.c\
 				signal.c\
 				dollar_pars.c\
+				dollar_exit_status.c\
 				parser.c \
 				executor.c \
 				echo.c\
+				cd.c\
+				pwd.c\
+				env.c\
 				print_list_token.c
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS)) 

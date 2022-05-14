@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 16:50:39 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 16:12:07 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,36 +104,36 @@ int	check_builtin(t_table_cmd *table)
 void run_builtin(t_table_cmd *table)
 {
 	if (check_str(table->commands->arguments[0], "echo"))
-		echo(table);
-	// if (check_str(table->commands->arguments[0], "cd"))
-	// 	cd(table);
-	// if (check_str(table->commands->arguments[0], "pwd"))
-	// 	pwd(table);
+		g_envp.status_exit = echo(table);
+	if (check_str(table->commands->arguments[0], "cd"))
+		g_envp.status_exit= cd(table);
+	if (check_str(table->commands->arguments[0], "pwd"))
+		g_envp.status_exit = pwd();
 	// if (check_str(table->commands->arguments[0], "export"))
-	// 	export(table);
+	// 	g_envp.status_exit = export_fun();
 	// if (check_str(table->commands->arguments[0], "unset"))
-	// 	unset(table);
-	// if (check_str(table->commands->arguments[0], "env"))
-	// 	env(table);
+	// 	g_envp.status_exit = unset(table);
+	if (check_str(table->commands->arguments[0], "env"))
+		g_envp.status_exit = env();
 	// if (check_str(table->commands->arguments[0], "exit"))
-	// 	exit(table);
+	// 	g_envp.status_exit = exit(table);
 }
 
 void executor(t_table_cmd *table)
 {
 	pid_t proc_id;
 
-	if (make_fork(&proc_id) == -1)
+	if (check_builtin(table))
+		run_builtin(table);
+	else
 	{
-		perror("make_fork");
-		return ;
+		if (make_fork(&proc_id) == -1)
+		{
+			perror("make_fork");
+			return ;
+		}
+		if (proc_id == 0)
+			exec_proc(table->commands->arguments, g_envp.env);
+		waitpid(proc_id, NULL, 0);
 	}
-	if (proc_id == 0)
-	{
-		if(check_builtin(table))
-			run_builtin(table);
-		else
-		exec_proc(table->commands->arguments, g_envp.env);
-	}
-	waitpid(proc_id, NULL, 0);
 }

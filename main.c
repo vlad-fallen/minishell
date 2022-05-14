@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 17:21:28 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 17:06:01 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ int main()
 	t_table_cmd *table;
 
 	env_init();
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_prog);
+	g_envp.status_exit = EXIT_SUCCESS;
+	all_signals();
 	rl_outstream = stderr;
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, sig_prog);
 		line = readline("minishell$> ");
 		if (!line)
 			print_exit();

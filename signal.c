@@ -16,9 +16,17 @@ void	sig_prog(int sig)
 {
 	if (sig == 2)
 	{
+		//set error code = 2
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+}
+
+void	all_signals(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, sig_prog);
 }

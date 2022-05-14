@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 17:11:44 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 16:35:45 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # include <string.h>
 # include <errno.h>
 # include "libft.h"
+# include <sys/types.h>
+# include <sys/wait.h>
+
+#include <dirent.h> //?
 
 typedef struct s_env_var
 {
@@ -100,9 +104,11 @@ t_token *lexer(char *input);
 
 /* signal */
 void	sig_prog(int sig);
+void	all_signals(void);
 
 /* pasing */
 t_token     *dollar_pars(t_token *list_token);
+t_token		*dollar_exit_status(t_token *list_token);
 int			check_str(char *str1, char *str2);
 t_table_cmd *parser(t_token *list_token);
 
@@ -111,6 +117,10 @@ void executor(t_table_cmd *table);
 
 /* builtin */
 int	echo(t_table_cmd *table);
+int	pwd(void);
+int cd(t_table_cmd *table);
+int env(void);
+//int export_fun(void);
 
 /* для тестов*/
 void	print_list_token(t_token *list_token);

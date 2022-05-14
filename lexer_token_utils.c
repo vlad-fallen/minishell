@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 17:28:54 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 17:05:47 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 14:11:28 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void find_duplicate_flags(t_token **list_token)
 		if (tmp_prev->value[0] == '-')
 		{
 			if (check_str(tmp_prev->value, tmp_next->value))
-				del_elem(tmp_next, list_token);
+				del_elem(tmp_next, *list_token);
 		}	
 		tmp_prev = tmp_prev->next;
 		tmp_next = tmp_next->next;

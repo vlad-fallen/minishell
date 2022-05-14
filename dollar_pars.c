@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/10 11:15:09 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/14 17:33:45 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@ int	check_str(char *str1, char *str2)
 	}
 	return (1); //совпали
 }
+
+// int	count_correct_val(char *correct_val)
+// {
+// 	int	count;
+
+// 	count = 0;
+// 	while (correct_val
+// 	{
+// 		/* code */
+// 	}
+	
+// 	return (count);
+// }
 
 char	*check_dollar_elem(t_env_var	*env_init_tmp, int i, char *value)
 {
@@ -88,9 +101,7 @@ char	*change_dollar_token(char *value, int i)
 	value_of_key = 0;
 	value_of_key = check_dollar_elem(env_init_tmp, i, value);
 	if (value_of_key != 0)
-	{
 		value = change_dollar_token_help(value_of_key, value, i);
-	}
 	return (value);
 }
 
