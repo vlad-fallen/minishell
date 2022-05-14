@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/14 17:54:06 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 18:03:52 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 {
 	t_redir *redir_file;
 
-	while ((*list_token)->key = e_redir)
+	while ((*list_token)->key == e_redir)
 	{
 		redir_file = create_redir(list_token, find_redir_type(*list_token));
 		redir_add_back(table, redir_file);

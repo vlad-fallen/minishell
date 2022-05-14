@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/05/14 16:35:45 by echrysta         ###   ########.fr       */
-=======
-/*   Updated: 2022/05/14 15:43:58 by mbutter          ###   ########.fr       */
->>>>>>> mbutter
+/*   Updated: 2022/05/14 18:03:12 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +69,7 @@ typedef struct s_redir
 	// заменил структуру на массив строк для экзекьютура
 	char				*name;
 	int					type;
-	struct s_cmd_arg	*next;
+	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_table_cmd

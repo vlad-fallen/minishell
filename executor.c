@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/14 17:43:00 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 18:04:36 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,11 @@ void run_builtin(t_table_cmd *table)
 	// 	g_envp.status_exit = exit(table);
 }
 
-void execute_redirect(t_table_cmd *table)
+/* void execute_redirect(t_table_cmd *table)
 {
 	
 }
-
+ */
 void executor(t_table_cmd *table)
 {
 	pid_t proc_id;

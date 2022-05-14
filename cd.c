@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:41:39 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/14 14:54:34 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/14 18:07:54 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,14 @@ int	cd(t_table_cmd *table)
 	char	*cwd;
 
 	cwd = NULL;
-	if (table->commands->arguments[1] == NULL)
+	if (table->arguments[1] == NULL)
 		return (cd_home_dir());
-	dir = opendir(table->commands->arguments[1]);
+	dir = opendir(table->arguments[1]);
 	if (dir == NULL)
 		return (local_cd_exit(EXIT_FAILURE, &cwd));
 	else if (closedir(dir) != 0)
 		return (local_cd_exit(EXIT_FAILURE, &cwd));
-	else if (chdir(table->commands->arguments[1]) != 0)
+	else if (chdir(table->arguments[1]) != 0)
 		return (local_cd_exit(EXIT_FAILURE, &cwd));
 	change_env("OLDPWD", NULL);
 	cwd = getcwd(cwd, 0);
