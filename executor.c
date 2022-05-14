@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/14 16:12:07 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/14 17:43:00 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,39 +84,44 @@ int make_fork(pid_t *proc_id)
 
 int	check_builtin(t_table_cmd *table)
 {
-	if (check_str(table->commands->arguments[0], "echo"))
+	if (check_str(table->arguments[0], "echo"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "cd"))
+	if (check_str(table->arguments[0], "cd"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "pwd"))
+	if (check_str(table->arguments[0], "pwd"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "export"))
+	if (check_str(table->arguments[0], "export"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "unset"))
+	if (check_str(table->arguments[0], "unset"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "env"))
+	if (check_str(table->arguments[0], "env"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "exit"))
+	if (check_str(table->arguments[0], "exit"))
 		return (1);
 	return (0);
 }
 
 void run_builtin(t_table_cmd *table)
 {
-	if (check_str(table->commands->arguments[0], "echo"))
+	if (check_str(table->arguments[0], "echo"))
 		g_envp.status_exit = echo(table);
-	if (check_str(table->commands->arguments[0], "cd"))
+	if (check_str(table->arguments[0], "cd"))
 		g_envp.status_exit= cd(table);
-	if (check_str(table->commands->arguments[0], "pwd"))
+	if (check_str(table->arguments[0], "pwd"))
 		g_envp.status_exit = pwd();
 	// if (check_str(table->commands->arguments[0], "export"))
 	// 	g_envp.status_exit = export_fun();
 	// if (check_str(table->commands->arguments[0], "unset"))
 	// 	g_envp.status_exit = unset(table);
-	if (check_str(table->commands->arguments[0], "env"))
+	if (check_str(table->arguments[0], "env"))
 		g_envp.status_exit = env();
 	// if (check_str(table->commands->arguments[0], "exit"))
 	// 	g_envp.status_exit = exit(table);
+}
+
+void execute_redirect(t_table_cmd *table)
+{
+	
 }
 
 void executor(t_table_cmd *table)
@@ -133,7 +138,7 @@ void executor(t_table_cmd *table)
 			return ;
 		}
 		if (proc_id == 0)
-			exec_proc(table->commands->arguments, g_envp.env);
+			exec_proc(table->arguments, g_envp.env);
 		waitpid(proc_id, NULL, 0);
 	}
 }

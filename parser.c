@@ -6,25 +6,26 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/08 18:21:40 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 17:31:11 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd_arg *cmd_create(void)
+t_table_cmd *table_create(void)
 {
-	t_cmd_arg *new_cmd;
+	t_table_cmd *new_table;
 
-	new_cmd = (t_cmd_arg *)malloc(sizeof(t_cmd_arg));
-	if (new_cmd == NULL)
+	new_table = (t_table_cmd *)malloc(sizeof(t_table_cmd));
+	if (new_table == NULL)
 		return (NULL);
-	new_cmd->arguments = NULL;
-	new_cmd->next = NULL;
-	return (new_cmd);
+	new_table->arguments = NULL;
+	new_table->redirections = NULL;
+	new_table->next = NULL;
+	return (new_table);
 }
 
-void add_token_to_cmd(t_token **list_token, t_cmd_arg **cmd)
+void add_token_to_table(t_token **list_token, t_table_cmd **table)
 {
 	t_token *next;
 	t_token *tmp;
@@ -37,8 +38,8 @@ void add_token_to_cmd(t_token **list_token, t_cmd_arg **cmd)
 		i++;
 		tmp = tmp->next;
 	}
-	(*cmd)->arguments = (char **)malloc(sizeof(char *) * (i + 1));
-	if ((*cmd)->arguments == NULL)
+	(*table)->arguments = (char **)malloc(sizeof(char *) * (i + 1));
+	if ((*table)->arguments == NULL)
 		return ;
 	i = 0;
 	while ((*list_token) != NULL && ((*list_token)->key == e_word || (*list_token)->key == e_single_quote || (*list_token)->key == e_double_quote))
@@ -46,58 +47,84 @@ void add_token_to_cmd(t_token **list_token, t_cmd_arg **cmd)
 		next = (*list_token)->next;
 		/* (*list_token)->next = NULL;
 		token_add_back(&((*cmd)->arguments), *list_token); */
-		(*cmd)->arguments[i] = ft_strdup((*list_token)->value);
+		(*table)->arguments[i] = ft_strdup((*list_token)->value);
 		token_destroy(*list_token);
 		i++;
 		(*list_token) = next;
 	}
-	(*cmd)->arguments[i] = NULL;
+	(*table)->arguments[i] = NULL;
 }
 
-void cmd_add_back(t_cmd_arg **list_cmd, t_cmd_arg *new_cmd)
+void redir_add_back(t_table_cmd **table, t_redir *new_redir)
 {
-	t_cmd_arg	*tmp;
+	t_redir	*tmp;
 
-	if (new_cmd != NULL)
+	if (new_redir != NULL)
 	{
-		if (*list_cmd != NULL)
+		if ((*table)->redirections != NULL)
 		{
-			tmp = *list_cmd;
+			tmp = (*table)->redirections;
 			while (tmp->next != 0)
 				tmp = tmp->next;
-			tmp->next = new_cmd;
+			tmp->next = new_redir;
 		}
 		else
-			*list_cmd = new_cmd;
+			(*table)->redirections = new_redir;
 	}
 }
 
-t_token *create_redir_file_token(t_token **list_token)
+int find_redir_type(t_token *list_token)
 {
+	if (!ft_strncmp(list_token->value, ">", 2))
+		return (1);
+	else if (!ft_strncmp(list_token->value, "<", 2))
+		return (2);
+	else if (!ft_strncmp(list_token->value, ">>", 2))
+		return (3);
+	else if (!ft_strncmp(list_token->value, "<<", 2))
+		return (4);
+	return (0);
+}
+
+t_redir *create_redir(t_token **list_token, int redir_type)
+{
+	t_redir *redirections;
 	t_token *tmp_token;
-	t_token *redir_file;
 	char	*tmp_str;
 
-	redir_file = token_new(e_redir_file, "");
+	redirections = (t_redir *)malloc(sizeof(t_redir));
+	if (redirections == NULL)
+		return (NULL);
+	redirections->type = redir_type;
 	tmp_token = (*list_token)->next;
 	token_destroy((*list_token));
 	(*list_token) = tmp_token;
+	redirections->name = ft_strdup((*list_token)->value);
 	while ((*list_token)->connect)
 	{
-		tmp_str = redir_file->value;
 		tmp_token = (*list_token)->next;
-		redir_file->value = ft_strjoin(tmp_str, (*list_token)->value);
 		token_destroy(*list_token);
 		(*list_token) = tmp_token;
+		tmp_str = redirections->name;
+		redirections->name = ft_strjoin(tmp_str, (*list_token)->value);
+		free(tmp_str);
 	}
-	return (redir_file);
+	(*list_token) = (*list_token)->next;
+	token_destroy(tmp_token);
+	return (redirections);
 }
 
 void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 {
-	t_token *redir_file;
+	t_redir *redir_file;
 
-	if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, ">", 2))
+	while ((*list_token)->key = e_redir)
+	{
+		redir_file = create_redir(list_token, find_redir_type(*list_token));
+		redir_add_back(table, redir_file);
+	}
+	
+	/* if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, ">", 2))
 	{
 		redir_file = create_redir_file_token(list_token);
 		token_add_back(&((*table)->out), redir_file);
@@ -115,29 +142,43 @@ void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 	else if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, "<<", 3))
 	{
 		// heredoc
-	}
+	} */
 }
 
 t_table_cmd *parser(t_token *list_token)
 {
 	t_table_cmd	*table;
-	t_cmd_arg	*cmd;
+	t_table_cmd	*head;
 	t_token		*tmp;
 	
-	table = (t_table_cmd *)malloc(sizeof(t_table_cmd));
-	table->commands = NULL;
-	table->in = NULL;
-	table->out = NULL;
+	table = table_create();
+	if (table == NULL)
+		return (NULL);
+	head = table;
 	while (list_token)
 	{
-		cmd = cmd_create();
 		if (list_token->key == e_word || list_token->key == e_single_quote || list_token->key == e_double_quote)
 		{
-			add_token_to_cmd(&list_token, &cmd);
-			cmd_add_back(&(table->commands), cmd);
-			//printf("1\n");
+			add_token_to_table(&list_token, &table);
 		}
-		else if (list_token->key == e_redir)
+		if (list_token->key == e_redir)
+		{
+			inout_add_to_table(&list_token, &table);
+		}
+		if (list_token->key == e_pipe)
+		{
+			tmp = list_token->next;
+			token_destroy(list_token);
+			list_token = tmp;
+			table->next = table_create();
+			table = table->next;
+		}
+		/* if (list_token->key == e_word || list_token->key == e_single_quote || list_token->key == e_double_quote)
+		{
+			add_token_to_cmd(&list_token, &table);
+			//cmd_add_back(&(table->commands), cmd);
+		}
+		if (list_token->key == e_redir)
 		{
 			inout_add_to_table(&list_token, &table);
 		}
@@ -147,8 +188,7 @@ t_table_cmd *parser(t_token *list_token)
 			tmp = list_token->next;
 			token_destroy(list_token);
 			list_token = tmp;
-		}
-		//list_token = list_token->next;
+		} */
 	}
 	return (table);
 }
