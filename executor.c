@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 16:50:39 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 17:32:42 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,26 +84,26 @@ int make_fork(pid_t *proc_id)
 
 int	check_builtin(t_table_cmd *table)
 {
-	if (check_str(table->commands->arguments[0], "echo"))
+	if (check_str(table->arguments[0], "echo"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "cd"))
+	if (check_str(table->arguments[0], "cd"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "pwd"))
+	if (check_str(table->arguments[0], "pwd"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "export"))
+	if (check_str(table->arguments[0], "export"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "unset"))
+	if (check_str(table->arguments[0], "unset"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "env"))
+	if (check_str(table->arguments[0], "env"))
 		return (1);
-	if (check_str(table->commands->arguments[0], "exit"))
+	if (check_str(table->arguments[0], "exit"))
 		return (1);
 	return (0);
 }
 
 void run_builtin(t_table_cmd *table)
 {
-	if (check_str(table->commands->arguments[0], "echo"))
+	if (check_str(table->arguments[0], "echo"))
 		echo(table);
 	// if (check_str(table->commands->arguments[0], "cd"))
 	// 	cd(table);
@@ -117,6 +117,11 @@ void run_builtin(t_table_cmd *table)
 	// 	env(table);
 	// if (check_str(table->commands->arguments[0], "exit"))
 	// 	exit(table);
+}
+
+void execute_redirect(t_table_cmd *table)
+{
+	
 }
 
 void executor(t_table_cmd *table)
@@ -133,7 +138,8 @@ void executor(t_table_cmd *table)
 		if(check_builtin(table))
 			run_builtin(table);
 		else
-		exec_proc(table->commands->arguments, g_envp.env);
+		exec_proc(table->arguments, g_envp.env);
+		exit (0);
 	}
 	waitpid(proc_id, NULL, 0);
 }

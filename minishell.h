@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 17:11:44 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 15:43:58 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,20 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_cmd_arg
+typedef struct s_redir
 {
 	// t_token				*arguments;
 	// заменил структуру на массив строк для экзекьютура
-	char				**arguments;
+	char				*name;
+	int					type;
 	struct s_cmd_arg	*next;
-}	t_cmd_arg;
+}	t_redir;
 
 typedef struct s_table_cmd
 {
-	t_cmd_arg	*commands;
-	t_token		*in;
-	t_token		*out;
-	t_token		*out_append;
+	char				**arguments;
+	t_redir				*redirections;
+	struct s_table_cmd	*next;
 }	t_table_cmd;
 
 t_info	g_envp;
