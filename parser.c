@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/14 19:19:16 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/15 16:14:04 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ int find_redir_type(t_token *list_token)
 		return (1);
 	else if (!ft_strncmp(list_token->value, "<", 2))
 		return (2);
-	else if (!ft_strncmp(list_token->value, ">>", 2))
+	else if (!ft_strncmp(list_token->value, ">>", 3))
 		return (3);
-	else if (!ft_strncmp(list_token->value, "<<", 2))
+	else if (!ft_strncmp(list_token->value, "<<", 3))
 		return (4);
 	return (0);
 }
@@ -120,11 +120,13 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 	return (redirections);
 }
 
+/*--------Р-------*/
+
 void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 {
 	t_redir *redir_file;
 
-	while ((*list_token)->key == e_redir)
+	while ((*list_token) && (*list_token)->key == e_redir)
 	{
 		redir_file = create_redir(list_token, find_redir_type(*list_token));
 		redir_add_back(table, redir_file);
@@ -150,6 +152,8 @@ void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 		// heredoc
 	} */
 }
+
+/*--------ПАРСЕР-------*/
 
 t_table_cmd *parser(t_token *list_token)
 {

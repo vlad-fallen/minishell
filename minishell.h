@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/14 18:03:12 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/15 13:48:06 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 # include <sys/wait.h>
 
 #include <dirent.h> //?
+
+# define OUT 1
+# define IN 2
+# define OUT_APPEND 3
+# define HEREDOC 4
 
 typedef struct s_env_var
 {

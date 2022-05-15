@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/14 18:04:36 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/15 16:14:49 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,26 +119,68 @@ void run_builtin(t_table_cmd *table)
 	// 	g_envp.status_exit = exit(table);
 }
 
-/* void execute_redirect(t_table_cmd *table)
+int open_file(t_redir *redir)
 {
-	
+	int fd;
+
+	fd = -1;
+	if (redir->type == IN)
+		fd = open(redir->name, O_RDONLY);
+	else if (redir->type == OUT)
+		fd = open(redir->name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	else if (redir->type == OUT_APPEND)
+		fd = open(redir->name, O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (fd < 0)
+	{
+		return (-1);
+	}
+	if (redir->type == IN)
+		dup2(fd, STDIN_FILENO);
+	else
+		dup2(fd, STDOUT_FILENO);
+	return (0);
 }
- */
+
+void execute_redirect(t_table_cmd *table)
+{
+	t_redir *redir_file;
+
+	redir_file = table->redirections;
+	while (redir_file != NULL)
+	{
+		if (redir_file->type == 4)
+		{}
+		else
+		{
+			if (open_file(redir_file) == -1)
+			{
+				return ;
+			}
+		}
+		redir_file = redir_file->next;
+	}
+}
+
 void executor(t_table_cmd *table)
 {
 	pid_t proc_id;
 
-	if (check_builtin(table))
-		run_builtin(table);
-	else
+	if (table->next == NULL)
 	{
-		if (make_fork(&proc_id) == -1)
+		execute_redirect(table);
+		if (check_builtin(table))
+			run_builtin(table);
+		else
 		{
-			perror("make_fork");
-			return ;
+			if (make_fork(&proc_id) == -1)
+			{
+				perror("make_fork");
+				return ;
+			}
+			if (proc_id == 0)
+				exec_proc(table->arguments, g_envp.env);
+			waitpid(proc_id, NULL, 0);
 		}
-		if (proc_id == 0)
-			exec_proc(table->arguments, g_envp.env);
-		waitpid(proc_id, NULL, 0);
 	}
+	printf("1\n");
 }
