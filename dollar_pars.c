@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/14 17:33:45 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/14 18:39:41 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,35 @@ int	check_str(char *str1, char *str2)
 	return (1); //совпали
 }
 
-// int	count_correct_val(char *correct_val)
-// {
-// 	int	count;
+int	check_str_2(char *str1, char *str2, int j)
+{
+	int i;
 
-// 	count = 0;
-// 	while (correct_val
-// 	{
-// 		/* code */
-// 	}
-	
-// 	return (count);
-// }
+	i = 0;
+	j--;
+	while (str1[i] != '\0' && str2[i] != '\0' && i != j)
+	{
+		if (str1[i] != str2[i])
+			return (0); //не совпали
+		i++;
+	}
+	return (1); //совпали
+}
+
+int	count_correct_val(char *correct_val)
+{
+	int	count;
+	int i;
+
+	i = 0;
+	count = 0;
+	while (correct_val[i] != '\0' && correct_val[i] != '$')
+	{
+		i++;
+		count++;
+	}
+	return (count);
+}
 
 char	*check_dollar_elem(t_env_var	*env_init_tmp, int i, char *value)
 {
@@ -49,9 +66,9 @@ char	*check_dollar_elem(t_env_var	*env_init_tmp, int i, char *value)
 	correct_val++;
 	while (env_init_tmp->next)
 	{
-		len_correct_val = ft_strlen(correct_val);
+		len_correct_val = count_correct_val(correct_val);
 		len_env_init_tmp = ft_strlen(env_init_tmp->key);
-		if (check_str(correct_val, env_init_tmp->key) && len_correct_val == len_env_init_tmp)
+		if (check_str_2(correct_val, env_init_tmp->key, len_correct_val) && len_correct_val == len_env_init_tmp)
 		{
 			return (env_init_tmp->value);
 		}
@@ -120,6 +137,7 @@ t_token	*dollar_pars(t_token *list_token)
 		{
 			if (value_tmp[i] == '$')
 			{
+				printf("lol\n");
 				value_tmp = change_dollar_token(value_tmp, i);
 				tmp->value = value_tmp;
 			}

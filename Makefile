@@ -25,6 +25,9 @@ SRCS		=	main.c \
 				cd.c\
 				pwd.c\
 				env.c\
+				export.c\
+				exit.c\
+				unset.c\
 				print_list_token.c
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS)) 

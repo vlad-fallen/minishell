@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/15 16:14:04 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 18:13:50 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,41 +25,18 @@ t_table_cmd *table_create(void)
 	return (new_table);
 }
 
-char *append_token_conect(t_token **list_token)
-{
-	char *new_str;
-	char *tmp_str;
-	t_token *tmp_token;
-
-	new_str = ft_strdup((*list_token)->value);
-	while ((*list_token)->connect)
-	{
-		printf("list_token->next %s\n", (*list_token)->value);
-		tmp_token = (*list_token)->next;
-		token_destroy(*list_token);
-		(*list_token) = tmp_token;
-		printf("list_token->next %s\n", (*list_token)->value);
-		tmp_str = new_str;
-		new_str = ft_strjoin(tmp_str, (*list_token)->value);
-		free(tmp_str);
-	}
-	tmp_token = (*list_token)->next;
-	token_destroy(*list_token);
-	(*list_token) = tmp_token;
-	return (new_str);
-}
-
 void add_token_to_table(t_token **list_token, t_table_cmd **table)
 {
-	t_token *tmp_token;
+	t_token *next;
+	t_token *tmp;
 	int		i;
 
-	tmp_token = *list_token;
+	tmp = *list_token;
 	i = 0;
-	while (tmp_token != NULL && (tmp_token->key == e_word || tmp_token->key == e_single_quote || tmp_token->key == e_double_quote))
+	while (tmp != NULL && (tmp->key == e_word || tmp->key == e_single_quote || tmp->key == e_double_quote))
 	{
 		i++;
-		tmp_token = tmp_token->next;
+		tmp = tmp->next;
 	}
 	(*table)->arguments = (char **)malloc(sizeof(char *) * (i + 1));
 	if ((*table)->arguments == NULL)
@@ -67,8 +44,13 @@ void add_token_to_table(t_token **list_token, t_table_cmd **table)
 	i = 0;
 	while ((*list_token) != NULL && ((*list_token)->key == e_word || (*list_token)->key == e_single_quote || (*list_token)->key == e_double_quote))
 	{
-		(*table)->arguments[i] = append_token_conect(list_token);
+		next = (*list_token)->next;
+		/* (*list_token)->next = NULL;
+		token_add_back(&((*cmd)->arguments), *list_token); */
+		(*table)->arguments[i] = ft_strdup((*list_token)->value);
+		token_destroy(*list_token);
 		i++;
+		(*list_token) = next;
 	}
 	(*table)->arguments[i] = NULL;
 }
@@ -97,9 +79,9 @@ int find_redir_type(t_token *list_token)
 		return (1);
 	else if (!ft_strncmp(list_token->value, "<", 2))
 		return (2);
-	else if (!ft_strncmp(list_token->value, ">>", 3))
+	else if (!ft_strncmp(list_token->value, ">>", 2))
 		return (3);
-	else if (!ft_strncmp(list_token->value, "<<", 3))
+	else if (!ft_strncmp(list_token->value, "<<", 2))
 		return (4);
 	return (0);
 }
@@ -108,6 +90,7 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 {
 	t_redir *redirections;
 	t_token *tmp_token;
+	char	*tmp_str;
 
 	redirections = (t_redir *)malloc(sizeof(t_redir));
 	if (redirections == NULL)
@@ -116,17 +99,26 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 	tmp_token = (*list_token)->next;
 	token_destroy((*list_token));
 	(*list_token) = tmp_token;
-	redirections->name = append_token_conect(list_token);
+	redirections->name = ft_strdup((*list_token)->value);
+	while ((*list_token)->connect)
+	{
+		tmp_token = (*list_token)->next;
+		token_destroy(*list_token);
+		(*list_token) = tmp_token;
+		tmp_str = redirections->name;
+		redirections->name = ft_strjoin(tmp_str, (*list_token)->value);
+		free(tmp_str);
+	}
+	(*list_token) = (*list_token)->next;
+	token_destroy(tmp_token);
 	return (redirections);
 }
-
-/*--------Р-------*/
 
 void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 {
 	t_redir *redir_file;
 
-	while ((*list_token) && (*list_token)->key == e_redir)
+	while ((*list_token)->key == e_redir)
 	{
 		redir_file = create_redir(list_token, find_redir_type(*list_token));
 		redir_add_back(table, redir_file);
@@ -153,21 +145,19 @@ void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 	} */
 }
 
-/*--------ПАРСЕР-------*/
-
 t_table_cmd *parser(t_token *list_token)
 {
 	t_table_cmd	*table;
-	t_table_cmd	*head;
+	//t_table_cmd	*head;
 	t_token		*tmp;
 	
 	table = table_create();
 	if (table == NULL)
 		return (NULL);
-	head = table;
+	//head = table;
 	while (list_token)
 	{
-		if (list_token && (list_token->key == e_word || list_token->key == e_single_quote || list_token->key == e_double_quote))
+		if (list_token->key == e_word || list_token->key == e_single_quote || list_token->key == e_double_quote)
 		{
 			add_token_to_table(&list_token, &table);
 		}
@@ -200,5 +190,5 @@ t_table_cmd *parser(t_token *list_token)
 			list_token = tmp;
 		} */
 	}
-	return (head);
+	return (table);
 }

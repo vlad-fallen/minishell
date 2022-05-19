@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/15 15:40:38 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/19 15:16:52 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,14 @@ int main()
 	{
 		line = readline("minishell$> ");
 		if (!line)
-			print_exit();
+			exit_prog();
 		add_history(line);
 		list_token = lexer(line);
 		//print_list_token(list_token);
 		//print_list_token(list_token);
 		table = parser(list_token);
 		executor(table);
-		//free(line);
+		free(line);
 	}
+	exit (1);
 }
