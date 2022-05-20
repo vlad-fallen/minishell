@@ -25,15 +25,16 @@ int	nbr_argc(t_table_cmd *table, int n_flag)
 	return (nbr);
 }
 
+
+
 int	echo(t_table_cmd *table)
 {
 	int	n_flag;
 	int	nbr_arguments;
 	int	i;
+
+	print_list_arguments(table->arguments);
 	
-	// printf("table->commands->arguments[0] %s\n", table->commands->arguments[0]);
-	// printf("table->commands->arguments[1] %s\n", table->commands->arguments[1]);
-	// printf("table->commands->arguments[2] %s\n", table->commands->arguments[2]);
 	n_flag = 0;
 	if (check_str(table->arguments[1], "-n") && ft_strlen(table->arguments[1]) == 2)
 		n_flag = 1;
@@ -45,14 +46,14 @@ int	echo(t_table_cmd *table)
 		i = 2;
 	while (table->arguments[i])
 	{
-		ft_putstr_fd(table->arguments[i], 1);
+		ft_putstr_fd(table->arguments[i], STDOUT_FILENO);
 		nbr_arguments--;
 		if (nbr_arguments != 0)
-			ft_putchar_fd(' ', 1);
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		if (nbr_arguments == 0)
 		{
 			if (n_flag == 0)
-				ft_putstr_fd("\n", 1);
+				ft_putstr_fd("\n", STDOUT_FILENO);
 		}
 		i++;
 	}

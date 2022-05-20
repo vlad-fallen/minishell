@@ -24,6 +24,18 @@ void	print_list_token(t_token *list_token) // потом убрать
 	}
 }
 
+void	print_list_arguments(char **arg)
+{
+	int i;
+
+	i = 0;
+	while (arg[i])
+	{
+		printf("arg[i] = %s\n", arg[i]);
+		i++;
+	}
+}
+
 void	print_list_env(t_env_var *list_token)
 {
 	t_env_var *tmp;

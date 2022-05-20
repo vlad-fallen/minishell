@@ -127,9 +127,10 @@ int		export_fun(t_table_cmd *table);
 int		unset_fun(t_table_cmd *table);
 int 	env(void);
 void	print_list_env(t_env_var *list_token);
-int		exit_prog(void);
+int		exit_prog(t_table_cmd *table);
 
 /* для тестов*/
 void	print_list_token(t_token *list_token);
+void	print_list_arguments(char **arg);
 
 #endif

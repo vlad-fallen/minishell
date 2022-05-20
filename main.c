@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-int	print_exit(void)
+void	exit_all_prog()
 {
-	write(2, "exit\n", 5);
-	exit (0);
+	rl_clear_history();
+	exit(g_envp.status_exit);
 }
 
 int main()
@@ -47,11 +47,12 @@ int main()
 	{
 		line = readline("minishell$> ");
 		if (!line)
-			exit_prog();
+		{
+			ft_putstr_fd("exit\n", STDERR_FILENO);
+			exit_all_prog();
+		}
 		add_history(line);
 		list_token = lexer(line);
-		//print_list_token(list_token);
-		//print_list_token(list_token);
 		table = parser(list_token);
 		executor(table);
 		free(line);

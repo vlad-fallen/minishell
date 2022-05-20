@@ -116,7 +116,7 @@ void run_builtin(t_table_cmd *table)
 	if (check_str(table->arguments[0], "env"))
 		g_envp.status_exit = env();
 	if (check_str(table->arguments[0], "exit"))
-		g_envp.status_exit = exit_prog();
+		g_envp.status_exit = exit_prog(table);
 }
 
 /* void execute_redirect(t_table_cmd *table)
@@ -129,7 +129,9 @@ void executor(t_table_cmd *table)
 	pid_t proc_id;
 
 	if (check_builtin(table))
+	{
 		run_builtin(table);
+	}
 	else
 	{
 		if (make_fork(&proc_id) == -1)
