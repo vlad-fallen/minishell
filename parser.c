@@ -6,11 +6,13 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/15 16:14:04 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/15 18:07:02 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*-------UTILS--------*/
 
 t_table_cmd *table_create(void)
 {
@@ -24,6 +26,8 @@ t_table_cmd *table_create(void)
 	new_table->next = NULL;
 	return (new_table);
 }
+
+/*-------UTILS--------*/
 
 char *append_token_conect(t_token **list_token)
 {
@@ -49,6 +53,8 @@ char *append_token_conect(t_token **list_token)
 	return (new_str);
 }
 
+/*-------COMMAND--------*/
+
 void add_token_to_table(t_token **list_token, t_table_cmd **table)
 {
 	t_token *tmp_token;
@@ -73,6 +79,8 @@ void add_token_to_table(t_token **list_token, t_table_cmd **table)
 	(*table)->arguments[i] = NULL;
 }
 
+/*-------REDIRECTION--------*/
+
 void redir_add_back(t_table_cmd **table, t_redir *new_redir)
 {
 	t_redir	*tmp;
@@ -91,6 +99,8 @@ void redir_add_back(t_table_cmd **table, t_redir *new_redir)
 	}
 }
 
+/*-------REDIRECTION--------*/
+
 int find_redir_type(t_token *list_token)
 {
 	if (!ft_strncmp(list_token->value, ">", 2))
@@ -103,6 +113,33 @@ int find_redir_type(t_token *list_token)
 		return (4);
 	return (0);
 }
+
+void heredoc(t_redir *redir)
+{
+	char *limiter;
+	char *line;
+	char *tmp_line;
+
+	limiter = redir->name;
+	redir->name = NULL;
+	while (1)
+	{
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
+		if (line == NULL || ft_strncmp(limiter, line, ft_strlen(line) - 1) == 0)
+		{
+			free(line);
+			break ;
+		}
+		tmp_line = redir->name;
+		redir->name = ft_strjoin(tmp_line, line);
+		if (tmp_line)
+			free(tmp_line);
+	}
+	free(limiter);
+}
+
+/*-------REDIRECTION--------*/
 
 t_redir *create_redir(t_token **list_token, int redir_type)
 {
@@ -117,10 +154,11 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 	token_destroy((*list_token));
 	(*list_token) = tmp_token;
 	redirections->name = append_token_conect(list_token);
+	// heredoc
 	return (redirections);
 }
 
-/*--------Р-------*/
+/*-------REDIRECTION--------*/
 
 void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 {
