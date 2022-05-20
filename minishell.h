@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/15 13:48:06 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/19 15:09:59 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,18 @@
 
 #include <dirent.h> //?
 
-# define OUT 1
-# define IN 2
-# define OUT_APPEND 3
-# define HEREDOC 4
-
 typedef struct s_env_var
 {
-	char	            *key;
-	char	            *value;
+	char				*key;
+	char				*value;
 	struct s_env_var	*next;
 }	t_env_var;
 
 typedef struct s_info
 {
-	char	    **env;
+	char		**env;
 	t_env_var	*env_list;
-	int		    status_exit;
+	int			status_exit;
 }	t_info;
 
 typedef enum e_key_token
@@ -72,8 +67,8 @@ typedef struct s_redir
 {
 	// t_token				*arguments;
 	// заменил структуру на массив строк для экзекьютура
-	char				*name;
-	int					type;
+	char			*name;
+	int				type;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -86,7 +81,11 @@ typedef struct s_table_cmd
 
 t_info	g_envp;
 
-void env_init(void);
+/* env */
+void		env_init(void);
+t_env_var	*envlist_new(char *key, char *value);
+void		envlist_add_back(t_env_var **lst, t_env_var *new);
+
 
 /* tokens */
 t_token	*token_new(key_token key, char *value);
@@ -96,39 +95,42 @@ void	token_destroy_all(t_token *token);
 void	del_elem(t_token *del, t_token *head); //для удаления токена
 
 /* lexer */
-int     ft_quotelen(char *str);
-int     ft_wordlen(char *str);
-void find_duplicate_flags(t_token **list_token); // для исключения повторяющихся флагов
-int     lexer_token_whitespace(char *input, int *i, t_token **list_token);
-int     lexer_token_pipe(char *input, int *i, t_token **list_token);
-int     lexer_token_bracket(char *input, int *i, t_token **list_token);
-int     lexer_token_redir(char *input, int *i, t_token **list_token);
-int     lexer_token_quote(char *input, int *i, t_token **list_token);
-int     lexer_token_word(char *input, int *i, t_token **list_token);
-t_token *lexer(char *input);
+int		ft_quotelen(char *str);
+int		ft_wordlen(char *str);
+void	find_duplicate_flags(t_token **list_token); // для исключения повторяющихся флагов
+int		lexer_token_whitespace(char *input, int *i, t_token **list_token);
+int		lexer_token_pipe(char *input, int *i, t_token **list_token);
+int		lexer_token_bracket(char *input, int *i, t_token **list_token);
+int		lexer_token_redir(char *input, int *i, t_token **list_token);
+int		lexer_token_quote(char *input, int *i, t_token **list_token);
+int		lexer_token_word(char *input, int *i, t_token **list_token);
+t_token	*lexer(char *input);
 
 /* signal */
 void	sig_prog(int sig);
 void	all_signals(void);
 
-/* pasing */
-t_token     *dollar_pars(t_token *list_token);
+	/* pasing */
+t_token		*dollar_pars(t_token *list_token);
 t_token		*dollar_exit_status(t_token *list_token);
 int			check_str(char *str1, char *str2);
-t_table_cmd *parser(t_token *list_token);
+t_table_cmd	*parser(t_token *list_token);
 
 /* executor */
 void executor(t_table_cmd *table);
 
 /* builtin */
-int	echo(t_table_cmd *table);
-int	pwd(void);
-int cd(t_table_cmd *table);
-int env(void);
-//int export_fun(void);
+int		echo(t_table_cmd *table);
+int		cd(t_table_cmd *table);
+int		pwd(void);
+int		export_fun(t_table_cmd *table);
+int		unset_fun(t_table_cmd *table);
+int 	env(void);
+void	print_list_env(t_env_var *list_token);
+int		exit_prog(t_table_cmd *table);
 
 /* для тестов*/
 void	print_list_token(t_token *list_token);
-void	print_list_env(t_env_var *list_token);
+void	print_list_arguments(char **arg);
 
 #endif

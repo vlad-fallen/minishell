@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/14 17:33:34 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/14 18:39:03 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ t_token *lexer(char *input)
 			i++;
 	}
 	find_duplicate_flags(&list_token);
-	//list_token = dollar_pars(list_token);
 	//print_list_token(list_token);
-	//list_token = dollar_exit_status(list_token);
+	list_token = dollar_pars(list_token);
 	//print_list_token(list_token);
+	list_token = dollar_exit_status(list_token);
 	if (input[i] != '\0' && check_syntax(list_token))
 		token_destroy_all(list_token);
 	return (list_token);

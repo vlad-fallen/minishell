@@ -6,7 +6,7 @@
 #    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/14 16:38:58 by echrysta         ###   ########.fr        #
+#    Updated: 2022/05/19 16:17:37 by echrysta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,9 @@ SRCS		=	main.c \
 				cd.c\
 				pwd.c\
 				env.c\
+				export.c\
+				exit.c\
+				unset.c\
 				print_list_token.c
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS)) 
@@ -44,6 +47,9 @@ CFLAGS		=	-Wall -Wextra -Werror
 NAME		=	minishell
 
 LIBFT_NAME	=	./libft/libft.a
+
+SRC_RL		=	./readline
+RL			=	readline history
 
 
 %.o:		%.c
