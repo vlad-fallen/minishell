@@ -6,37 +6,72 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:55:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/14 16:10:32 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/21 18:10:42 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_def_evn_exp(t_env_var *env_list)
+static int	ft_strcmp(const char *str1, const char *str2)
 {
-	int i;
+	size_t	i;
 
-	while (env_list)
+	i = 0;
+	while (str1[i] != '\0' && str2[i] != '\0' && str1[i] == str2[i])
+		i++;
+	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+}
+
+
+static void	print_declare(char *key)
+{
+	t_env_var *env;
+	
+	env = g_envp.env_list;
+	while (env)
 	{
-		i = 1;
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(env_list->key, 1);
-		if (env_list->value != NULL)
+		if (!ft_strcmp(env->key, key))
 		{
-			ft_putstr_fd("=\"", 1);
-			while (env_list->value[i])
-			{
-				ft_putchar_fd(env_list->value[i], 1);
-				i++;
-			}
-			ft_putstr_fd("\"", 1);
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(env->key, 1);
+			ft_putstr_fd(env->value, 1);
+			ft_putchar_fd('\n', 1);
+			return ;
 		}
-		ft_putstr_fd("\n", 1);
-		env_list = env_list->next;
+		env = env->next;
+	}	
+}
+
+static void	print_sorted_e(t_env_var *env)
+{
+	char	*previous;
+	char	*actual;
+	t_env_var	*tmp_env_val;
+	t_env_var	*tmp_val;
+
+	tmp_env_val = env;
+	if (tmp_env_val)
+	{
+		previous = NULL;
+		while (tmp_env_val)
+		{
+			tmp_val = env;
+			actual = NULL;
+			while (tmp_val)
+			{
+				if ((!previous || strcmp(tmp_val->key, previous) > 0)
+					&& (!actual || strcmp(tmp_val->key, actual) < 0))
+					actual = tmp_val->key;
+				tmp_val = tmp_val->next;
+			}
+			print_declare(actual);
+			previous = actual;
+			tmp_env_val = tmp_env_val->next;
+		}
 	}
 }
 
-t_env_var	*envlist_new_alone(char	*key)
+static t_env_var	*envlist_new_alone(char	*key)
 {
 	t_env_var	*list;
 
@@ -50,7 +85,7 @@ t_env_var	*envlist_new_alone(char	*key)
 	return (list);
 }
 
-int	check_argc(char *str)
+static int	check_argc(char *str)
 {
 	char ch;
 
@@ -65,7 +100,7 @@ int	check_argc(char *str)
 	return (EXIT_SUCCESS);
 }
 
-int	add_elem_env(char *str, t_env_var *env_list)
+static int	add_elem_env(char *str, t_env_var *env_list)
 {
 	t_env_var	*new_env_list;
 	char		*key;
@@ -102,11 +137,11 @@ int	export_fun(t_table_cmd *table)
 {
 	t_env_var	*env_list;
 	int			i;
-	
+
 	env_list = g_envp.env_list;
 	if (!table->arguments[1])
 	{
-		print_def_evn_exp(env_list);
+			print_sorted_e(g_envp.env_list);
 		return (EXIT_SUCCESS);
 	}
 	i = 1;

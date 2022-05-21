@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/20 19:05:30 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/21 16:28:09 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ char *append_token_conect(t_token **list_token)
 	new_str = ft_strdup((*list_token)->value);
 	while ((*list_token)->connect)
 	{
-		printf("list_token->next %s\n", (*list_token)->value);
+		//printf("list_token->next %s\n", (*list_token)->value);
 		tmp_token = (*list_token)->next;
 		token_destroy(*list_token);
 		(*list_token) = tmp_token;
-		printf("list_token->next %s\n", (*list_token)->value);
+		//printf("list_token->next %s\n", (*list_token)->value);
 		tmp_str = new_str;
 		new_str = ft_strjoin(tmp_str, (*list_token)->value);
 		free(tmp_str);

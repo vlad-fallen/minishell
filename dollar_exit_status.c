@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 16:34:30 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/14 17:22:23 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/21 17:01:12 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,29 @@
 char	*change_exit_status(char *value_tmp)
 {
 	char	*nbr;
-	
-	free(value_tmp);
-	nbr = (char *)malloc(sizeof(char) * 4);
-	nbr = ft_itoa(g_envp.status_exit);
+	int		count_pre;
+	int		count_after;
+	int		i;
+	char	*only_nbr;
+
+	count_pre = 0;
+	while (value_tmp[count_pre] != '$')
+		count_pre++;
+	count_after = count_pre + 2;
+	while (value_tmp[count_after])
+		count_after++;
+	nbr = (char *)malloc(sizeof(char) * count_pre + 1);
+	ft_strlcpy(nbr, value_tmp, count_pre + 1);
+	only_nbr = ft_itoa(g_envp.status_exit);
+	nbr = ft_strjoin(nbr, only_nbr);
+	i = 0;
+	while (i != count_pre + 2)
+	{
+		value_tmp++;
+		i++;
+	}
+	nbr = ft_strjoin(nbr, value_tmp);
+	free(only_nbr);
 	return (nbr);
 }
 
@@ -26,6 +45,7 @@ t_token	*dollar_exit_status(t_token *list_token)
 {
 	t_token	*tmp;
 	char	*value_tmp;
+	char	*value_tmp_l;
 	int		i;
 	int		j;
 
@@ -41,8 +61,11 @@ t_token	*dollar_exit_status(t_token *list_token)
 				j = i;
 				j++;
 				if (value_tmp[j] == '?')
-					value_tmp = change_exit_status(value_tmp);
-				tmp->value = value_tmp;
+				{
+					value_tmp_l = change_exit_status(value_tmp);
+					free(value_tmp);
+					tmp->value = value_tmp_l;
+				}
 			}
 			i++;
 		}
