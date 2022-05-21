@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/20 19:05:30 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/21 15:02:54 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ char *append_token_conect(t_token **list_token)
 	new_str = ft_strdup((*list_token)->value);
 	while ((*list_token)->connect)
 	{
-		printf("list_token->next %s\n", (*list_token)->value);
+		//printf("list_token->next %s\n", (*list_token)->value);
 		tmp_token = (*list_token)->next;
 		token_destroy(*list_token);
 		(*list_token) = tmp_token;
-		printf("list_token->next %s\n", (*list_token)->value);
+		//printf("list_token->next %s\n", (*list_token)->value);
 		tmp_str = new_str;
 		new_str = ft_strjoin(tmp_str, (*list_token)->value);
 		free(tmp_str);
@@ -110,23 +110,49 @@ void redir_add_back(t_table_cmd **table, t_redir *new_redir)
 int find_redir_type(t_token *list_token)
 {
 	if (!ft_strncmp(list_token->value, ">", 2))
-		return (1);
+		return (REDIR_OUT);
 	else if (!ft_strncmp(list_token->value, "<", 2))
-		return (2);
-	else if (!ft_strncmp(list_token->value, ">>", 2))
-		return (3);
-	else if (!ft_strncmp(list_token->value, "<<", 2))
-		return (4);
+		return (REDIR_IN);
+	else if (!ft_strncmp(list_token->value, ">>", 3))
+		return (REDIR_APPEND);
+	else if (!ft_strncmp(list_token->value, "<<", 3))
+		return (REDIR_HEREDOC);
 	return (0);
 }
 
 void heredoc(t_redir *redir)
 {
-	char *limiter;
 	char *line;
-	char *tmp_line;
+	int		pid;
+	int		fd[2];
 
-	limiter = redir->name;
+	if (pipe(fd) == -1)
+		return ; //!!!make return error!!!
+	pid = fork();
+	if (pid < 0)
+		return ; //!!!make return error!!!
+	if (pid == 0)
+	{
+		close(fd[0]);
+		while (1)
+		{
+			write(1, "heredoc> ", 9);
+			line = get_next_line(STDIN_FILENO);
+			if (ft_strncmp(line, redir->name, ft_strlen(line) - 1) == 0)
+			{
+				free(line);
+				exit(EXIT_SUCCESS);
+			}
+			write(fd[1], line, ft_strlen(line));
+			free(line);
+		}
+	}
+	if (dup2(fd[0], STDIN_FILENO) < 0)
+		return ;
+	close(fd[1]);
+	waitpid(pid, NULL, 0);
+
+	/* limiter = redir->name;
 	redir->name = NULL;
 	while (1)
 	{
@@ -142,7 +168,7 @@ void heredoc(t_redir *redir)
 		if (tmp_line)
 			free(tmp_line);
 	}
-	free(limiter);
+	free(limiter); */
 }
 
 /*-------REDIRECTION--------*/
@@ -151,7 +177,6 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 {
 	t_redir *redirections;
 	t_token *tmp_token;
-	char	*tmp_str;
 
 	redirections = (t_redir *)malloc(sizeof(t_redir));
 	if (redirections == NULL)
@@ -162,6 +187,10 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 	(*list_token) = tmp_token;
 	redirections->name = append_token_conect(list_token);
 	// heredoc
+	if (redir_type == REDIR_HEREDOC)
+	{
+		heredoc(redirections);
+	}
 	return (redirections);
 }
 
@@ -171,7 +200,7 @@ void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 {
 	t_redir *redir_file;
 
-	while ((*list_token)->key == e_redir)
+	while ((*list_token) && (*list_token)->key == e_redir)
 	{
 		redir_file = create_redir(list_token, find_redir_type(*list_token));
 		redir_add_back(table, redir_file);
@@ -201,13 +230,13 @@ void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 t_table_cmd *parser(t_token *list_token)
 {
 	t_table_cmd	*table;
-	//t_table_cmd	*head;
+	t_table_cmd	*head;
 	t_token		*tmp;
 	
 	table = table_create();
 	if (table == NULL)
 		return (NULL);
-	//head = table;
+	head = table;
 	while (list_token)
 	{
 		if (list_token->key == e_word || list_token->key == e_single_quote || list_token->key == e_double_quote)
@@ -243,5 +272,5 @@ t_table_cmd *parser(t_token *list_token)
 			list_token = tmp;
 		} */
 	}
-	return (table);
+	return (head);
 }

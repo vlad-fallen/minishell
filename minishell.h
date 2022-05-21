@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/19 15:09:59 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/21 14:27:36 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,12 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-#include <dirent.h> //?
+# include <dirent.h> //?
+
+# define REDIR_OUT 1
+# define REDIR_IN 2
+# define REDIR_APPEND 3
+# define REDIR_HEREDOC 4
 
 typedef struct s_env_var
 {

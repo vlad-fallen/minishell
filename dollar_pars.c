@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_pars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/19 15:58:23 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/21 14:48:46 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	*creat_new_val(char **split_value)
 	int		i;
 	int		j;
 
-	printf("split\n");
-	print_list_arguments(split_value);
+	//printf("split\n");
+	//print_list_arguments(split_value);
 	i = 0;
 	all_len = 0;
 	while (split_value[i])
@@ -66,7 +66,7 @@ char	*creat_new_val(char **split_value)
 		i++;
 	}
 	new_val[all_len] = '\0';
-	printf("new_va = %s\n", new_val);
+	//printf("new_va = %s\n", new_val);
 	return (new_val);
 }
 
@@ -111,6 +111,6 @@ t_token	*dollar_pars(t_token *list_token)
 		free(split_value);
 		tmp = tmp->next;
 	}
-	print_list_token(list_token);
+	//print_list_token(list_token);
 	return(list_token);
 }
