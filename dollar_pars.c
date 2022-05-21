@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_pars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/19 15:58:23 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/21 18:20:53 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ char	*change_value(char *value, char *old_value, int len_sp_val, char *env_value
 	{
 		c_new_val++;
 	}
+	//printf("split\n");
+	//print_list_arguments(split_value);
 	i = 0;
 	while (env_value[i])
 	{
