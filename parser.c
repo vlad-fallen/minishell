@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/21 18:38:33 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/21 19:34:18 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,18 @@ char *append_token_conect(t_token **list_token)
 	char *tmp_str;
 	t_token *tmp_token;
 
-	new_str = ft_strdup((*list_token)->value);
+	if (!ft_strncmp((*list_token)->value, "$", 2) && ((*list_token)->next->key == e_double_quote 
+		|| (*list_token)->next->key == e_single_quote) 
+		&& !ft_strncmp((*list_token)->next->value, "", 1))
+		new_str = ft_strdup("");
+	else
+		new_str = ft_strdup((*list_token)->value);
 	while ((*list_token)->connect)
 	{
 		tmp_token = (*list_token)->next;
 		token_destroy(*list_token);
 		(*list_token) = tmp_token;
+		
 		tmp_str = new_str;
 		new_str = ft_strjoin(tmp_str, (*list_token)->value);
 		free(tmp_str);
