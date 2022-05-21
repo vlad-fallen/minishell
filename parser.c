@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/21 15:02:54 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/21 18:17:44 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,9 @@ char *append_token_conect(t_token **list_token)
 	new_str = ft_strdup((*list_token)->value);
 	while ((*list_token)->connect)
 	{
-		//printf("list_token->next %s\n", (*list_token)->value);
 		tmp_token = (*list_token)->next;
 		token_destroy(*list_token);
 		(*list_token) = tmp_token;
-		//printf("list_token->next %s\n", (*list_token)->value);
 		tmp_str = new_str;
 		new_str = ft_strjoin(tmp_str, (*list_token)->value);
 		free(tmp_str);
@@ -75,12 +73,8 @@ void add_token_to_table(t_token **list_token, t_table_cmd **table)
 	while ((*list_token) != NULL && ((*list_token)->key == e_word || (*list_token)->key == e_single_quote || (*list_token)->key == e_double_quote))
 	{
 		next = (*list_token)->next;
-		/* (*list_token)->next = NULL;
-		token_add_back(&((*cmd)->arguments), *list_token); */
-		(*table)->arguments[i] = ft_strdup((*list_token)->value);
-		token_destroy(*list_token);
+		(*table)->arguments[i] = append_token_conect(list_token);
 		i++;
-		(*list_token) = next;
 	}
 	(*table)->arguments[i] = NULL;
 }
