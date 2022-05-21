@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:54:32 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/21 16:05:43 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/21 16:09:00 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	all_n(char *argm)
 {
 	int i;
 
+	i = 0;
 	if (argm[0] == '-' && ft_strlen(argm) == 1)
 		return (0);
 	argm++;
