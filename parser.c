@@ -151,7 +151,7 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 {
 	t_redir *redirections;
 	t_token *tmp_token;
-	char	*tmp_str;
+	//char	*tmp_str;
 
 	redirections = (t_redir *)malloc(sizeof(t_redir));
 	if (redirections == NULL)

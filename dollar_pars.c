@@ -26,91 +26,190 @@ int	check_str(char *str1, char *str2)
 	return (1); //совпали
 }
 
-char	*change_split_val(char *env_val)
+int	check_str_n(char *str1, char *str2, int n)
 {
-	char	*new_val;
+	int i;
 
-	env_val++;
-	new_val = ft_strdup(env_val);
-	return (new_val);
+	i = 0;
+	while (str1[i] != '\0' && str2[i] != '\0' && n != i)
+	{
+		if (str1[i] != str2[i])
+			return (0); //не совпали
+		i++;
+	}
+	return (1); //совпали
 }
 
-char	*creat_new_val(char **split_value)
+t_token	*del_elem_list(t_token *del, t_token *head)
 {
-	char	*new_val;
-	int		all_len;
+	t_token	*tmp;
+
+	tmp = head;
+	if (head == del)
+	{
+		tmp = tmp->next;
+		head->value = tmp->value;
+		head->key = tmp->key;
+		head->next = tmp->next;
+		free(tmp);
+		return (head);
+	}
+	while (tmp->next != del)
+		tmp = tmp->next;
+	tmp->next = del->next;
+	free (del);
+	return (tmp);
+}
+
+int	correct_count(char *elem_split_value)
+{
+	int i;
+
+	i = 0;
+	while (elem_split_value[i] && elem_split_value[i] != '\'' && elem_split_value[i] != '$' && elem_split_value[i] != ' ' && elem_split_value[i] != '\"' && elem_split_value[i] != '/')
+	{
+		i++;
+	}
+	return (i);
+}
+
+char	*change_value(char *value, char *old_value, int len_sp_val, char *env_value)
+{
+	char	*new_value;
+	int		c_new_val;
 	int		i;
-	int		j;
 
-	printf("split\n");
-	print_list_arguments(split_value);
-	i = 0;
-	all_len = 0;
-	while (split_value[i])
+	env_value++;
+	c_new_val = 0;
+	while (old_value[c_new_val] != '$')
 	{
-		all_len = all_len + ft_strlen(split_value[i]);
-		i++;
+		c_new_val++;
 	}
 	i = 0;
-	all_len = 0;
-	new_val = (char *)malloc(sizeof(char) * all_len + 1);
-	while (split_value[i])
+	while (env_value[i])
 	{
-		j = 0;
-		while (split_value[i][j])
-		{
-			new_val[all_len] = split_value[i][j];
-			j++;
-			all_len++;
-		}
 		i++;
 	}
-	new_val[all_len] = '\0';
-	printf("new_va = %s\n", new_val);
-	return (new_val);
+	c_new_val = c_new_val + i;
+	i = 0;
+	while (i != len_sp_val)
+	{
+		//printf("loo\n");
+		value++;
+		i++;
+	}
+	c_new_val = c_new_val + i;
+	new_value = (char *)malloc(sizeof(char) * c_new_val + 1);
+	i = 0;
+	while (old_value[i] != '$')
+	{
+		new_value[i] = old_value[i];
+		i++;
+	}
+	new_value[i] = '\0';
+	new_value = ft_strjoin(new_value, env_value);
+	new_value = ft_strjoin(new_value, value);
+	// printf("NEW VAL = %s\n", new_value);
+	// printf("c_new_val = %d\n", c_new_val);
+	return (new_value);
 }
 
-char	*change_in_env(char **split_value)
+char	*change_in_env(char *value)
 {
 	int			i;
+	char		*old_value;
 	t_env_var	*env;
 	int			len_env;
 	int			len_sp_val;
-	char		*new_value_tmp;
+	int			yes_flag;
+	char		*new_value;
 
 	i = 0;
-	while (split_value[i])
+	yes_flag = 0;
+	old_value = value;
+	if (value[0] == '\"')
+		return(old_value);
+	//printf("value = %s\n", value);
+	while (value[0] != '$')
 	{
-		env = g_envp.env_list;
-		while (env)
-		{
-			len_env = ft_strlen(env->key);
-			len_sp_val = ft_strlen(split_value[i]);
-			if (check_str(env->key, split_value[i]) && len_env == len_sp_val)
-			{
-				split_value[i] = change_split_val(env->value);
-			}
-			env = env->next;
-		}
+		value++;
 		i++;
 	}
-	new_value_tmp = creat_new_val(split_value);
-	return (new_value_tmp);
+	value++;
+	//printf("value++ = %s\n", value);
+	env = g_envp.env_list;
+	while (env)
+	{
+		len_env = ft_strlen(env->key);
+		len_sp_val = correct_count(value);
+		// printf("len_env = %d\n", len_env);
+		// printf("len_sp_val = %d\n", len_sp_val);
+		if (check_str_n(env->key, value, len_sp_val) && len_env == len_sp_val)
+		{
+			new_value = change_value(value, old_value, len_sp_val, env->value);
+			yes_flag = 1;
+		}
+	env = env->next;
+	}
+	if (yes_flag == 1)
+		return (new_value);
+	else
+		return (old_value);
+}
+
+int	check_asc(char *change_value)
+{
+	int	i;
+	int	flag;
+
+	flag = 0;
+	if (ft_strlen(change_value) == 1)
+		return (0); // не удалять
+	change_value++;
+	i = 0;
+	while (change_value[i])
+	{
+		//printf("%c - %d\n", change_value[i], ft_isalpha(change_value[i]));
+		if (ft_isalpha(change_value[i]))
+			flag = 1;
+		i++;
+	}
+	if (!flag)
+		return (0);
+	else
+		return (1);
 }
 
 t_token	*dollar_pars(t_token *list_token)
 {
 	t_token	*tmp;
-	char	**split_value;
+	char	*change_value;
+	int		i;
 
+	//print_list_token(list_token);
 	tmp = list_token;
 	while (tmp)
 	{
-		split_value = ft_split(tmp->value, '$');
-		tmp->value = change_in_env(split_value);
-		free(split_value);
+		i = 0;
+		while (tmp->value[i])
+		{
+			if (tmp->value[i] == '$')
+			{
+				change_value = change_in_env(tmp->value);
+				if (check_str(change_value, tmp->value) && change_value[0] != '\"' && check_asc(change_value))
+				{
+					// printf("NUZNO UDALIT\n");
+					// printf("change_value %s\n", change_value);
+					tmp = del_elem_list(tmp, tmp);
+				}
+				else
+				{
+					tmp->value = change_value;
+				}
+			}
+			i++;
+		}
 		tmp = tmp->next;
 	}
-	print_list_token(list_token);
 	return(list_token);
 }

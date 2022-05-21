@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	local_cd_exit(int exit_status, char **cwd)
+int	local_cd_exit(int exit_status, char **cwd, t_table_cmd *table)
 {
 	free(*cwd);
 	*cwd = NULL;
@@ -20,7 +20,8 @@ int	local_cd_exit(int exit_status, char **cwd)
 		return (EXIT_SUCCESS);
 	else
 	{
-		perror("Error");
+		ft_putstr_fd("zhs: cd: ", 2);
+		perror(table->arguments[1]);
 		return (EXIT_FAILURE);
 	}
 }
@@ -76,7 +77,7 @@ char	*without_ravno(char *str)
 	return (new_str);
 }
 
-int cd_home_dir()
+int cd_home_dir(t_table_cmd *table)
 {
 	char	*home_dir;
 	t_env_var   *correct_env;
@@ -93,13 +94,13 @@ int cd_home_dir()
 	if (chdir(home_dir) != 0)
 	{
 		free(home_dir);
-		return (local_cd_exit(EXIT_FAILURE, &cwd));
+		return (local_cd_exit(EXIT_FAILURE, &cwd, table));
 	}
 	change_env("OLDPWD", NULL);
 	cwd = getcwd(cwd, 0);
 	change_env("PWD", cwd);
 	free(home_dir);
-	return (local_cd_exit(EXIT_SUCCESS, &cwd));
+	return (local_cd_exit(EXIT_SUCCESS, &cwd, table));
 }
 
 int	cd(t_table_cmd *table)
@@ -109,16 +110,16 @@ int	cd(t_table_cmd *table)
 
 	cwd = NULL;
 	if (table->arguments[1] == NULL)
-		return (cd_home_dir());
+		return (cd_home_dir(table));
 	dir = opendir(table->arguments[1]);
 	if (dir == NULL)
-		return (local_cd_exit(EXIT_FAILURE, &cwd));
+		return (local_cd_exit(EXIT_FAILURE, &cwd, table));
 	else if (closedir(dir) != 0)
-		return (local_cd_exit(EXIT_FAILURE, &cwd));
+		return (local_cd_exit(EXIT_FAILURE, &cwd, table));
 	else if (chdir(table->arguments[1]) != 0)
-		return (local_cd_exit(EXIT_FAILURE, &cwd));
+		return (local_cd_exit(EXIT_FAILURE, &cwd, table));
 	change_env("OLDPWD", NULL);
 	cwd = getcwd(cwd, 0);
 	change_env("PWD", cwd);
-	return(local_cd_exit(EXIT_SUCCESS, &cwd));
+	return(local_cd_exit(EXIT_SUCCESS, &cwd, table));
 }

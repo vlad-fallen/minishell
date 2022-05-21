@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:54:32 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/14 18:06:30 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/21 16:05:43 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,21 @@ int	nbr_argc(t_table_cmd *table, int n_flag)
 	return (nbr);
 }
 
+int	all_n(char *argm)
+{
+	int i;
 
+	if (argm[0] == '-' && ft_strlen(argm) == 1)
+		return (0);
+	argm++;
+	while (argm[i])
+	{
+		if (argm[i] != 'n')
+			return (0); //плохо
+		i++;
+	}
+	return (1); //хоррошо
+}
 
 int	echo(t_table_cmd *table)
 {
@@ -33,17 +47,21 @@ int	echo(t_table_cmd *table)
 	int	nbr_arguments;
 	int	i;
 
-	print_list_arguments(table->arguments);
-	
+	//print_list_arguments(table->arguments);
+	if (!table->arguments[1])
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		return (EXIT_SUCCESS);
+	}
 	n_flag = 0;
-	if (check_str(table->arguments[1], "-n") && ft_strlen(table->arguments[1]) == 2)
+	if (check_str(table->arguments[1], "-n") && all_n(table->arguments[1]))
 		n_flag = 1;
-	// printf("n_flag = %d\n", n_flag);
-	// printf("nbr_argc = %d\n", nbr_argc(table, n_flag));
 	nbr_arguments = nbr_argc(table, n_flag);
 	i = 1;
 	if (n_flag == 1)
 		i = 2;
+	// if (!table->arguments[i])
+	// 	ft_putstr_fd("\n", STDOUT_FILENO);
 	while (table->arguments[i])
 	{
 		ft_putstr_fd(table->arguments[i], STDOUT_FILENO);

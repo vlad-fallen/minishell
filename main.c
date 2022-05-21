@@ -52,10 +52,13 @@ int main()
 			exit_all_prog();
 		}
 		add_history(line);
-		list_token = lexer(line);
-		table = parser(list_token);
-		executor(table);
-		free(line);
+		if(line[0] != '\0')
+		{
+			list_token = lexer(line);
+			table = parser(list_token);
+			executor(table);
+			free(line);
+		}
 	}
 	exit (1);
 }
