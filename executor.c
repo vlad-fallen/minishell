@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/21 20:54:38 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/22 13:56:17 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ void executor(t_table_cmd *table)
 {
 	pid_t proc_id;
 
+	signal(SIGINT, SIG_IGN);
 	execute_redirect(table);
 	if (check_builtin(table))
 	{
@@ -177,7 +178,9 @@ void executor(t_table_cmd *table)
 			return ;
 		}
 		if (proc_id == 0)
+		{
 			exec_proc(table->arguments, g_envp.env);
+		}
 		waitpid(proc_id, NULL, 0);
 	}
 }

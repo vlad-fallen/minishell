@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/21 20:33:05 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/22 16:28:45 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,24 @@ void	exit_all_prog()
 {
 	rl_clear_history();
 	exit(g_envp.status_exit);
+}
+
+int	change_attributes(bool print_controls)
+{
+	int				err;
+	struct termios	termios;
+
+	err = tcgetattr(STDOUT_FILENO, &termios);
+	if (err == -1)
+		return (-1);
+	if (print_controls)
+		termios.c_lflag |= ECHOCTL;
+	else
+		termios.c_lflag &= ~(ECHOCTL);
+	err = tcsetattr(STDOUT_FILENO, TCSANOW, &termios);
+	if (err == -1)
+		return (-1);
+	return (0);
 }
 
 int main()

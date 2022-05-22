@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/21 14:27:36 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/22 13:23:13 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
+# include <stdbool.h>
+# include <termios.h>
 # include <dirent.h> //?
 
 # define REDIR_OUT 1
@@ -85,6 +87,8 @@ typedef struct s_table_cmd
 }	t_table_cmd;
 
 t_info	g_envp;
+
+int	change_attributes(bool print_controls);
 
 /* env */
 void		env_init(void);
