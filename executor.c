@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/22 13:56:17 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/25 19:29:08 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,11 +160,12 @@ void execute_redirect(t_table_cmd *table)
 		redir_file = redir_file->next;
 	}
 }
-void executor(t_table_cmd *table)
+
+void exec_scmd(t_table_cmd *table)
 {
 	pid_t proc_id;
 
-	signal(SIGINT, SIG_IGN);
+	//signal(SIGINT, SIG_IGN);
 	execute_redirect(table);
 	if (check_builtin(table))
 	{
@@ -183,4 +184,70 @@ void executor(t_table_cmd *table)
 		}
 		waitpid(proc_id, NULL, 0);
 	}
+}
+
+/*--------------------EXEC_PIPE-------------------------*/
+
+int	pipe_found(t_table_cmd *table, int **pipe_fd)
+{
+	int	status;
+
+	status = 0;
+	if (table->next != NULL)
+	{
+		status = pipe(*pipe_fd);
+		if (status == -1)
+			return (-1);
+		return (1);
+	}
+	return (status);
+}
+
+void exec_pipe(t_table_cmd *table)
+{
+	pid_t	proc_id;
+	int		pipe_fd[2];
+	int		pipe_flag;
+	
+	while (table != NULL)
+	{
+		pipe_flag = pipe_found(table, &pipe_fd);
+		if (pipe_flag == -1 || make_fork(&proc_id) == -1)
+			return ;
+		if (proc_id == 0)
+		{
+			close(pipe_fd[0]);
+			dup2(pipe_fd[1], STDOUT_FILENO);
+			execute_redirect(table);
+			if (check_builtin(table))
+			{
+				run_builtin(table);
+			}
+			else
+			{
+				exec_proc(table->arguments, g_envp.env);
+			}
+		}
+		else if (proc_id > 0)
+		{
+			if (pipe_flag == 1)
+			{
+				close(pipe_fd[1]);
+				dup2(pipe_fd[0], STDIN_FILENO);
+			}
+		}
+		table = table->next;
+	}
+	waitpid(proc_id, NULL, 0);
+}
+
+/*--------------------EXECUTOR(main function)-------------------------*/
+
+void executor(t_table_cmd *table)
+{
+	if (table == NULL)
+		return ;
+	if (table->next == NULL)
+		exec_scmd(table);
+	
 }
