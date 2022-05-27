@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/25 19:29:08 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/27 19:03:45 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,14 @@ void exec_scmd(t_table_cmd *table)
 
 /*--------------------EXEC_PIPE-------------------------*/
 
+int	init_pipe_fd(int **pipe_fd)
+{
+	(*pipe_fd) = (int *)malloc(2 * sizeof(int));
+	if ((*pipe_fd) == NULL)
+		return (1);
+	return (0);
+}
+
 int	pipe_found(t_table_cmd *table, int **pipe_fd)
 {
 	int	status;
@@ -206,9 +214,11 @@ int	pipe_found(t_table_cmd *table, int **pipe_fd)
 void exec_pipe(t_table_cmd *table)
 {
 	pid_t	proc_id;
-	int		pipe_fd[2];
+	int		*pipe_fd;
 	int		pipe_flag;
 	
+	if (init_pipe_fd(&pipe_fd))
+		return ;
 	while (table != NULL)
 	{
 		pipe_flag = pipe_found(table, &pipe_fd);
@@ -238,6 +248,7 @@ void exec_pipe(t_table_cmd *table)
 		}
 		table = table->next;
 	}
+	free(pipe_fd);
 	waitpid(proc_id, NULL, 0);
 }
 
@@ -249,5 +260,6 @@ void executor(t_table_cmd *table)
 		return ;
 	if (table->next == NULL)
 		exec_scmd(table);
-	
+	else
+		exec_pipe(table);
 }
