@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/22 13:23:13 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/28 19:23:55 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,16 +119,23 @@ t_token	*lexer(char *input);
 void	sig_prog(int sig);
 void	all_signals(void);
 
-	/* pasing */
+	/* parsing */
 t_token		*dollar_pars(t_token *list_token);
 t_token		*dollar_exit_status(t_token *list_token);
 int			check_str(char *str1, char *str2);
 t_table_cmd	*parser(t_token *list_token);
 
 /* executor */
-void executor(t_table_cmd *table);
+void	stream_op(int *initial_stdin, int *initial_stdout, int mode);
+int		make_fork(pid_t *proc_id);
+void	exec_proc(char **cmd, char **envp);
+void	execute_redirect(t_table_cmd *table);
+void	exec_scmd(t_table_cmd *table);
+void	executor(t_table_cmd *table);
 
 /* builtin */
+int		check_builtin(t_table_cmd *table);
+void	run_builtin(t_table_cmd *table);
 int		echo(t_table_cmd *table);
 int		cd(t_table_cmd *table);
 int		pwd(void);

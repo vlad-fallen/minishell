@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/22 13:37:20 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/28 19:24:21 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int find_redir_type(t_token *list_token)
 		return (REDIR_HEREDOC);
 	return (0);
 }
-
+/* 
 void heredoc(t_redir *redir)
 {
 	char *line;
@@ -134,6 +134,7 @@ void heredoc(t_redir *redir)
 	if (pid == 0)
 	{
 		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
 		while (1)
 		{
 			write(1, "heredoc> ", 9);
@@ -141,35 +142,18 @@ void heredoc(t_redir *redir)
 			if (ft_strncmp(line, redir->name, ft_strlen(line) - 1) == 0)
 			{
 				free(line);
+				close(fd[1]);
 				exit(EXIT_SUCCESS);
 			}
 			write(fd[1], line, ft_strlen(line));
 			free(line);
 		}
 	}
-	if (dup2(fd[0], STDIN_FILENO) < 0)
-		return ;
-	close(fd[1]);
 	waitpid(pid, NULL, 0);
-
-	/* limiter = redir->name;
-	redir->name = NULL;
-	while (1)
-	{
-		write(1, "heredoc> ", 9);
-		line = get_next_line(0);
-		if (line == NULL || ft_strncmp(limiter, line, ft_strlen(line) - 1) == 0)
-		{
-			free(line);
-			break ;
-		}
-		tmp_line = redir->name;
-		redir->name = ft_strjoin(tmp_line, line);
-		if (tmp_line)
-			free(tmp_line);
-	}
-	free(limiter); */
-}
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+} */
 
 /*-------REDIRECTION--------*/
 
@@ -187,10 +171,10 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 	(*list_token) = tmp_token;
 	redirections->name = append_token_conect(list_token);
 	// heredoc
-	if (redir_type == REDIR_HEREDOC)
+	/* if (redir_type == REDIR_HEREDOC)
 	{
 		heredoc(redirections);
-	}
+	} */
 	return (redirections);
 }
 

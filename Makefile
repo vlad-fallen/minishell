@@ -6,7 +6,7 @@
 #    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/22 16:27:35 by mbutter          ###   ########.fr        #
+#    Updated: 2022/05/28 16:31:03 by mbutter          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,11 @@ SRCS		=	main.c \
 				dollar_pars.c\
 				dollar_exit_status.c\
 				parser.c \
+				exec_child.c \
+				exec_redir.c \
+				exec_scmd.c \
 				executor.c \
+				builtin.c \
 				echo.c\
 				cd.c\
 				pwd.c\
