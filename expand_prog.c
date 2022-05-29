@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:44:51 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 15:06:22 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/29 18:53:43 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,22 @@ int	find_dollar(char *str)
 t_token	*expand_prog(t_token *list_token)
 {
 	t_token	*tmp;
+	char	*prev;
 	
+	prev = NULL;
 	//print_list_token(list_token);
 	tmp = list_token;
 	while (tmp)
 	{
-		if (find_dollar(tmp->value))
-			if (tmp->key != e_single_quote && tmp->key != e_double_quote && tmp->connect == 1)
+		if (!check_str_red(prev, "<<"))
+		{
+			if (find_dollar(tmp->value))
 			{
-				//printf("del token\n");
-				del_elem_list(tmp, list_token);
+				if (tmp->key != e_single_quote && tmp->key != e_double_quote && tmp->connect == 1)
+					del_elem_list(tmp, list_token);
 			}
+		}
+		prev = tmp->value;
 		tmp = tmp->next;
 	}
 	//print_list_token(list_token);

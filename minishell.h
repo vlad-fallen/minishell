@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/29 16:31:50 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/29 18:53:06 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ char		*digit_arg_dol(char *value, char *old_value);
 int			correct_count(char *elem_split_value);
 int			check_str_n(char *str1, char *str2, int n);
 t_token		*del_elem_list(t_token *del, t_token *head);
+int			check_str_red(char *str1, char *str2);
 
 /* expand_prog */
 t_token	*expand_prog(t_token *list_token);
