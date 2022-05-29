@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/29 14:46:49 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/29 16:29:52 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ typedef struct s_table_cmd
 {
 	char				**arguments;
 	t_redir				*redirections;
+	int					stream_in;
+	int					stream_out;
 	struct s_table_cmd	*next;
 }	t_table_cmd;
 
@@ -136,9 +138,16 @@ t_token		*del_elem_list(t_token *del, t_token *head);
 t_token	*expand_prog(t_token *list_token);
 
 /* executor */
-void executor(t_table_cmd *table);
+void	stream_op(int *initial_stdin, int *initial_stdout, int mode);
+int		make_fork(pid_t *proc_id);
+void	exec_proc(char **cmd, char **envp);
+void	execute_redirect(t_table_cmd *table);
+void	exec_scmd(t_table_cmd *table);
+void	executor(t_table_cmd *table);
 
 /* builtin */
+int		check_builtin(t_table_cmd *table);
+void	run_builtin(t_table_cmd *table);
 int		echo(t_table_cmd *table);
 int		cd(t_table_cmd *table);
 int		pwd(void);

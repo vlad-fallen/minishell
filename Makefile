@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
+#    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/29 14:45:17 by echrysta         ###   ########.fr        #
+#    Updated: 2022/05/29 16:30:27 by mbutter          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,11 @@ SRCS		=	main.c \
 				expand_prog.c\
 				dollar_exit_status.c\
 				parser.c \
+				exec_child.c \
+				exec_redir.c \
+				exec_scmd.c \
 				executor.c \
+				builtin.c \
 				echo.c\
 				cd.c\
 				pwd.c\
@@ -45,7 +49,7 @@ CC			=	gcc
 
 RM			=	rm -f
 
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g3
 
 NAME		=	minishell
 
