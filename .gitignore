@@ -2,3 +2,4 @@
 .gitignore
 .vscode
 file*
+tester_minishell
