@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 16:34:30 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/21 17:01:12 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/29 15:41:10 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,39 @@ char	*change_exit_status(char *value_tmp)
 	return (nbr);
 }
 
+t_token	*dollar_exit_status_help(t_token *tmp)
+{
+	int		i;
+	char	*value_tmp;
+
+	i = 0;
+	value_tmp = tmp->value;
+	while (value_tmp[i])
+	{
+		if (value_tmp[i] == '$')
+		{
+			i++;
+			if (value_tmp[i] == '?')
+			{
+				value_tmp = change_exit_status(value_tmp);
+				tmp->value = value_tmp;
+			}
+			i--;
+		}
+		i++;
+	}
+	return (tmp);
+}
+
 t_token	*dollar_exit_status(t_token *list_token)
 {
 	t_token	*tmp;
-	char	*value_tmp;
-	char	*value_tmp_l;
-	int		i;
-	int		j;
 
 	tmp = list_token;
 	while (tmp)
 	{
-		i = 0;
-		value_tmp = tmp->value;
-		while(value_tmp[i])
-		{
-			if (value_tmp[i] == '$')
-			{
-				j = i;
-				j++;
-				if (value_tmp[j] == '?')
-				{
-					value_tmp_l = change_exit_status(value_tmp);
-					free(value_tmp);
-					tmp->value = value_tmp_l;
-				}
-			}
-			i++;
-		}
+		tmp = dollar_exit_status_help(tmp);
 		tmp = tmp->next;
 	}
-	return(list_token);
+	return (list_token);
 }

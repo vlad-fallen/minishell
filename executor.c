@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/22 13:56:17 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/14 18:04:36 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,53 +119,15 @@ void run_builtin(t_table_cmd *table)
 		g_envp.status_exit = exit_prog(table);
 }
 
-int open_file(t_redir *redir)
+/* void execute_redirect(t_table_cmd *table)
 {
-	int fd;
-
-	fd = -1;
-	if (redir->type == REDIR_IN)
-		fd = open(redir->name, O_RDONLY);
-	else if (redir->type == REDIR_OUT)
-		fd = open(redir->name, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	else if (redir->type == REDIR_APPEND)
-		fd = open(redir->name, O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (fd < 0)
-	{
-		return (-1);
-	}
-	if (redir->type == REDIR_IN)
-		dup2(fd, STDIN_FILENO);
-	else
-		dup2(fd, STDOUT_FILENO);
-	return (0);
+	
 }
-
-void execute_redirect(t_table_cmd *table)
-{
-	t_redir *redir_file;
-
-	redir_file = table->redirections;
-	while (redir_file != NULL)
-	{
-		if (redir_file->type == 4)
-		{}
-		else
-		{
-			if (open_file(redir_file) == -1)
-			{
-				return ;
-			}
-		}
-		redir_file = redir_file->next;
-	}
-}
+ */
 void executor(t_table_cmd *table)
 {
 	pid_t proc_id;
 
-	signal(SIGINT, SIG_IGN);
-	execute_redirect(table);
 	if (check_builtin(table))
 	{
 		run_builtin(table);
@@ -178,9 +140,7 @@ void executor(t_table_cmd *table)
 			return ;
 		}
 		if (proc_id == 0)
-		{
 			exec_proc(table->arguments, g_envp.env);
-		}
 		waitpid(proc_id, NULL, 0);
 	}
 }

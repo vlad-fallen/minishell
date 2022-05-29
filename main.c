@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/22 16:28:45 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/28 17:15:58 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,6 @@ void	exit_all_prog()
 {
 	rl_clear_history();
 	exit(g_envp.status_exit);
-}
-
-int	change_attributes(bool print_controls)
-{
-	int				err;
-	struct termios	termios;
-
-	err = tcgetattr(STDOUT_FILENO, &termios);
-	if (err == -1)
-		return (-1);
-	if (print_controls)
-		termios.c_lflag |= ECHOCTL;
-	else
-		termios.c_lflag &= ~(ECHOCTL);
-	err = tcsetattr(STDOUT_FILENO, TCSANOW, &termios);
-	if (err == -1)
-		return (-1);
-	return (0);
 }
 
 int main()
@@ -72,6 +54,7 @@ int main()
 		add_history(line);
 		if(line[0] != '\0')
 		{
+			
 			list_token = lexer(line);
 			table = parser(list_token);
 			executor(table);

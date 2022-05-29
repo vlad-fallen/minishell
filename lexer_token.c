@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:26:48 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 16:49:55 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/26 12:50:39 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,13 @@ int lexer_token_quote(char *input, int *i, t_token **list_token)
 		if (token_str == NULL)
 			return (1);
 		if (input[*i] == '\"')
-			token = token_new(e_word | e_double_quote, token_str);
+		{
+			token = token_new(e_double_quote, token_str);
+		}
 		else
-			token = token_new(e_word | e_single_quote, token_str);
+		{
+			token = token_new(e_single_quote, token_str);
+		}
 		if (token == NULL)
 			return (1);
 		token_add_back(list_token, token);

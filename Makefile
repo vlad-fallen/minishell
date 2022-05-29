@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/22 16:27:35 by mbutter          ###   ########.fr        #
+#    Updated: 2022/05/29 14:45:17 by echrysta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,9 @@ SRCS		=	main.c \
 				lexer.c\
 				signal.c\
 				dollar_pars.c\
+				dollar_pars_2.c\
+				dollar_pars_3.c\
+				expand_prog.c\
 				dollar_exit_status.c\
 				parser.c \
 				executor.c \
@@ -42,7 +45,7 @@ CC			=	gcc
 
 RM			=	rm -f
 
-CFLAGS		=	-Wall -Wextra -Werror -g3
+CFLAGS		=	-Wall -Wextra -Werror
 
 NAME		=	minishell
 
