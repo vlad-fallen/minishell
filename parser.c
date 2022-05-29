@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/28 19:24:21 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/29 13:29:23 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_table_cmd *table_create(void)
 		return (NULL);
 	new_table->arguments = NULL;
 	new_table->redirections = NULL;
+	new_table->stream_in = -1;
+	new_table->stream_out = -1;
 	new_table->next = NULL;
 	return (new_table);
 }
@@ -119,41 +121,6 @@ int find_redir_type(t_token *list_token)
 		return (REDIR_HEREDOC);
 	return (0);
 }
-/* 
-void heredoc(t_redir *redir)
-{
-	char *line;
-	int		pid;
-	int		fd[2];
-
-	if (pipe(fd) == -1)
-		return ; //!!!make return error!!!
-	pid = fork();
-	if (pid < 0)
-		return ; //!!!make return error!!!
-	if (pid == 0)
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		while (1)
-		{
-			write(1, "heredoc> ", 9);
-			line = get_next_line(STDIN_FILENO);
-			if (ft_strncmp(line, redir->name, ft_strlen(line) - 1) == 0)
-			{
-				free(line);
-				close(fd[1]);
-				exit(EXIT_SUCCESS);
-			}
-			write(fd[1], line, ft_strlen(line));
-			free(line);
-		}
-	}
-	waitpid(pid, NULL, 0);
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-} */
 
 /*-------REDIRECTION--------*/
 
@@ -170,11 +137,6 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 	token_destroy((*list_token));
 	(*list_token) = tmp_token;
 	redirections->name = append_token_conect(list_token);
-	// heredoc
-	/* if (redir_type == REDIR_HEREDOC)
-	{
-		heredoc(redirections);
-	} */
 	return (redirections);
 }
 
@@ -189,26 +151,6 @@ void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 		redir_file = create_redir(list_token, find_redir_type(*list_token));
 		redir_add_back(table, redir_file);
 	}
-	
-	/* if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, ">", 2))
-	{
-		redir_file = create_redir_file_token(list_token);
-		token_add_back(&((*table)->out), redir_file);
-	}
-	else if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, ">>", 3))
-	{
-		redir_file = create_redir_file_token(list_token);
-		token_add_back(&((*table)->out_append), redir_file);
-	}
-	else if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, "<", 2))
-	{
-		redir_file = create_redir_file_token(list_token);
-		token_add_back(&((*table)->in), redir_file);
-	}
-	else if ((*list_token)->key == e_redir && !ft_strncmp((*list_token)->value, "<<", 3))
-	{
-		// heredoc
-	} */
 }
 
 t_table_cmd *parser(t_token *list_token)
@@ -239,22 +181,6 @@ t_table_cmd *parser(t_token *list_token)
 			table->next = table_create();
 			table = table->next;
 		}
-		/* if (list_token->key == e_word || list_token->key == e_single_quote || list_token->key == e_double_quote)
-		{
-			add_token_to_cmd(&list_token, &table);
-			//cmd_add_back(&(table->commands), cmd);
-		}
-		if (list_token->key == e_redir)
-		{
-			inout_add_to_table(&list_token, &table);
-		}
-		else
-		{
-			// delete pipe token and bracket token
-			tmp = list_token->next;
-			token_destroy(list_token);
-			list_token = tmp;
-		} */
 	}
 	return (head);
 }

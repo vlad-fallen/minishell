@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:48:34 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/28 19:23:55 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/29 13:25:37 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ typedef struct s_table_cmd
 {
 	char				**arguments;
 	t_redir				*redirections;
+	int					stream_in;
+	int					stream_out;
 	struct s_table_cmd	*next;
 }	t_table_cmd;
 

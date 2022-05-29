@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/28 16:10:03 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/29 16:23:43 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ int make_fork(pid_t *proc_id)
 
 /*--------------------EXEC_PIPE-------------------------*/
 
+/* int	init_pipe_fd(t_table_cmd **table)
+{
+	int fd_pipe[2];
+	t_table_cmd *tmp_table;
+
+	tmp_table = *table;
+	tmp_table->stream_in = dup(STDIN_FILENO);
+	while (tmp_table->next != NULL)
+	{
+		if (pipe(fd_pipe) == -1)
+			return (-1);
+		tmp_table->stream_out = fd_pipe[1];
+		tmp_table = tmp_table->next;
+		tmp_table->stream_in = fd_pipe[0];
+	}
+	tmp_table->stream_out = dup(STDOUT_FILENO);
+	return (0);
+	
+} */
+
 int	init_pipe_fd(int **pipe_fd)
 {
 	(*pipe_fd) = (int *)malloc(2 * sizeof(int));
@@ -48,6 +68,7 @@ int	init_pipe_fd(int **pipe_fd)
 		return (1);
 	return (0);
 }
+
 
 int	pipe_found(t_table_cmd *table, int **pipe_fd)
 {
@@ -69,9 +90,13 @@ void exec_pipe(t_table_cmd *table)
 	pid_t	proc_id;
 	int		*pipe_fd;
 	int		pipe_flag;
+	int		stdin_dup;
+	int		stdout_dup;
 	
+	//if (init_pipe_fd(&table))
 	if (init_pipe_fd(&pipe_fd))
 		return ;
+	stream_op(&stdin_dup, &stdout_dup, 1);
 	while (table != NULL)
 	{
 		pipe_flag = pipe_found(table, &pipe_fd);
@@ -79,9 +104,22 @@ void exec_pipe(t_table_cmd *table)
 			return ;
 		if (proc_id == 0)
 		{
-			close(pipe_fd[0]);
-			dup2(pipe_fd[1], STDOUT_FILENO);
+			//if (table->next != NULL)
+			if (pipe_flag == 1)
+			{
+				/* close(table->stream_in);
+				dup2(table->stream_out, STDOUT_FILENO);
+				close(table->stream_out); */
+				close(pipe_fd[0]);
+				dup2(pipe_fd[1], STDOUT_FILENO);
+				close(pipe_fd[1]);
+			}
 			execute_redirect(table);
+			if (pipe_fd != NULL)
+			{
+				free(pipe_fd);
+				pipe_fd = NULL;
+			}
 			if (check_builtin(table))
 			{
 				run_builtin(table);
@@ -93,16 +131,26 @@ void exec_pipe(t_table_cmd *table)
 		}
 		else if (proc_id > 0)
 		{
+			//if (table->next != NULL)
 			if (pipe_flag == 1)
 			{
+				/* close(table->stream_out);
+				dup2(table->stream_in, STDIN_FILENO);
+				close(table->stream_in); */
 				close(pipe_fd[1]);
 				dup2(pipe_fd[0], STDIN_FILENO);
+				close(pipe_fd[0]);
 			}
 		}
 		table = table->next;
 	}
 	free(pipe_fd);
 	waitpid(proc_id, NULL, 0);
+	//wait(NULL);
+	stream_op(&stdin_dup, &stdout_dup, 2);
+	while (wait(NULL) != -1)
+		stream_op(&stdin_dup, &stdout_dup, 2);
+	stream_op(&stdin_dup, &stdout_dup, 3);
 }
 
 /*--------------------EXECUTOR(main function)-------------------------*/
