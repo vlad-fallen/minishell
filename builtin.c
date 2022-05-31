@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:12:52 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/28 15:13:28 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/31 20:35:50 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 int	check_builtin(t_table_cmd *table)
 {
-	if (check_str(table->arguments[0], "echo"))
+	if (table->arguments == NULL)
+		return (0);
+	if (!ft_strncmp(table->arguments[0], "echo", 5))
 		return (1);
-	if (check_str(table->arguments[0], "cd"))
+	if (!ft_strncmp(table->arguments[0], "cd", 3))
 		return (1);
-	if (check_str(table->arguments[0], "pwd"))
+	if (!ft_strncmp(table->arguments[0], "pwd", 4))
 		return (1);
-	if (check_str(table->arguments[0], "export"))
+	if (!ft_strncmp(table->arguments[0], "export", 7))
 		return (1);
-	if (check_str(table->arguments[0], "unset"))
+	if (!ft_strncmp(table->arguments[0], "unset", 6))
 		return (1);
-	if (check_str(table->arguments[0], "env"))
+	if (!ft_strncmp(table->arguments[0], "env", 4))
 		return (1);
-	if (check_str(table->arguments[0], "exit"))
+	if (!ft_strncmp(table->arguments[0], "exit", 5))
 		return (1);
 	return (0);
 }
