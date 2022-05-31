@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/29 16:29:16 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/29 19:11:57 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,34 @@ char *append_token_conect(t_token **list_token)
 	return (new_str);
 }
 
+char **array_join_free(char **array1, char **array2)
+{
+	char **new_arr;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (array1[i] != NULL)
+		i++;
+	while (array2[j] != NULL)
+		j++;
+	i += j;
+	new_arr = (char **)malloc(sizeof(char *) * (i + 1));
+	if (new_arr == NULL)
+		return (NULL);
+	i = -1;
+	j = -1;
+	while (array1[++i] != NULL)
+		new_arr[i] = ft_strdup(array1[i]);
+	while (array2[++j] != NULL)
+		new_arr[i++] = ft_strdup(array2[j]);
+	new_arr[i] = NULL;
+	arr_free(array1);
+	arr_free(array2);
+	return (new_arr);
+}
+
 /*-------COMMAND--------*/
 
 void add_token_to_table(t_token **list_token, t_table_cmd **table)
@@ -66,6 +94,7 @@ void add_token_to_table(t_token **list_token, t_table_cmd **table)
 	t_token *next;
 	t_token *tmp;
 	int		i;
+	char	**tmp_array;
 
 	tmp = *list_token;
 	i = 0;
@@ -74,17 +103,21 @@ void add_token_to_table(t_token **list_token, t_table_cmd **table)
 		i++;
 		tmp = tmp->next;
 	}
-	(*table)->arguments = (char **)malloc(sizeof(char *) * (i + 1));
-	if ((*table)->arguments == NULL)
+	tmp_array = (char **)malloc(sizeof(char *) * (i + 1));
+	if (tmp_array == NULL)
 		return ;
 	i = 0;
 	while ((*list_token) != NULL && ((*list_token)->key == e_word || (*list_token)->key == e_single_quote || (*list_token)->key == e_double_quote))
 	{
 		next = (*list_token)->next;
-		(*table)->arguments[i] = append_token_conect(list_token);
+		tmp_array[i] = append_token_conect(list_token);
 		i++;
 	}
-	(*table)->arguments[i] = NULL;
+	tmp_array[i] = NULL;
+	if ((*table)->arguments == NULL)
+		(*table)->arguments = tmp_array;
+	else
+		(*table)->arguments = array_join_free((*table)->arguments, tmp_array);
 }
 
 /*-------REDIRECTION--------*/

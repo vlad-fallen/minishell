@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/29 18:53:06 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/31 20:48:47 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,9 @@ int		unset_fun(t_table_cmd *table);
 int 	env(void);
 void	print_list_env(t_env_var *list_token);
 int		exit_prog(t_table_cmd *table);
+
+/* utils */
+void	arr_free(char **arr);
 
 /* для тестов*/
 void	print_list_token(t_token *list_token);

@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:07:01 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/28 19:22:59 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/29 17:00:37 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int open_file(t_redir *redir)
 
 void heredoc(t_redir *redir)
 {
-	char *line;
+	char	*line;
+	char	*tmp;
 	int		pid;
 	int		fd[2];
 
@@ -51,16 +52,20 @@ void heredoc(t_redir *redir)
 		//dup2(fd[1], STDOUT_FILENO);
 		while (1)
 		{
-			write(1, "heredoc> ", 9);
-			line = get_next_line(STDIN_FILENO);
+			//write(1, "> ", 2);
+			//line = get_next_line(STDIN_FILENO);
+			line = readline("> ");
 			if (ft_strncmp(line, redir->name, ft_strlen(line) - 1) == 0)
 			{
 				free(line);
 				close(fd[1]);
 				exit(EXIT_SUCCESS);
 			}
+			tmp = line;
+			line = ft_strjoin(tmp, "\n");
 			write(fd[1], line, ft_strlen(line));
 			free(line);
+			free(tmp);
 		}
 	}
 	waitpid(pid, NULL, 0);

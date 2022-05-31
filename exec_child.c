@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:05:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/28 16:06:05 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/05/31 19:52:02 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	exec_proc(char **cmd, char **envp)
 {
 	char	*path;
 
+	if (cmd == NULL)
+		exit(EXIT_SUCCESS);
 	if (!ft_strchr(cmd[0], '/'))
 	{
 		path = find_path(cmd[0], envp);
