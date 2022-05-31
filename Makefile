@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/29 16:30:27 by mbutter          ###   ########.fr        #
+#    Updated: 2022/05/31 20:45:40 by echrysta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,9 +54,6 @@ CFLAGS		=	-Wall -Wextra -Werror -g3
 NAME		=	minishell
 
 LIBFT_NAME	=	./libft/libft.a
-
-SRC_RL		=	./readline
-RL			=	readline history
 
 
 %.o:		%.c

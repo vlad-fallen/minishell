@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:46 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/19 15:07:38 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/31 19:52:48 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,12 @@ void	print_list_env(t_env_var *list_token)
 	tmp = list_token;
 	while (tmp)
 	{
-		ft_putstr_fd(tmp->key, 1);
-		ft_putstr_fd(tmp->value, 1);
-		ft_putchar_fd('\n', 1);
+		if (tmp->value)
+		{
+			ft_putstr_fd(tmp->key, 1);
+			ft_putstr_fd(tmp->value, 1);
+			ft_putchar_fd('\n', 1);
+		}
 		tmp = tmp->next;
 	}
 }

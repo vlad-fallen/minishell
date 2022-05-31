@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:55:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/21 18:10:42 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/05/31 20:25:00 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,24 @@ static int	ft_strcmp(const char *str1, const char *str2)
 	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 }
 
+static void	print_value(char *str)
+{
+	int	i;
+
+	i = 1;
+	//printf("str[i] = %s\n", str);
+	while (str[i])
+	{
+		//printf("str[i] = %c\n", str[i]);
+		if (str[i] == '"' || str[i] == '$')
+		{
+			ft_putchar_fd('\\', STDOUT_FILENO);
+		}
+		ft_putchar_fd(str[i], STDOUT_FILENO);
+		i++;
+	}
+	
+}
 
 static void	print_declare(char *key)
 {
@@ -32,10 +50,16 @@ static void	print_declare(char *key)
 	{
 		if (!ft_strcmp(env->key, key))
 		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(env->key, 1);
-			ft_putstr_fd(env->value, 1);
-			ft_putchar_fd('\n', 1);
+			ft_putstr_fd("export ", STDOUT_FILENO);
+			ft_putstr_fd(env->key, STDOUT_FILENO);
+			if (env->value)
+			{
+				ft_putchar_fd('=', STDOUT_FILENO);
+				ft_putchar_fd('"', STDOUT_FILENO);
+				print_value(env->value);
+				ft_putchar_fd('"', STDOUT_FILENO);
+			}
+			ft_putchar_fd('\n', STDOUT_FILENO);
 			return ;
 		}
 		env = env->next;
@@ -88,27 +112,68 @@ static t_env_var	*envlist_new_alone(char	*key)
 static int	check_argc(char *str)
 {
 	char ch;
+	int	i;
 
+	i = 1;
+	//printf("str = %s\n", str);
 	ch = str[0];
 	if (!(97 <= ch && ch <= 122) && !(65 <= ch && ch <= 90))
 	{
-		ft_putstr_fd("zhs: export: '", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
+		ft_putstr_fd("zhs: export: '", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+		//printf("CHAR = %c\n", str[i]);
 		return (EXIT_FAILURE);
 	}
+	while (str[i] != '=' && str[i])
+	{
+		ch = str[i];
+		if (!(97 <= ch && ch <= 122) && !(65 <= ch && ch <= 90) && !(48 <= ch && ch <= 57))
+		{
+			ft_putstr_fd("zhs: export: '", STDERR_FILENO);
+			ft_putstr_fd(str, STDERR_FILENO);
+			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+			//printf("CHAR = %c\n", str[i]);
+			return (EXIT_FAILURE);
+		}
+		i++;
+	}
 	return (EXIT_SUCCESS);
+}
+
+static void	change_val_ex(t_env_var	*list, char *val)
+{
+	char	*new_val;
+	int		len;
+	
+	if (ft_strlen(val) == 1)
+	{
+		free(list->value);
+		new_val = (char *)malloc(sizeof(char) * 1);
+		new_val[0] = '\0';
+		list->value = new_val;
+		return ;
+	}
+	else
+	{
+		free(list->value);
+		len = ft_strlen(val);
+		list->value = val;
+		return ;
+	}
 }
 
 static int	add_elem_env(char *str, t_env_var *env_list)
 {
 	t_env_var	*new_env_list;
+	t_env_var	*copy_env_list;
 	char		*key;
 	char		*value;
 	int			i;
 
 	key = NULL;
 	value = NULL;
+	copy_env_list = env_list;
 	i = 0;
 	if (check_argc(str))
 		return (EXIT_FAILURE);
@@ -121,8 +186,23 @@ static int	add_elem_env(char *str, t_env_var *env_list)
 		key[i] = str[i];
 		i++;
 	}
-	if (str[i] != '\0')
+	key[i] = '\0';	
+	if (str[i] != '\0' && str[i])
+	{
 		value = strdup(&str[i]);
+	}
+	//printf("STR = %s\n", str);
+	//printf("VAL = %s\n", value);
+	while (copy_env_list)
+	{
+		if (check_str(copy_env_list->key, key) && ft_strlen(copy_env_list->key) == ft_strlen(key))
+		{
+			if (value)
+				change_val_ex(copy_env_list, value);
+			return (EXIT_SUCCESS);
+		}
+		copy_env_list = copy_env_list->next;
+	}	
 	while (env_list->next)
 		env_list = env_list->next;
 	if (value != NULL)
