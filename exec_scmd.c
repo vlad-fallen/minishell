@@ -6,11 +6,24 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:15:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/28 16:51:44 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/02 18:36:14 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void exec_wait_one(int proc_id)
+{
+	int status;
+
+	waitpid(proc_id, &status, 0);
+	if (WIFSIGNALED(status))
+	{
+		g_envp.status_exit = 128 + WTERMSIG(status);
+	}
+	else if (WIFEXITED(status))
+		g_envp.status_exit = WEXITSTATUS(status);
+}
 
 void exec_scmd(t_table_cmd *table)
 {
@@ -36,8 +49,10 @@ void exec_scmd(t_table_cmd *table)
 		{
 			exec_proc(table->arguments, g_envp.env);
 		}
-		waitpid(proc_id, NULL, 0);
+		//waitpid(proc_id, NULL, 0);
+		exec_wait_one(proc_id);
 		stream_op(&stdin_dup, &stdout_dup, 2);
 		stream_op(&stdin_dup, &stdout_dup, 3);
+		printf("%d\n", g_envp.status_exit);
 	}
 }
