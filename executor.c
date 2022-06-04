@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/31 20:48:35 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/02 19:13:25 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void exec_pipe(t_table_cmd *table)
 	int		stdin_dup;
 	int		stdout_dup;
 	
-	//if (init_pipe_fd(&table))
 	if (init_pipe_fd(&pipe_fd))
 		return ;
 	stream_op(&stdin_dup, &stdout_dup, 1);
@@ -104,13 +103,9 @@ void exec_pipe(t_table_cmd *table)
 			return ;
 		if (proc_id == 0)
 		{
-			//printf("lol\n");
-			//if (table->next != NULL)
+
 			if (pipe_flag == 1)
 			{
-				/* close(table->stream_in);
-				dup2(table->stream_out, STDOUT_FILENO);
-				close(table->stream_out); */
 				close(pipe_fd[0]);
 				dup2(pipe_fd[1], STDOUT_FILENO);
 				close(pipe_fd[1]);
@@ -133,12 +128,8 @@ void exec_pipe(t_table_cmd *table)
 		}
 		else if (proc_id > 0)
 		{
-			//if (table->next != NULL)
 			if (pipe_flag == 1)
 			{
-				/* close(table->stream_out);
-				dup2(table->stream_in, STDIN_FILENO);
-				close(table->stream_in); */
 				close(pipe_fd[1]);
 				dup2(pipe_fd[0], STDIN_FILENO);
 				close(pipe_fd[0]);

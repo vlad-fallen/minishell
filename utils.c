@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_error.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:51:58 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/10 16:41:59 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/04 16:34:33 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,28 @@ int print_error(char *shell_name, char *cmd, char *arg, char *message)
 	}
 	ft_putchar_fd('\n', STDERR_FILENO);
 	return (EXIT_FAILURE);
+}
+
+void	arr_free(char ***arr)
+{
+	size_t	i;
+	char	**tmp;
+
+	tmp = *arr;
+	i = 0;
+	while (tmp[i] != NULL)
+	{
+		free(tmp[i]);
+		tmp[i] = NULL;
+		i++;
+	}
+	free(*arr);
+	*arr = NULL;
+}
+
+void	free_and_exit(int status, t_table_cmd **table)
+{
+	free_global_env();
+	free_table(table);
+	exit(status);
 }

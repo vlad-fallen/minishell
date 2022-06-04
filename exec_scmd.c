@@ -6,11 +6,13 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:15:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/02 18:36:14 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/04 16:34:28 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 void exec_wait_one(int proc_id)
 {
@@ -47,12 +49,11 @@ void exec_scmd(t_table_cmd *table)
 		}
 		if (proc_id == 0)
 		{
-			exec_proc(table->arguments, g_envp.env);
+			free_and_exit(exec_proc(table->arguments, g_envp.env), &table);
 		}
 		//waitpid(proc_id, NULL, 0);
 		exec_wait_one(proc_id);
 		stream_op(&stdin_dup, &stdout_dup, 2);
 		stream_op(&stdin_dup, &stdout_dup, 3);
-		printf("%d\n", g_envp.status_exit);
 	}
 }

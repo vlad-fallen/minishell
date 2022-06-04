@@ -3,16 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
+#    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/05/31 20:45:40 by echrysta         ###   ########.fr        #
+#    Updated: 2022/06/04 15:42:14 by mbutter          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS		=	main.c \
 				env_init.c \
 				token_list.c \
+				table_redir.c \
+				table_utils.c \
 				lexer_token_utils.c \
 				lexer_token.c \
 				lexer.c\
@@ -35,6 +37,7 @@ SRCS		=	main.c \
 				export.c\
 				exit.c\
 				unset.c\
+				utils.c \
 				print_list_token.c
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS)) 

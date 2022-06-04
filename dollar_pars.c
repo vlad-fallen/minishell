@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_pars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/31 20:24:51 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 19:12:21 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,9 @@ t_token	*dollar_pars(t_token *list_token)
 	int		i;
 
 	prev = NULL;
-	print_list_token(list_token);
 	tmp = list_token;
 	while (tmp)
 	{
-		//printf("prev = %s\n", prev);
 		if (!check_str_red(prev, "<<"))
 		{
 			i = 0;
@@ -117,6 +115,5 @@ t_token	*dollar_pars(t_token *list_token)
 		prev = tmp->value;
 		tmp = tmp->next;
 	}
-	print_list_token(list_token);
 	return (list_token);
 }
