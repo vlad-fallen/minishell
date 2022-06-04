@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/02 19:13:25 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/04 17:20:02 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void exec_pipe(t_table_cmd *table)
 			}
 			else
 			{
-				exec_proc(table->arguments, g_envp.env);
+				free_and_exit(exec_proc(table->arguments, g_envp.env), &table);
 			}
 		}
 		else if (proc_id > 0)
