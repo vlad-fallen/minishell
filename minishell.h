@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/31 20:48:47 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/04 16:46:18 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "libft.h"
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <limits.h>
 
 # include <dirent.h> //?
 
@@ -86,7 +87,7 @@ typedef struct s_table_cmd
 	struct s_table_cmd	*next;
 }	t_table_cmd;
 
-t_info	g_envp;
+extern t_info	g_envp;
 
 /* env */
 void		env_init(void);
@@ -125,7 +126,7 @@ t_token		*dollar_pars(t_token *list_token);
 t_token		*dollar_exit_status(t_token *list_token);
 char		*digit_arg_dol(char *value, char *old_value);
 int			check_str(char *str1, char *str2);
-char		*change_in_env(char *value);
+char		*change_in_env(char *value, int flag_ex);
 char		*change_value(char *value, char *old, int len_sp_val, char *env_value);
 int			check_asc(char *change_value);
 char 		*del_posle_dol(char *old_value, char *value);

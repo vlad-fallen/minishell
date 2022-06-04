@@ -33,6 +33,7 @@ t_token	*expand_prog(t_token *list_token)
 	
 	prev = NULL;
 	//print_list_token(list_token);
+	
 	tmp = list_token;
 	while (tmp)
 	{
@@ -41,7 +42,10 @@ t_token	*expand_prog(t_token *list_token)
 			if (find_dollar(tmp->value))
 			{
 				if (tmp->key != e_single_quote && tmp->key != e_double_quote && tmp->connect == 1)
-					del_elem_list(tmp, list_token);
+				{
+					list_token = del_elem_list(tmp, list_token);
+					tmp = list_token;
+				}
 			}
 		}
 		prev = tmp->value;

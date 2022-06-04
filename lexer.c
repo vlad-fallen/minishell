@@ -50,8 +50,11 @@ t_token *lexer(char *input)
 		while (input[i] && ft_isspace(input[i]))
 			i++;
 	}
+	
 	list_token = dollar_exit_status(list_token);
+	
 	list_token = dollar_pars(list_token);
+	
 	list_token = expand_prog(list_token);
 	if (input[i] != '\0' && check_syntax(list_token))
 		token_destroy_all(list_token);

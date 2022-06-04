@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 13:58:29 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/31 20:35:34 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/04 16:53:36 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ t_token	*del_elem_list(t_token *del, t_token *head)
 
 	tmp = head;
 	if (head == del)
-	{
+	{	
+		
 		if (tmp->next)
 			return (del_elem_list_help(tmp, head));
 		else
@@ -43,7 +44,7 @@ t_token	*del_elem_list(t_token *del, t_token *head)
 		tmp = tmp->next;
 	tmp->next = del->next;
 	free (del);
-	return (tmp);
+	return (head);
 }
 
 char	*change_in_env_help(char *value)
@@ -60,20 +61,28 @@ char	*change_in_env_help(char *value)
 	return (value);
 }
 
-char	*change_in_env(char *value)
+char	*change_in_env(char *value, int flag_ex)
 {
 	char		*old_value;
 	t_env_var	*env;
 	int			len_env;
 	int			len_sp_val;
+	//char		*tmp;
 
 	env = g_envp.env_list;
 	old_value = value;
 	if (value[0] == '\"')
 		return (old_value);
+	if (flag_ex == 3)
+	{
+		// value = change_in_env_help(value);
+		//value = correct_dollar_pos(value)
+	}
 	value = change_in_env_help(value);
 	if (ft_isdigit(value[0]))
 		return (digit_arg_dol(value, old_value));
+	//printf("value =%s\n", value);
+	//printf("oldvalue =%s\n", old_value);
 	while (env)
 	{
 		len_env = ft_strlen(env->key);

@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+t_info	g_envp;
+
 size_t ft_arrlen(char **arr)
 {
 	size_t i;

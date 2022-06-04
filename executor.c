@@ -124,7 +124,7 @@ void exec_pipe(t_table_cmd *table)
 			if (check_builtin(table))
 			{
 				run_builtin(table);
-				exit(EXIT_SUCCESS);
+				exit(g_envp.status_exit);
 			}
 			else
 			{

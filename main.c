@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+extern t_info	g_envp;
+
 void	exit_all_prog()
 {
 	rl_clear_history();
@@ -61,5 +63,5 @@ int main()
 			free(line);
 		}
 	}
-	exit (1);
+	exit (g_envp.status_exit);
 }

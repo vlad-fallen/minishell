@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 t_env_var	*del_elem_env(t_env_var *del, t_env_var *head)
 {
 	t_env_var	*tmp;

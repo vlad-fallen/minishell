@@ -91,7 +91,7 @@ char **array_join_free(char **array1, char **array2)
 
 void add_token_to_table(t_token **list_token, t_table_cmd **table)
 {
-	t_token *next;
+	//t_token *next;
 	t_token *tmp;
 	int		i;
 	char	**tmp_array;
@@ -109,7 +109,7 @@ void add_token_to_table(t_token **list_token, t_table_cmd **table)
 	i = 0;
 	while ((*list_token) != NULL && ((*list_token)->key == e_word || (*list_token)->key == e_single_quote || (*list_token)->key == e_double_quote))
 	{
-		next = (*list_token)->next;
+		//next = (*list_token)->next;
 		tmp_array[i] = append_token_conect(list_token);
 		i++;
 	}

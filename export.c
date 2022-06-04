@@ -144,7 +144,7 @@ static int	check_argc(char *str)
 static void	change_val_ex(t_env_var	*list, char *val)
 {
 	char	*new_val;
-	int		len;
+	//int		len;
 	
 	if (ft_strlen(val) == 1)
 	{
@@ -157,7 +157,7 @@ static void	change_val_ex(t_env_var	*list, char *val)
 	else
 	{
 		free(list->value);
-		len = ft_strlen(val);
+		//len = ft_strlen(val);
 		list->value = val;
 		return ;
 	}
