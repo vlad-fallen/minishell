@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_pars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/04 16:58:56 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/04 19:35:16 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	correct_count(char *elem_split_value)
 	while (elem_split_value[i] && elem_split_value[i] != '\'' && \
 		elem_split_value[i] != '$' && elem_split_value[i] != ' ' && \
 		elem_split_value[i] != '\"' && elem_split_value[i] != '/' && \
-		elem_split_value[i] != '=')
+		elem_split_value[i] != '=' && elem_split_value[i] != ':' )
 		i++;
 	return (i);
 }
@@ -95,6 +95,7 @@ t_token	*dollar_pars(t_token *list_token)
 	char	*prev;
 	int		i;
 
+//	print_list_token(list_token);
 	prev = NULL;
 	tmp = list_token;
 	while (tmp)
@@ -108,7 +109,8 @@ t_token	*dollar_pars(t_token *list_token)
 				{
 					if (tmp->value[i] == '$')
 					{
-						tmp = dollar_pars_help(tmp, list_token);
+						if (ft_isspace(tmp->value[i + 1]) == 0)
+							tmp = dollar_pars_help(tmp, list_token);
 					}
 					i++;
 				}
@@ -117,5 +119,6 @@ t_token	*dollar_pars(t_token *list_token)
 		prev = tmp->value;
 		tmp = tmp->next;
 	}
+//	print_list_token(list_token);
 	return (list_token);
 }

@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 13:36:12 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/04 16:38:45 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/04 19:36:07 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,26 @@ int	check_asc(char *change_value)
 		return (1);
 }
 
+int	change_value_help_count(char *old, int	c_new_val)
+{
+	
+	while (old[c_new_val] != '$')
+		c_new_val++;
+	if (ft_isspace(old[c_new_val + 1]))
+	{
+		c_new_val++;
+		c_new_val = change_value_help_count(old, c_new_val);
+	}
+	return (c_new_val);
+}
+
 int	change_value_help(char *old, char *env_value)
 {
 	int		c_new_val;
 	int		i;
 
 	c_new_val = 0;
-	while (old[c_new_val] != '$')
-		c_new_val++;
+	c_new_val = change_value_help_count(old, c_new_val);
 	i = 0;
 	while (env_value[i])
 		i++;
@@ -104,17 +116,22 @@ char	*change_value(char *value, char *old, int len_sp_val, char *env_value)
 {
 	char	*new_value;
 	int		c_new_val;
+	int		count;
 	int		i;
 
+	// printf("old =%s\n", old);
+	// printf("val =%s\n", value);
 	env_value++;
 	c_new_val = change_value_help(old, env_value);
+	count = change_value_help_count(old, 0);
 	i = 0;
 	while (i++ != len_sp_val)
 		value++;
 	c_new_val = c_new_val + i;
 	new_value = (char *)malloc(sizeof(char) * c_new_val + 1);
 	i = 0;
-	while (old[i] != '$')
+	//printf("count = %d\n", count);	
+	while (i != count)
 	{
 		new_value[i] = old[i];
 		i++;

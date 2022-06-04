@@ -6,11 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/06/04 16:46:18 by echrysta         ###   ########.fr       */
-=======
-/*   Updated: 2022/06/04 16:35:11 by mbutter          ###   ########.fr       */
->>>>>>> mbutter
+/*   Updated: 2022/06/04 18:08:25 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +87,7 @@ typedef struct s_table_cmd
 	struct s_table_cmd	*next;
 }	t_table_cmd;
 
-extern t_info	g_envp;
+t_info	g_envp;
 
 /* env */
 void		env_init(void);
