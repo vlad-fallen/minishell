@@ -6,23 +6,11 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 13:54:13 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/01 13:20:32 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/04 16:59:10 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_info	g_envp;
-
-size_t ft_arrlen(char **arr)
-{
-	size_t i;
-
-	i = 0;
-	while (arr[i] != NULL)
-		i++;
-	return (i);
-}
 
 t_env_var	*envlist_new(char *key, char *value)
 {
@@ -86,7 +74,10 @@ void env_init(void)
 
 	if (environ == NULL)
 		return ;
-	g_envp.env = (char **)malloc((ft_arrlen(environ) + 1) * sizeof(char *));
+	i = 0;
+	while (environ[i] != NULL)
+		i++;
+	g_envp.env = (char **)malloc((i + 1) * sizeof(char *));
 	if (g_envp.env == NULL)
 		exit(1);
 	i = 0;
@@ -98,4 +89,21 @@ void env_init(void)
 	g_envp.env[i] = NULL;
 	g_envp.status_exit = 0;
 	g_envp.env_list = env_to_list(environ);
+}
+
+void	free_global_env(void)
+{
+	t_env_var	*tmp_env_list;
+	t_env_var	*next;
+	
+	tmp_env_list = g_envp.env_list;
+	arr_free(&g_envp.env);
+	while (tmp_env_list)
+	{
+		next = tmp_env_list->next;
+		free(tmp_env_list->key);
+		free(tmp_env_list->value);
+		free(tmp_env_list);
+		tmp_env_list = next;
+	}
 }

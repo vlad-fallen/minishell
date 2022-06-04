@@ -6,7 +6,11 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/06/04 16:46:18 by echrysta         ###   ########.fr       */
+=======
+/*   Updated: 2022/06/04 16:35:11 by mbutter          ###   ########.fr       */
+>>>>>>> mbutter
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +26,10 @@
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
-# include "libft.h"
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <limits.h>
+# include <sys/stat.h>
+# include "libft.h"
 
 # include <dirent.h> //?
 
@@ -93,6 +97,7 @@ extern t_info	g_envp;
 void		env_init(void);
 t_env_var	*envlist_new(char *key, char *value);
 void		envlist_add_back(t_env_var **lst, t_env_var *new);
+void		free_global_env(void);
 
 
 /* tokens */
@@ -118,6 +123,14 @@ t_token	*lexer(char *input);
 void	sig_prog(int sig);
 void	all_signals(void);
 
+/* table struct */
+t_table_cmd *table_create(void);
+void add_token_to_table(t_token **list_token, t_table_cmd **table);
+void inout_add_to_table(t_token **list_token, t_table_cmd **table);
+char *append_token_conect(t_token **list_token);
+void	free_table_redir(t_redir **redir);
+void free_table(t_table_cmd **table);
+
 /* pasing */
 t_table_cmd	*parser(t_token *list_token);
 
@@ -142,7 +155,7 @@ t_token	*expand_prog(t_token *list_token);
 /* executor */
 void	stream_op(int *initial_stdin, int *initial_stdout, int mode);
 int		make_fork(pid_t *proc_id);
-void	exec_proc(char **cmd, char **envp);
+int		exec_proc(char **cmd, char **envp);
 void	execute_redirect(t_table_cmd *table);
 void	exec_scmd(t_table_cmd *table);
 void	executor(t_table_cmd *table);
@@ -160,10 +173,13 @@ void	print_list_env(t_env_var *list_token);
 int		exit_prog(t_table_cmd *table);
 
 /* utils */
-void	arr_free(char **arr);
+void	arr_free(char ***arr);
+int		print_error(char *shell_name, char *cmd, char *arg, char *message);
+void	free_and_exit(int status, t_table_cmd **table);
 
 /* для тестов*/
 void	print_list_token(t_token *list_token);
 void	print_list_arguments(char **arg);
+
 
 #endif

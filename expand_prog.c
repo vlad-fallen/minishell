@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_prog.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:44:51 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 18:53:43 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/04 17:00:12 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ t_token	*expand_prog(t_token *list_token)
 	char	*prev;
 	
 	prev = NULL;
-	//print_list_token(list_token);
-	
 	tmp = list_token;
 	while (tmp)
 	{
@@ -51,6 +49,5 @@ t_token	*expand_prog(t_token *list_token)
 		prev = tmp->value;
 		tmp = tmp->next;
 	}
-	//print_list_token(list_token);
 	return (list_token);
 }

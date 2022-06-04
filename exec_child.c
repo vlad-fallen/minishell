@@ -6,72 +6,80 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:05:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/31 19:52:02 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/04 16:27:30 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	arr_free(char **arr)
+char	*find_path_util(char **path_envp, char *cmd)
 {
-	size_t	i;
-
-	i = 0;
-	while (arr[i] != NULL)
+	char	*part_path;
+	char	*path;
+	int		i;
+	
+	i = -1;
+	part_path = ft_strjoin("/", cmd);
+	while (path_envp[++i])
 	{
-		free(arr[i]);
-		i++;
+		path = ft_strjoin(path_envp[i], part_path);
+		if (access(path, F_OK) == 0)
+			break ;
+		free(path);
+		path = NULL;
 	}
-	free(arr);
-	arr = NULL;
+	free(part_path);
+	arr_free(&path_envp);
+	return (path);
 }
 
 char	*find_path(char *cmd, char **envp)
 {
 	char	**path_envp;
-	char	*path;
-	char	*part_path;
 	int		i;
 
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
-		i++;
-	path_envp = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (path_envp[i])
 	{
-		part_path = ft_strjoin(path_envp[i++], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
-		{
-			arr_free(path_envp);
-			return (path);
-		}
-		free(path);
+		if (envp[i] == NULL)
+			return (NULL);
+		i++;
 	}
-	arr_free(path_envp);
-	return (NULL);
+	path_envp = ft_split(envp[i] + 5, ':');
+	return (find_path_util(path_envp, cmd));
 }
 
-void	exec_proc(char **cmd, char **envp)
+int	exec_proc(char **cmd, char **envp)
 {
-	char	*path;
+	char		*path;
+	struct stat	buf;
+	int			exit_stat;
 
 	if (cmd == NULL)
 		exit(EXIT_SUCCESS);
 	if (!ft_strchr(cmd[0], '/'))
-	{
 		path = find_path(cmd[0], envp);
-		execve(path, cmd, envp);
+	else
+		path = cmd[0];
+	execve(path, cmd, envp);
+	exit_stat = 0;
+	if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
+	{
+		print_error("minishell", cmd[0], NULL, "permision denied");
+		exit_stat = 126;
+	}
+	else if (stat(cmd[0], &buf) == 0)
+	{
+		if (S_ISDIR(buf.st_mode))
+		{
+			print_error("minishell", cmd[0], NULL, "is a directory");
+			exit_stat = 126;
+		}
 	}
 	else
 	{
-		path = cmd[0];
-		if (access(path, F_OK) == 0)
-			execve(path, cmd, envp);
+		print_error("minishell", cmd[0], NULL, "no such file or directory");
+		exit_stat = 127;
 	}
-	ft_putstr_fd("zsh: command not found: ", 2);
-	ft_putendl_fd(cmd[0], 2);
-	exit(EXIT_FAILURE);
+	return (exit_stat);
 }
