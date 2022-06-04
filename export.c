@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:55:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/31 20:25:00 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/04 20:50:46 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,48 @@ static int	add_elem_env(char *str, t_env_var *env_list)
 	return (EXIT_SUCCESS);
 }
 
+void	update_env(t_env_var *env_list)
+{
+	char		**new_env;
+	t_env_var	*copy_list;
+	int			i;
+	char		*tmp;
+	char		*tmp2;
+	
+	i = 0;
+	copy_list = env_list;
+	while (copy_list)
+	{
+		copy_list = copy_list->next;
+		i++;
+	}
+	new_env = (char **)malloc((i + 1) * sizeof(char *));
+	copy_list = env_list;
+	i = 0;
+	//printf("key =%s\n", env_list->key);
+	//printf("val =%s\n", env_list->value);
+	while (copy_list)
+	{
+		tmp = ft_strdup(copy_list->key);
+		if (copy_list->value)
+		{
+			tmp2 = ft_strdup(copy_list->value);
+			new_env[i] = ft_strjoin(tmp, tmp2);
+		}
+		else
+			new_env[i] = tmp;
+		tmp = NULL;
+		tmp2 = NULL;
+		copy_list = copy_list->next;
+		i++;
+	}
+	//printf("lol\n");
+	//arr_free(&g_envp.env);
+	//printf("new_env[0] =%s\n", new_env[0]);
+	g_envp.env = new_env;
+	//print_list_arguments(new_env);
+}
+
 int	export_fun(t_table_cmd *table)
 {
 	t_env_var	*env_list;
@@ -231,5 +273,6 @@ int	export_fun(t_table_cmd *table)
 			return (EXIT_FAILURE);
 		i++;
 	}
+	update_env(env_list);
 	return(EXIT_SUCCESS);
 }
