@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 16:34:30 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 18:54:36 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/04 21:24:32 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,12 @@ t_token	*dollar_exit_status(t_token *list_token)
 	tmp = list_token;
 	while (tmp)
 	{
+		
 		if (!check_str_red(prev, "<<"))
-			tmp = dollar_exit_status_help(tmp);
+		{
+			if (tmp->key != e_single_quote)
+				tmp = dollar_exit_status_help(tmp);
+		}
 		prev = tmp->value;
 		tmp = tmp->next;
 	}

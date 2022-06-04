@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:19:47 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/19 15:48:28 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/04 21:39:28 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	unset_fun(t_table_cmd *table)
 	int			flag_print_err;
 	int			j;
 	
+	exit_status = 0;
 	flag_print_err = 0;
 	env_list = g_envp.env_list;
 	i = 1;
@@ -65,7 +66,7 @@ int	unset_fun(t_table_cmd *table)
 		j = 0;
 		while (table->arguments[i][j])
 		{
-			if (ft_isalnum(table->arguments[i][j]) == 0)
+			if (!ft_isalpha(table->arguments[i][j]))
 			{
 				exit_status = EXIT_FAILURE;
 				flag_print_err = 1;
