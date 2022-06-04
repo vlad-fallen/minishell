@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:15:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/04 19:53:20 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/04 20:44:34 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void exec_scmd(t_table_cmd *table)
 		{
 			free_and_exit(exec_proc(table->arguments, g_envp.env), &table);
 		}
-		waitpid(proc_id, NULL, 0);
+		//waitpid(proc_id, NULL, 0);
+		exec_wait_one(proc_id);
 		stream_op(&stdin_dup, &stdout_dup, 2);
 		stream_op(&stdin_dup, &stdout_dup, 3);
 	}
