@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/04 16:58:25 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:17:30 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_table_cmd *parser(t_token *list_token)
 		if (list_token && list_token->key == e_pipe)
 		{
 			tmp = list_token->next;
-			token_destroy(list_token);
+			token_destroy(&list_token);
 			list_token = tmp;
 			table->next = table_create();
 			table = table->next;

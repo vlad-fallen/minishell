@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 14:27:17 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 13:44:43 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:17:43 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 		return (NULL);
 	redirections->type = redir_type;
 	tmp_token = (*list_token)->next;
-	token_destroy((*list_token));
+	token_destroy(list_token);
 	(*list_token) = tmp_token;
 	redirections->name = append_token_conect(list_token);
 	return (redirections);

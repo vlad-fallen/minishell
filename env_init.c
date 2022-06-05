@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 13:54:13 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/04 16:59:10 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 18:05:24 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	envlist_add_back(t_env_var **lst, t_env_var *new)
 	}
 }
 
-t_env_var *env_to_list(char **env)
+t_env_var	*env_to_list(char **env)
 {
-	t_env_var *env_list;
-	char *key_tmp;
-	char *value_tmp;
-	int i;
+	t_env_var	*env_list;
+	char		*key_tmp;
+	char		*value_tmp;
+	int			i;
 
 	if (env == NULL)
 		return (NULL);
@@ -57,7 +57,8 @@ t_env_var *env_to_list(char **env)
 	env_list = NULL;
 	while (env[i])
 	{
-		key_tmp = ft_substr(env[i], 0, ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '=')));
+		key_tmp = ft_substr(env[i], 0,
+				ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '=')));
 		value_tmp = ft_strdup(ft_strchr(env[i], '='));
 		envlist_add_back(&env_list, envlist_new(key_tmp, value_tmp));
 		free(key_tmp);
@@ -67,9 +68,9 @@ t_env_var *env_to_list(char **env)
 	return (env_list);
 }
 
-void env_init(void)
+void	env_init(void)
 {
-	extern char **environ;
+	extern char	**environ;
 	int			i;
 
 	if (environ == NULL)
@@ -95,7 +96,7 @@ void	free_global_env(void)
 {
 	t_env_var	*tmp_env_list;
 	t_env_var	*next;
-	
+
 	tmp_env_list = g_envp.env_list;
 	arr_free(&g_envp.env);
 	while (tmp_env_list)

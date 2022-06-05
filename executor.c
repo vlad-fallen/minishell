@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 13:52:29 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:43:07 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,12 @@ void exec_pipe(t_table_cmd *table)
 				dup2(pipe_fd[1], STDOUT_FILENO);
 				close(pipe_fd[1]);
 			}
-			execute_redirect(table);
+			if (execute_redirect(table))
+			{
+				free(pipe_fd);
+				pipe_fd = NULL;
+				free_and_exit(1, &table);
+			}
 			if (pipe_fd != NULL)
 			{
 				free(pipe_fd);
