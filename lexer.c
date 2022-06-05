@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 14:24:01 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 15:31:01 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,19 @@ int check_syntax(t_token *list_token)
 		return (-1);
 	while (list_token)
 	{
+		//error with pipe
 		if (list_token->key == e_pipe && list_token->next == NULL)
-			return (-1);
+			return (print_error("minishell", "syntax error", NULL, "incomplete pipe"));
+		if (list_token->key == e_pipe && list_token->next->key == e_pipe)
+			return (print_error("minishell", "syntax error", NULL, "incomplete pipe"));
+		//error with redirection
+		/* if (list_token->key == e_redir && list_token->next == NULL)
+			return (print_error("minishell", "syntax error", NULL, "invalid redirection"));
+		if (list_token->key == e_redir && list_token->next->key == e_redir)
+			return (print_error("minishell", "syntax error", NULL, "invalid redirection"));
+		if (list_token->key == e_redir && list_token->next->key == e_pipe)
+			return (print_error("minishell", "syntax error", NULL, "invalid redirection"));
+		list_token = list_token->next; */
 	}
 	return (0);
 }
@@ -53,8 +64,8 @@ t_token *lexer(char *input)
 	list_token = expand_prog(list_token);
 	if (input[i] != '\0' && check_syntax(list_token))
 	{
-		//print_error("");
 		token_destroy_all(list_token);
 	}
+	//print_list_token(list_token);
 	return (list_token);
 }
