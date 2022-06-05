@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 13:54:13 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 15:58:49 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 18:15:47 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ t_env_var	*env_to_list(char **env)
 	char		*key_tmp;
 	char		*value_tmp;
 	int			i;
-	int			tmp;
 
 	if (env == NULL)
 		return (NULL);
@@ -58,8 +57,8 @@ t_env_var	*env_to_list(char **env)
 	env_list = NULL;
 	while (env[i])
 	{
-		tmp = ft_strlen(ft_strchr(env[i], '='));
-		key_tmp = ft_substr(env[i], 0, ft_strlen(env[i]) - tmp);
+		key_tmp = ft_substr(env[i], 0,
+				ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '=')));
 		value_tmp = ft_strdup(ft_strchr(env[i], '='));
 		envlist_add_back(&env_list, envlist_new(key_tmp, value_tmp));
 		free(key_tmp);

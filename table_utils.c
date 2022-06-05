@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 14:21:57 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/04 16:27:57 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:17:55 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char *append_token_conect(t_token **list_token)
 	while ((*list_token)->connect)
 	{
 		tmp_token = (*list_token)->next;
-		token_destroy(*list_token);
+		token_destroy(list_token);
 		(*list_token) = tmp_token;
 		
 		tmp_str = new_str;
@@ -50,7 +50,7 @@ char *append_token_conect(t_token **list_token)
 		free(tmp_str);
 	}
 	tmp_token = (*list_token)->next;
-	token_destroy(*list_token);
+	token_destroy(list_token);
 	(*list_token) = tmp_token;
 	return (new_str);
 }

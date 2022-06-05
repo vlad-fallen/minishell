@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 17:54:09 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 18:14:54 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ void		free_global_env(void);
 /* tokens */
 t_token	*token_new(key_token key, char *value);
 void	token_add_back(t_token **lst, t_token *new);
-void	token_destroy(t_token *token);
-void	token_destroy_all(t_token *token);
+void	token_destroy(t_token **token);
+void	token_destroy_all(t_token **token);
 void	del_elem(t_token *del, t_token *head); //для удаления токена
 
 /* lexer */
@@ -157,7 +157,7 @@ void	stream_op(int *initial_stdin, int *initial_stdout, int mode);
 void	exec_wait_one(int proc_id);
 int		make_fork(pid_t *proc_id);
 int		exec_proc(char **cmd, char **envp);
-void	execute_redirect(t_table_cmd *table);
+int		execute_redirect(t_table_cmd *table);
 void	exec_scmd(t_table_cmd *table);
 void	executor(t_table_cmd *table);
 

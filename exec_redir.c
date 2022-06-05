@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:07:01 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 13:46:05 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:39:38 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void heredoc(t_redir *redir)
 	close(fd[0]);
 }
 
-void execute_redirect(t_table_cmd *table)
+int execute_redirect(t_table_cmd *table)
 {
 	t_redir *redir_file;
 
@@ -95,9 +95,11 @@ void execute_redirect(t_table_cmd *table)
 		{
 			if (open_file(redir_file) == -1)
 			{
-				return ;
+				print_error("minishell", NULL, "no such file or directory", redir_file->name);
+				return (1);
 			}
 		}
 		redir_file = redir_file->next;
 	}
+	return (0);
 }
