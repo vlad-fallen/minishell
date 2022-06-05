@@ -6,37 +6,36 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 17:17:30 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 20:11:57 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_table_cmd *parser(t_token *list_token)
+t_table_cmd	*parser(t_token **list_token)
 {
 	t_table_cmd	*table;
 	t_table_cmd	*head;
-	t_token		*tmp;
-	
+	//t_token		*tmp;
+	t_token		*next;
+
+	//tmp = *list_token;
 	table = table_create();
 	if (table == NULL)
 		return (NULL);
 	head = table;
-	while (list_token)
+	while (list_token && *list_token)
 	{
-		if (list_token->key == e_word || list_token->key == e_single_quote || list_token->key == e_double_quote)
+		if ((*list_token)->key == e_word || (*list_token)->key == e_single_quote
+			|| (*list_token)->key == e_double_quote)
+			add_token_to_table(list_token, &table);
+		if ((*list_token) && (*list_token)->key == e_redir)
+			inout_add_to_table(list_token, &table);
+		if ((*list_token) && (*list_token)->key == e_pipe)
 		{
-			add_token_to_table(&list_token, &table);
-		}
-		if (list_token && list_token->key == e_redir)
-		{
-			inout_add_to_table(&list_token, &table);
-		}
-		if (list_token && list_token->key == e_pipe)
-		{
-			tmp = list_token->next;
-			token_destroy(&list_token);
-			list_token = tmp;
+			next = (*list_token)->next;
+			token_destroy(list_token);
+			*list_token = next;
 			table->next = table_create();
 			table = table->next;
 		}

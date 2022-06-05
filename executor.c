@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 17:43:07 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 18:31:39 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	stream_op(int *initial_stdin, int *initial_stdout, int mode)
 	}
 }
 
-int make_fork(pid_t *proc_id)
+int	make_fork(pid_t *proc_id)
 {
 	*proc_id = fork();
 	if (*proc_id == -1)
@@ -39,120 +39,7 @@ int make_fork(pid_t *proc_id)
 	return (0);
 }
 
-/*--------------------EXEC_PIPE-------------------------*/
-
-/* int	init_pipe_fd(t_table_cmd **table)
-{
-	int fd_pipe[2];
-	t_table_cmd *tmp_table;
-
-	tmp_table = *table;
-	tmp_table->stream_in = dup(STDIN_FILENO);
-	while (tmp_table->next != NULL)
-	{
-		if (pipe(fd_pipe) == -1)
-			return (-1);
-		tmp_table->stream_out = fd_pipe[1];
-		tmp_table = tmp_table->next;
-		tmp_table->stream_in = fd_pipe[0];
-	}
-	tmp_table->stream_out = dup(STDOUT_FILENO);
-	return (0);
-	
-} */
-
-int	init_pipe_fd(int **pipe_fd)
-{
-	(*pipe_fd) = (int *)malloc(2 * sizeof(int));
-	if ((*pipe_fd) == NULL)
-		return (1);
-	return (0);
-}
-
-
-int	pipe_found(t_table_cmd *table, int **pipe_fd)
-{
-	int	status;
-
-	status = 0;
-	if (table->next != NULL)
-	{
-		status = pipe(*pipe_fd);
-		if (status == -1)
-			return (-1);
-		return (1);
-	}
-	return (status);
-}
-
-void exec_pipe(t_table_cmd *table)
-{
-	pid_t	proc_id;
-	int		*pipe_fd;
-	int		pipe_flag;
-	int		stdin_dup;
-	int		stdout_dup;
-	
-	if (init_pipe_fd(&pipe_fd))
-		return ;
-	stream_op(&stdin_dup, &stdout_dup, 1);
-	while (table != NULL)
-	{
-		pipe_flag = pipe_found(table, &pipe_fd);
-		if (pipe_flag == -1 || make_fork(&proc_id) == -1)
-			return ;
-		if (proc_id == 0)
-		{
-
-			if (pipe_flag == 1)
-			{
-				close(pipe_fd[0]);
-				dup2(pipe_fd[1], STDOUT_FILENO);
-				close(pipe_fd[1]);
-			}
-			if (execute_redirect(table))
-			{
-				free(pipe_fd);
-				pipe_fd = NULL;
-				free_and_exit(1, &table);
-			}
-			if (pipe_fd != NULL)
-			{
-				free(pipe_fd);
-				pipe_fd = NULL;
-			}
-			if (check_builtin(table))
-			{
-				run_builtin(table);
-				exit(g_envp.status_exit);
-			}
-			else
-			{
-				free_and_exit(exec_proc(table->arguments, g_envp.env), &table);
-			}
-		}
-		else if (proc_id > 0)
-		{
-			if (pipe_flag == 1)
-			{
-				close(pipe_fd[1]);
-				dup2(pipe_fd[0], STDIN_FILENO);
-				close(pipe_fd[0]);
-			}
-		}
-		table = table->next;
-	}
-	free(pipe_fd);
-	exec_wait_one(proc_id);
-	stream_op(&stdin_dup, &stdout_dup, 2);
-	while (wait(NULL) != -1)
-		stream_op(&stdin_dup, &stdout_dup, 2);
-	stream_op(&stdin_dup, &stdout_dup, 3);
-}
-
-/*--------------------EXECUTOR(main function)-------------------------*/
-
-void executor(t_table_cmd *table)
+void	executor(t_table_cmd *table)
 {
 	if (table == NULL)
 		return ;

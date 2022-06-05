@@ -6,15 +6,15 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:07:01 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 17:39:38 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 18:23:29 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int open_file(t_redir *redir)
+int	open_file(t_redir *redir)
 {
-	int fd;
+	int	fd;
 
 	fd = -1;
 	if (redir->type == REDIR_IN)
@@ -40,7 +40,7 @@ void	heredoc_util(int *fd, t_redir *redir)
 {
 	char	*line;
 	char	*tmp;
-	
+
 	while (1)
 	{
 		line = readline("> ");
@@ -58,20 +58,19 @@ void	heredoc_util(int *fd, t_redir *redir)
 	}
 }
 
-void heredoc(t_redir *redir)
+void	heredoc(t_redir *redir)
 {
-	int		pid;
-	int		fd[2];
+	int	pid;
+	int	fd[2];
 
 	if (pipe(fd) == -1)
-		return ; //!!!make return error!!!
+		return ;
 	pid = fork();
 	if (pid < 0)
-		return ; //!!!make return error!!!
+		return ;
 	if (pid == 0)
 	{
 		close(fd[0]);
-		//dup2(fd[1], STDOUT_FILENO);
 		heredoc_util(fd, redir);
 	}
 	waitpid(pid, NULL, 0);
@@ -80,9 +79,9 @@ void heredoc(t_redir *redir)
 	close(fd[0]);
 }
 
-int execute_redirect(t_table_cmd *table)
+int	execute_redirect(t_table_cmd *table)
 {
-	t_redir *redir_file;
+	t_redir	*redir_file;
 
 	redir_file = table->redirections;
 	while (redir_file != NULL)
@@ -95,7 +94,8 @@ int execute_redirect(t_table_cmd *table)
 		{
 			if (open_file(redir_file) == -1)
 			{
-				print_error("minishell", NULL, "no such file or directory", redir_file->name);
+				print_error("minishell", NULL, "no such file or directory",
+					redir_file->name);
 				return (1);
 			}
 		}

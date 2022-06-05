@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:05:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 18:11:21 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 20:16:49 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	error_proc(char **cmd, char *path)
 	}
 	else
 	{
-		print_error("minishell", cmd[0], NULL, "no such file or directory");
+		print_error("minishell", cmd[0], NULL, "command not found");
 		exit_stat = 127;
 	}
 	return (exit_stat);

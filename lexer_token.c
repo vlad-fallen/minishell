@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:26:48 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/26 12:50:39 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 19:07:51 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int lexer_token_pipe(char *input, int *i, t_token **list_token)
+int	lexer_token_pipe(char *input, int *i, t_token **list_token)
 {
-	char *token_str;
+	char	*token_str;
 	t_token	*token;
 
 	if (input[*i] == '|')
@@ -32,16 +32,16 @@ int lexer_token_pipe(char *input, int *i, t_token **list_token)
 	return (0);
 }
 
-int lexer_token_bracket(char *input, int *i, t_token **list_token)
+int	lexer_token_bracket(char *input, int *i, t_token **list_token)
 {
-	char *token_str;
+	char	*token_str;
 	t_token	*token;
 
 	if (input[*i] == '(' || input[*i] == ')')
 	{
 		token_str = ft_substr(input, *i, 1);
 		if (token_str == NULL)
-			return(1);
+			return (1);
 		if (input[*i] == '(')
 			token = token_new(e_left_bracket, token_str);
 		else
@@ -55,15 +55,13 @@ int lexer_token_bracket(char *input, int *i, t_token **list_token)
 	return (0);
 }
 
-int lexer_token_redir(char *input, int *i, t_token **list_token)
+int	lexer_token_redir(char *input, int *i, t_token **list_token)
 {
-	char *token_str;
+	char	*token_str;
 	t_token	*token;
-	int len;
+	int		len;
 
 	len = 0;
-	/* while (ft_isdigit(input[*i + len]))
-		len++; */
 	if (input[*i] == '<' || input[*i] == '>')
 	{
 		len++;
@@ -82,11 +80,11 @@ int lexer_token_redir(char *input, int *i, t_token **list_token)
 	return (0);
 }
 
-int lexer_token_quote(char *input, int *i, t_token **list_token)
+int	lexer_token_quote(char *input, int *i, t_token **list_token)
 {
-	char *token_str;
+	char	*token_str;
 	t_token	*token;
-	int len;
+	int		len;
 
 	len = ft_quotelen(&input[*i]);
 	if (len == -1)
@@ -97,13 +95,9 @@ int lexer_token_quote(char *input, int *i, t_token **list_token)
 		if (token_str == NULL)
 			return (1);
 		if (input[*i] == '\"')
-		{
 			token = token_new(e_double_quote, token_str);
-		}
 		else
-		{
 			token = token_new(e_single_quote, token_str);
-		}
 		if (token == NULL)
 			return (1);
 		token_add_back(list_token, token);
@@ -115,11 +109,11 @@ int lexer_token_quote(char *input, int *i, t_token **list_token)
 	return (0);
 }
 
-int lexer_token_word(char *input, int *i, t_token **list_token)
+int	lexer_token_word(char *input, int *i, t_token **list_token)
 {
-	char *token_str;
+	char	*token_str;
 	t_token	*token;
-	int len;
+	int		len;
 
 	len = ft_wordlen(&input[*i]);
 	if (len == -1)
