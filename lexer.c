@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/05/31 20:48:41 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 14:24:01 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ t_token *lexer(char *input)
 		return (list_token);	
 	while (input[i])
 	{
-		/* if (lexer_token_whitespace(input, &i, &list_token) == 1)
-			break ; */
 		if (lexer_token_pipe(input, &i, &list_token) == 1)
 			break ;
 		if (lexer_token_bracket(input, &i, &list_token) == 1)
@@ -50,13 +48,13 @@ t_token *lexer(char *input)
 		while (input[i] && ft_isspace(input[i]))
 			i++;
 	}
-	
 	list_token = dollar_exit_status(list_token);
-	
 	list_token = dollar_pars(list_token);
-	
 	list_token = expand_prog(list_token);
 	if (input[i] != '\0' && check_syntax(list_token))
+	{
+		//print_error("");
 		token_destroy_all(list_token);
+	}
 	return (list_token);
 }

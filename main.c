@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/04 18:51:47 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 13:56:04 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,6 @@ void	exit_all_prog()
 
 int main()
 {
-	/* 
-	line = readline("minishell> ");
-	free(line);
-	extern char **environ;
-
-	if (environ == NULL)
-		printf("NULL\n");
-	else
-		printf("not null\n");
-
-	int i = 0;
-	while (environ[i] != NULL)
-	{
-		printf("%s\n", environ[i++]);
-	} */
 	char *line;
 	t_token *list_token;
 	t_table_cmd *table;
@@ -56,7 +41,6 @@ int main()
 		add_history(line);
 		if(line[0] != '\0')
 		{
-			
 			list_token = lexer(line);
 			table = parser(list_token);
 			executor(table);

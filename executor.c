@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:26:46 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/04 17:20:02 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 13:52:29 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,7 @@ void exec_pipe(t_table_cmd *table)
 		table = table->next;
 	}
 	free(pipe_fd);
-	waitpid(proc_id, NULL, 0);
-	//wait(NULL);
+	exec_wait_one(proc_id);
 	stream_op(&stdin_dup, &stdout_dup, 2);
 	while (wait(NULL) != -1)
 		stream_op(&stdin_dup, &stdout_dup, 2);

@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:07:01 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/04 20:52:39 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 13:46:05 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,17 @@ void	heredoc_util(int *fd, t_redir *redir)
 {
 	char	*line;
 	char	*tmp;
-	int		quote_flag;
-	char	*limiter;
 	
-	quote_flag = 0;
-	limiter = redir->name;
-	if (redir->name[0] == '"')
-	{
-		limiter += 1;
-		quote_flag = 1;
-	}
 	while (1)
 	{
-		//write(1, "> ", 2);
-		//line = get_next_line(STDIN_FILENO);
 		line = readline("> ");
-		if (ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
+		if (ft_strncmp(line, redir->name, ft_strlen(line) - 1) == 0)
 		{
 			free(line);
 			close(fd[1]);
 			exit(EXIT_SUCCESS);
 		}
 		tmp = line;
-		if (quote_flag == 0)
-			tmp = change_in_env(tmp, 0);
 		line = ft_strjoin(tmp, "\n");
 		write(fd[1], line, ft_strlen(line));
 		free(line);
@@ -73,8 +60,6 @@ void	heredoc_util(int *fd, t_redir *redir)
 
 void heredoc(t_redir *redir)
 {
-/* 	char	*line;
-	char	*tmp; */
 	int		pid;
 	int		fd[2];
 
@@ -88,24 +73,6 @@ void heredoc(t_redir *redir)
 		close(fd[0]);
 		//dup2(fd[1], STDOUT_FILENO);
 		heredoc_util(fd, redir);
-		/* while (1)
-		{
-			//write(1, "> ", 2);
-			//line = get_next_line(STDIN_FILENO);
-			line = readline("> ");
-			if (ft_strncmp(line, redir->name, ft_strlen(line) - 1) == 0)
-			{
-				free(line);
-				close(fd[1]);
-				exit(EXIT_SUCCESS);
-			}
-			tmp = line;
-			tmp = change_in_env(tmp, 0);
-			line = ft_strjoin(tmp, "\n");
-			write(fd[1], line, ft_strlen(line));
-			free(line);
-			free(tmp);
-		} */
 	}
 	waitpid(pid, NULL, 0);
 	close(fd[1]);
@@ -131,7 +98,6 @@ void execute_redirect(t_table_cmd *table)
 				return ;
 			}
 		}
-		//printf("1\n");
 		redir_file = redir_file->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/04 20:56:05 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 13:44:16 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ typedef struct s_token
 
 typedef struct s_redir
 {
-	// t_token				*arguments;
-	// заменил структуру на массив строк для экзекьютура
 	char			*name;
 	int				type;
 	struct s_redir	*next;
@@ -150,6 +148,7 @@ t_token	*expand_prog(t_token *list_token);
 
 /* executor */
 void	stream_op(int *initial_stdin, int *initial_stdout, int mode);
+void	exec_wait_one(int proc_id);
 int		make_fork(pid_t *proc_id);
 int		exec_proc(char **cmd, char **envp);
 void	execute_redirect(t_table_cmd *table);
