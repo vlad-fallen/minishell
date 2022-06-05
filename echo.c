@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:54:32 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 13:57:56 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:54:54 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int	nbr_argc(t_table_cmd *table)
 {
-	int nbr;
+	int	nbr;
 
 	nbr = 0;
-	while(table->arguments[nbr])
+	while (table->arguments[nbr])
 		nbr++;
 	return (nbr);
 }
 
 int	all_n(char *argm)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (argm[0] == '-' && ft_strlen(argm) == 1)
@@ -33,19 +33,43 @@ int	all_n(char *argm)
 	while (argm[i])
 	{
 		if (argm[i] != 'n')
-			return (0); //плохо
+			return (0);
 		i++;
 	}
-	return (1); //хоррошо
+	return (1);
 }
 
-int	echo(t_table_cmd *table)
+void	echo_help(t_table_cmd *table, int n_flag, int i)
 {
-	int	n_flag;
-	int	nbr_arguments;
-	int	i;
-	int j;
+	int	j;
+	int	nbr_arg;
 
+	j = 0;
+	while (table->arguments[j])
+	{
+		if (!check_str(table->arguments[j], "-n"))
+			break ;
+		j++;
+	}
+	i = i + j;
+	nbr_arg = nbr_argc(table) - i;
+	while (table->arguments[i])
+	{
+		ft_putstr_fd(table->arguments[i], STDOUT_FILENO);
+		nbr_arg--;
+		if (nbr_arg != 0)
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		if (nbr_arg == 0)
+		{
+			if (n_flag == 0)
+				ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+		i++;
+	}
+}
+
+int	echo_check(t_table_cmd *table)
+{
 	if (!table->arguments[1])
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
@@ -56,6 +80,17 @@ int	echo(t_table_cmd *table)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		return (EXIT_SUCCESS);
 	}
+	return (1);
+}
+
+int	echo(t_table_cmd *table)
+{
+	int	n_flag;
+	int	i;
+	int	j;
+
+	if (!echo_check(table))
+		return (EXIT_SUCCESS);
 	n_flag = 0;
 	i = 1;
 	j = 1;
@@ -68,33 +103,6 @@ int	echo(t_table_cmd *table)
 		}
 		j++;
 	}
-	j = 0;
-	while (table->arguments[j])
-	{
-		if (!check_str(table->arguments[j], "-n"))
-			break;	
-		j++;
-	}
-	i = i + j;
-	nbr_arguments = nbr_argc(table);
-	nbr_arguments = nbr_arguments - i;
-	// printf("j = %d\n", j);
-	// print_list_arguments(table->arguments);
-	// printf("nbr_arguments = %d\n", nbr_arguments);
-	// printf("n_flag = %d\n", n_flag);
-	// printf("i = %d\n", i);
-	while (table->arguments[i])
-	{
-		ft_putstr_fd(table->arguments[i], STDOUT_FILENO);
-		nbr_arguments--;
-		if (nbr_arguments != 0)
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		if (nbr_arguments == 0)
-		{
-			if (n_flag == 0)
-				ft_putstr_fd("\n", STDOUT_FILENO);
-		}
-		i++;
-	}
+	echo_help(table, n_flag, i);
 	return (EXIT_SUCCESS);
 }

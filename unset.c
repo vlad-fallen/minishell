@@ -6,12 +6,11 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:19:47 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/04 21:39:28 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 17:28:51 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 t_env_var	*del_elem_env(t_env_var *del, t_env_var *head)
 {
@@ -49,17 +48,31 @@ void	del_add_elem_env(char	*str, t_env_var	*env_list)
 	}
 }
 
-int	unset_fun(t_table_cmd *table)
+int	unset_help(int flag_p_e, t_table_cmd *table, int i)
 {
 	t_env_var	*env_list;
-	int			i;
-	int			exit_status;
-	int			flag_print_err;
-	int			j;
-	
+
+	env_list = g_envp.env_list;
+	if (flag_p_e)
+	{
+		print_error("minishell", "unset", table->arguments[i],
+			"invalid parameter name");
+		flag_p_e = 0;
+	}
+	else
+		del_add_elem_env(table->arguments[i], env_list);
+	return (flag_p_e);
+}
+
+int	unset_fun(t_table_cmd *table)
+{
+	int	i;
+	int	exit_status;
+	int	flag_print_err;
+	int	j;
+
 	exit_status = 0;
 	flag_print_err = 0;
-	env_list = g_envp.env_list;
 	i = 1;
 	while (table->arguments[i])
 	{
@@ -73,16 +86,8 @@ int	unset_fun(t_table_cmd *table)
 			}
 			j++;
 		}
-		if (flag_print_err)
-		{
-			ft_putstr_fd("unset: ", 2);
-			ft_putstr_fd(table->arguments[i], 2);
-			ft_putstr_fd(": invalid parameter name\n", 2);
-			flag_print_err = 0;
-		}
-		else
-			del_add_elem_env(table->arguments[i], env_list);
+		flag_print_err = unset_help(flag_print_err, table, i);
 		i++;
 	}
-    return (exit_status);
+	return (exit_status);
 }

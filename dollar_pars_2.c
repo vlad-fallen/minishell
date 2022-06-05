@@ -6,33 +6,11 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 13:36:12 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/04 19:36:07 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:06:04 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*digit_arg_dol(char *value, char *old_value)
-{
-	char	*new_val;
-	int		i;
-	int		count;
-	int		all_len;
-
-	all_len = ft_strlen(old_value);
-	count = all_len - correct_count(value) - 1;
-	new_val = (char *)malloc(sizeof(char) * count);
-	i = 0;
-	while (old_value[i] != '$')
-	{
-		new_val[i] = old_value[i];
-		i++;
-	}
-	new_val[i] = '\0';
-	value++;
-	new_val = ft_strjoin(new_val, value);
-	return (new_val);
-}
 
 char	*del_posle_dol(char *old_value, char *value)
 {
@@ -85,9 +63,8 @@ int	check_asc(char *change_value)
 		return (1);
 }
 
-int	change_value_help_count(char *old, int	c_new_val)
+int	change_value_help_count(char *old, int c_new_val)
 {
-	
 	while (old[c_new_val] != '$')
 		c_new_val++;
 	if (ft_isspace(old[c_new_val + 1]))
@@ -119,8 +96,6 @@ char	*change_value(char *value, char *old, int len_sp_val, char *env_value)
 	int		count;
 	int		i;
 
-	// printf("old =%s\n", old);
-	// printf("val =%s\n", value);
 	env_value++;
 	c_new_val = change_value_help(old, env_value);
 	count = change_value_help_count(old, 0);
@@ -130,7 +105,6 @@ char	*change_value(char *value, char *old, int len_sp_val, char *env_value)
 	c_new_val = c_new_val + i;
 	new_value = (char *)malloc(sizeof(char) * c_new_val + 1);
 	i = 0;
-	//printf("count = %d\n", count);	
 	while (i != count)
 	{
 		new_value[i] = old[i];

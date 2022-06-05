@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:17:54 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/19 15:17:55 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 17:32:07 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	pwd(void)
 {
-	char *str;
+	char	*str;
 
 	str = NULL;
 	str = getcwd(str, 0);

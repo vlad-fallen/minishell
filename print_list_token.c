@@ -6,15 +6,15 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:46 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/31 19:52:48 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 17:33:16 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_list_token(t_token *list_token) // потом убрать
+void	print_list_token(t_token *list_token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = list_token;
 	while (tmp)
@@ -26,7 +26,7 @@ void	print_list_token(t_token *list_token) // потом убрать
 
 void	print_list_arguments(char **arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arg[i])
@@ -38,7 +38,7 @@ void	print_list_arguments(char **arg)
 
 void	print_list_env(t_env_var *list_token)
 {
-	t_env_var *tmp;
+	t_env_var	*tmp;
 
 	tmp = list_token;
 	while (tmp)
