@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
+#    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/06/05 16:48:35 by echrysta         ###   ########.fr        #
+#    Updated: 2022/06/05 18:57:26 by mbutter          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,9 @@ SRCS		=	main.c \
 				parser.c \
 				exec_child.c \
 				exec_redir.c \
+				exec_wait.c \
 				exec_scmd.c \
+				exec_pipe.c \
 				executor.c \
 				builtin.c \
 				echo.c\

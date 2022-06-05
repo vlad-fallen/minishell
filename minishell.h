@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 18:14:54 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 19:46:55 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void		free_table_redir(t_redir **redir);
 void		free_table(t_table_cmd **table);
 
 /* pasing */
-t_table_cmd	*parser(t_token *list_token);
+t_table_cmd	*parser(t_token **list_token);
 
 /* dollar_pars */
 t_token		*dollar_pars(t_token *list_token);
@@ -158,7 +158,9 @@ void	exec_wait_one(int proc_id);
 int		make_fork(pid_t *proc_id);
 int		exec_proc(char **cmd, char **envp);
 int		execute_redirect(t_table_cmd *table);
+void	exec_wait_all(int proc_id, int *stdin_dup, int *stdout_dup);
 void	exec_scmd(t_table_cmd *table);
+void	exec_pipe(t_table_cmd *table);
 void	executor(t_table_cmd *table);
 
 /* builtin */

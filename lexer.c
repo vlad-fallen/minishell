@@ -6,44 +6,47 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 18:16:07 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 19:10:34 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_syntax(t_token *list_token)
+int	check_syntax(t_token *list_token)
 {
 	if (list_token && list_token->key == e_pipe)
 		return (-1);
 	while (list_token)
 	{
-		//error with pipe
 		if (list_token->key == e_pipe && list_token->next == NULL)
-			return (print_error("minishell", "syntax error", NULL, "incomplete pipe"));
+			return (print_error("minishell", "syntax error", NULL,
+					"incomplete pipe"));
 		if (list_token->key == e_pipe && list_token->next->key == e_pipe)
-			return (print_error("minishell", "syntax error", NULL, "incomplete pipe"));
-		//error with redirection
+			return (print_error("minishell", "syntax error", NULL,
+					"incomplete pipe"));
 		if (list_token->key == e_redir && list_token->next == NULL)
-			return (print_error("minishell", "syntax error", NULL, "invalid redirection"));
+			return (print_error("minishell", "syntax error", NULL,
+					"invalid redirection"));
 		if (list_token->key == e_redir && list_token->next->key == e_redir)
-			return (print_error("minishell", "syntax error", NULL, "invalid redirection"));
+			return (print_error("minishell", "syntax error", NULL,
+					"invalid redirection"));
 		if (list_token->key == e_redir && list_token->next->key == e_pipe)
-			return (print_error("minishell", "syntax error", NULL, "invalid redirection"));
+			return (print_error("minishell", "syntax error", NULL,
+					"invalid redirection"));
 		list_token = list_token->next;
 	}
 	return (0);
 }
 
-t_token *lexer(char *input)
+t_token	*lexer(char *input)
 {
 	t_token	*list_token;
 	int		i;
 
 	i = 0;
 	list_token = NULL;
-	if (input[0] == 0) //без этой проверки вылетает сега
-		return (list_token);	
+	if (input[0] == 0)
+		return (list_token);
 	while (input[i])
 	{
 		if (lexer_token_pipe(input, &i, &list_token) == 1)

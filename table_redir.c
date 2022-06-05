@@ -6,13 +6,13 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 14:27:17 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 17:17:43 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 19:24:33 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void redir_add_back(t_table_cmd **table, t_redir *new_redir)
+void	redir_add_back(t_table_cmd **table, t_redir *new_redir)
 {
 	t_redir	*tmp;
 
@@ -30,7 +30,7 @@ void redir_add_back(t_table_cmd **table, t_redir *new_redir)
 	}
 }
 
-int find_redir_type(t_token *list_token)
+int	find_redir_type(t_token *list_token)
 {
 	if (!ft_strncmp(list_token->value, ">", 2))
 		return (REDIR_OUT);
@@ -43,10 +43,10 @@ int find_redir_type(t_token *list_token)
 	return (0);
 }
 
-t_redir *create_redir(t_token **list_token, int redir_type)
+t_redir	*create_redir(t_token **list_token, int redir_type)
 {
-	t_redir *redirections;
-	t_token *tmp_token;
+	t_redir	*redirections;
+	t_token	*tmp_token;
 
 	redirections = (t_redir *)malloc(sizeof(t_redir));
 	if (redirections == NULL)
@@ -59,9 +59,9 @@ t_redir *create_redir(t_token **list_token, int redir_type)
 	return (redirections);
 }
 
-void inout_add_to_table(t_token **list_token, t_table_cmd **table)
+void	inout_add_to_table(t_token **list_token, t_table_cmd **table)
 {
-	t_redir *redir_file;
+	t_redir	*redir_file;
 
 	while ((*list_token) && (*list_token)->key == e_redir)
 	{
@@ -69,11 +69,12 @@ void inout_add_to_table(t_token **list_token, t_table_cmd **table)
 		redir_add_back(table, redir_file);
 	}
 }
+
 void	free_table_redir(t_redir **redir)
 {
-	t_redir *tmp;
-	t_redir *next;
-	
+	t_redir	*tmp;
+	t_redir	*next;
+
 	tmp = *redir;
 	if (tmp == NULL)
 		return ;

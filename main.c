@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 18:14:48 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 20:15:56 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ int main()
 		{
 			list_token = lexer(line);
 			if (list_token != NULL)
-				table = parser(list_token);
-			if (list_token != NULL && table != NULL)
+				table = parser(&list_token);
+			if (list_token == NULL && table != NULL)
 				executor(table);
+			free_table(&table);
 		}
 		free(line);
 	}
+	free_global_env();
 	exit (g_envp.status_exit);
 }
