@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:41:39 by echrysta          #+#    #+#             */
-/*   Updated: 2022/05/14 18:07:54 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 15:03:18 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	local_cd_exit(int exit_status, char **cwd, t_table_cmd *table)
-{
-	free(*cwd);
-	*cwd = NULL;
-	if (exit_status == EXIT_SUCCESS)
-		return (EXIT_SUCCESS);
-	else
-	{
-		ft_putstr_fd("zhs: cd: ", 2);
-		perror(table->arguments[1]);
-		return (EXIT_FAILURE);
-	}
-}
 
 t_env_var	*find_key(t_env_var	*env_init_tmp, char *which_pwd)
 {
@@ -58,7 +44,7 @@ void	change_env(char *which_pwd, char *value)
 		free(env_init_tmp->value);
 		new_value = ft_strdup(value);
 		env_init_tmp->value = new_value;
-    }
+	}
 }
 
 char	*without_ravno(char *str)
@@ -66,23 +52,23 @@ char	*without_ravno(char *str)
 	char	*new_str;
 	int		i;
 
-	new_str = (char *)malloc(sizeof(char)*ft_strlen(str));
+	new_str = (char *)malloc(sizeof(char) * ft_strlen(str));
 	i = 0;
 	while (str[i] != '\0')
 	{
-		new_str[i] = str[i+1];
+		new_str[i] = str[i + 1];
 		i++;
 	}
 	free(str);
 	return (new_str);
 }
 
-int cd_home_dir(t_table_cmd *table)
+int	cd_home_dir(t_table_cmd *table)
 {
-	char	*home_dir;
-	t_env_var   *correct_env;
-	t_env_var   *env_init_tmp;
-	char	*cwd;
+	char		*home_dir;
+	t_env_var	*correct_env;
+	t_env_var	*env_init_tmp;
+	char		*cwd;
 
 	cwd = NULL;
 	env_init_tmp = g_envp.env_list;
@@ -121,5 +107,5 @@ int	cd(t_table_cmd *table)
 	change_env("OLDPWD", NULL);
 	cwd = getcwd(cwd, 0);
 	change_env("PWD", cwd);
-	return(local_cd_exit(EXIT_SUCCESS, &cwd, table));
+	return (local_cd_exit(EXIT_SUCCESS, &cwd, table));
 }

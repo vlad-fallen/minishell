@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:12:52 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/04 19:50:56 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 14:55:09 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ int	check_builtin(t_table_cmd *table)
 	return (0);
 }
 
-void run_builtin(t_table_cmd *table)
+void	run_builtin(t_table_cmd *table)
 {
 	if (check_str(table->arguments[0], "echo"))
 		g_envp.status_exit = echo(table);
 	if (check_str(table->arguments[0], "cd"))
-		g_envp.status_exit= cd(table);
+		g_envp.status_exit = cd(table);
 	if (check_str(table->arguments[0], "pwd"))
 		g_envp.status_exit = pwd();
 	if (check_str(table->arguments[0], "export"))

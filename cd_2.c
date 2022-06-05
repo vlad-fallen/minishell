@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   cd_2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/14 14:41:34 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 16:03:19 by echrysta         ###   ########.fr       */
+/*   Created: 2022/06/05 15:01:50 by echrysta          #+#    #+#             */
+/*   Updated: 2022/06/05 15:02:46 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env(void)
+int	local_cd_exit(int exit_status, char **cwd, t_table_cmd *table)
 {
-	t_env_var	*env_init_tmp;
-
-	env_init_tmp = g_envp.env_list;
-	if (!env_init_tmp)
+	free(*cwd);
+	*cwd = NULL;
+	if (exit_status == EXIT_SUCCESS)
+		return (EXIT_SUCCESS);
+	else
 	{
-		ft_putstr_fd("env is not find (=NULL)\n", 2);
+		ft_putstr_fd("zhs: cd: ", 2);
+		perror(table->arguments[1]);
 		return (EXIT_FAILURE);
 	}
-	print_list_env(env_init_tmp);
-	return (EXIT_SUCCESS);
 }

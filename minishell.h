@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 13:44:16 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:54:09 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <dirent.h>
 # include "libft.h"
 
-# include <dirent.h> //?
 
 # define REDIR_OUT 1
 # define REDIR_IN 2
@@ -85,6 +85,12 @@ typedef struct s_table_cmd
 	struct s_table_cmd	*next;
 }	t_table_cmd;
 
+typedef struct s_val_and_key
+{
+	char	*key;
+	char	*value;
+}	t_val_and_key;
+
 t_info	g_envp;
 
 /* env */
@@ -118,12 +124,12 @@ void	sig_prog(int sig);
 void	all_signals(void);
 
 /* table struct */
-t_table_cmd *table_create(void);
-void add_token_to_table(t_token **list_token, t_table_cmd **table);
-void inout_add_to_table(t_token **list_token, t_table_cmd **table);
-char *append_token_conect(t_token **list_token);
-void	free_table_redir(t_redir **redir);
-void free_table(t_table_cmd **table);
+t_table_cmd	*table_create(void);
+void		add_token_to_table(t_token **list_token, t_table_cmd **table);
+void		inout_add_to_table(t_token **list_token, t_table_cmd **table);
+char		*append_token_conect(t_token **list_token);
+void		free_table_redir(t_redir **redir);
+void		free_table(t_table_cmd **table);
 
 /* pasing */
 t_table_cmd	*parser(t_token *list_token);
@@ -156,16 +162,22 @@ void	exec_scmd(t_table_cmd *table);
 void	executor(t_table_cmd *table);
 
 /* builtin */
-int		check_builtin(t_table_cmd *table);
-void	run_builtin(t_table_cmd *table);
-int		echo(t_table_cmd *table);
-int		cd(t_table_cmd *table);
-int		pwd(void);
-int		export_fun(t_table_cmd *table);
-int		unset_fun(t_table_cmd *table);
-int 	env(void);
-void	print_list_env(t_env_var *list_token);
-int		exit_prog(t_table_cmd *table);
+int			check_builtin(t_table_cmd *table);
+void		run_builtin(t_table_cmd *table);
+int			echo(t_table_cmd *table);
+int			cd(t_table_cmd *table);
+int			local_cd_exit(int exit_status, char **cwd, t_table_cmd *table);
+int			pwd(void);
+int			export_fun(t_table_cmd *table);
+void		change_val_ex(t_env_var	*list, char *val);
+int			check_argc(char *str);
+t_env_var	*envlist_new_alone(char	*key);
+void		print_sorted_e(t_env_var *env);
+void		update_env(t_env_var *env_list);
+int			unset_fun(t_table_cmd *table);
+int 		env(void);
+void		print_list_env(t_env_var *list_token);
+int			exit_prog(t_table_cmd *table);
 
 /* utils */
 void	arr_free(char ***arr);

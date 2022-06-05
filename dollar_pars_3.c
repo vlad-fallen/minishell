@@ -6,60 +6,11 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 13:58:29 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/04 19:35:00 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:14:18 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_token	*del_elem_list_help(t_token	*tmp, t_token *head)
-{
-	tmp = tmp->next;
-	head->value = tmp->value;
-	head->key = tmp->key;
-	head->next = tmp->next;
-	free(tmp);
-	return (head);
-}
-
-t_token	*del_elem_list(t_token *del, t_token *head)
-{
-	t_token	*tmp;
-
-	tmp = head;
-	if (head == del)
-	{	
-		
-		if (tmp->next)
-			return (del_elem_list_help(tmp, head));
-		else
-		{
-			free(tmp->value);
-			free(tmp->next);
-			free(tmp);
-			return (head);
-		}
-	}
-	while (tmp->next != del)
-		tmp = tmp->next;
-	tmp->next = del->next;
-	free (del);
-	return (head);
-}
-
-char	*change_in_env_help(char *value)
-{
-	int	i;
-
-	i = 0;
-	while (value[0] != '$')
-	{
-		value++;
-		i++;
-	}
-	value++;
-	return (value);
-}
 
 char	*correct_dollar_pos(char *value)
 {
@@ -79,6 +30,25 @@ char	*correct_dollar_pos(char *value)
 	return (value);
 }
 
+char	*change_in_env_help(char *value, int flag_ex)
+{
+	int	i;
+
+	if (flag_ex == e_double_quote)
+		value = correct_dollar_pos(value);
+	else
+	{
+		i = 0;
+		while (value[0] != '$')
+		{
+			value++;
+			i++;
+		}
+		value++;
+	}
+	return (value);
+}
+
 char	*change_in_env(char *value, int flag_ex)
 {
 	char		*old_value;
@@ -90,26 +60,40 @@ char	*change_in_env(char *value, int flag_ex)
 	old_value = value;
 	if (value[0] == '\"')
 		return (old_value);
-	if (flag_ex == e_double_quote)
-		value = correct_dollar_pos(value);
-	else
-		value = change_in_env_help(value);
+	value = change_in_env_help(value, flag_ex);
 	if (ft_isdigit(value[0]))
 		return (digit_arg_dol(value, old_value));
-	//printf("val = %s\n", value);
 	while (env)
 	{
 		len_env = ft_strlen(env->key);
 		len_sp_val = correct_count(value);
 		if (check_str_n(env->key, value, len_sp_val) && len_env == len_sp_val)
-		{
-			// printf("env->key = %s, len_env = %d\n", env->key, len_env);
-			// printf("value = %s, len_sp_va = %d\n", value, len_sp_val);
 			return (change_value(value, old_value, len_sp_val, env->value));
-		}
 		env = env->next;
 	}
 	if (ft_isalpha(value[0]))
 		return (del_posle_dol(old_value, value));
 	return (old_value);
+}
+
+char	*digit_arg_dol(char *value, char *old_value)
+{
+	char	*new_val;
+	int		i;
+	int		count;
+	int		all_len;
+
+	all_len = ft_strlen(old_value);
+	count = all_len - correct_count(value) - 1;
+	new_val = (char *)malloc(sizeof(char) * count);
+	i = 0;
+	while (old_value[i] != '$')
+	{
+		new_val[i] = old_value[i];
+		i++;
+	}
+	new_val[i] = '\0';
+	value++;
+	new_val = ft_strjoin(new_val, value);
+	return (new_val);
 }
