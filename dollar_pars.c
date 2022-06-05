@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 15:18:24 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 20:18:59 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ t_token	*dollar_pars_help(t_token *tmp, t_token *list_token, int i)
 
 	if (ft_isspace(tmp->value[i + 1]) == 0)
 	{
+		//printf("do = %s\n", tmp->value);
 		change_value = change_in_env(tmp->value, tmp->key);
+		//printf("posle = %s\n", change_value);
 		if (change_value[0] == '\0')
 			tmp = del_elem_list(tmp, list_token);
 		else
@@ -80,6 +82,7 @@ t_token	*dollar_pars(t_token *list_token)
 	char	*prev;
 	int		i;
 
+	//print_list_token(list_token);
 	prev = NULL;
 	tmp = list_token;
 	while (tmp)
@@ -92,7 +95,11 @@ t_token	*dollar_pars(t_token *list_token)
 				while (tmp->value[i])
 				{
 					if (tmp->value[i] == '$')
+					{
+						//printf("lol\n");
 						tmp = dollar_pars_help(tmp, list_token, i);
+						//i = 2;
+					}
 					i++;
 				}
 			}
@@ -100,5 +107,6 @@ t_token	*dollar_pars(t_token *list_token)
 		prev = tmp->value;
 		tmp = tmp->next;
 	}
+	//print_list_token(list_token);
 	return (list_token);
 }

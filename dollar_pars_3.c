@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 13:58:29 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 15:14:18 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 20:15:48 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*change_in_env(char *value, int flag_ex)
 	int			len_env;
 	int			len_sp_val;
 
+	//printf("value = %s\n", value);
 	env = g_envp.env_list;
 	old_value = value;
 	if (value[0] == '\"')

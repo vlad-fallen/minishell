@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 13:36:12 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 15:06:04 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 20:10:53 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*del_posle_dol(char *old_value, char *value)
 		i++;
 	}
 	new_val = ft_strjoin(new_val, ost);
+//	printf("new value = %s\n", new_val);
 	return (new_val);
 }
 
