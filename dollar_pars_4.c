@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_pars_4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 15:14:01 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 15:18:29 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/06 20:25:42 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ t_token	*del_elem_list(t_token *del, t_token *head)
 		else
 		{
 			free(tmp->value);
-			free(tmp->next);
+			tmp->value = NULL;
+			// free(tmp->next);
 			free(tmp);
+			tmp = NULL;
 			return (head);
 		}
 	}

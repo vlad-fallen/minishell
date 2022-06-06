@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 19:46:55 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/06 19:04:25 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_redir
 {
 	char			*name;
 	int				type;
+	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 
