@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:51:58 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 17:06:53 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/05 21:17:05 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	arr_free(char ***arr)
 
 	tmp = *arr;
 	i = 0;
+	if (tmp == NULL)
+		return ;
 	while (tmp[i] != NULL)
 	{
 		free(tmp[i]);

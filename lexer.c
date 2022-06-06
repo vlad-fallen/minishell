@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 19:10:34 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/06 20:19:39 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	check_syntax(t_token *list_token)
 {
+	int empty_flag;
+
+	empty_flag = 1;
 	if (list_token && list_token->key == e_pipe)
 		return (-1);
 	while (list_token)
@@ -33,8 +36,12 @@ int	check_syntax(t_token *list_token)
 		if (list_token->key == e_redir && list_token->next->key == e_pipe)
 			return (print_error("minishell", "syntax error", NULL,
 					"invalid redirection"));
+		if (ft_strncmp(list_token->value, "\0", 1) && empty_flag == 1)
+			empty_flag = 0;
 		list_token = list_token->next;
 	}
+	if (empty_flag == 1)
+		return (1);
 	return (0);
 }
 

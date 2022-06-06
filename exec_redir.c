@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:07:01 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 18:23:29 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/06 19:11:26 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,17 @@ int	open_file(t_redir *redir)
 
 	fd = -1;
 	if (redir->type == REDIR_IN)
-		fd = open(redir->name, O_RDONLY);
+		redir->fd = open(redir->name, O_RDONLY);
 	else if (redir->type == REDIR_OUT)
-		fd = open(redir->name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		redir->fd = open(redir->name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	else if (redir->type == REDIR_APPEND)
-		fd = open(redir->name, O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (fd < 0)
-	{
+		redir->fd = open(redir->name, O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (redir->fd < 0)
 		return (-1);
-	}
-	if (redir->type == REDIR_IN)
-		dup2(fd, STDIN_FILENO);
+/* 	if (redir->type == REDIR_IN)
+		dup2(redir->fd, STDIN_FILENO);
 	else
-	{
-		dup2(fd, STDOUT_FILENO);
-	}
+		dup2(redir->fd, STDOUT_FILENO); */
 	return (0);
 }
 
@@ -87,9 +83,7 @@ int	execute_redirect(t_table_cmd *table)
 	while (redir_file != NULL)
 	{
 		if (redir_file->type == 4)
-		{
 			heredoc(redir_file);
-		}
 		else
 		{
 			if (open_file(redir_file) == -1)
@@ -99,6 +93,15 @@ int	execute_redirect(t_table_cmd *table)
 				return (1);
 			}
 		}
+		redir_file = redir_file->next;
+	}
+	redir_file = table->redirections;
+	while(redir_file != NULL)
+	{
+		if (redir_file->type == REDIR_IN)
+			dup2(redir_file->fd, STDIN_FILENO);
+		else
+			dup2(redir_file->fd, STDOUT_FILENO);
 		redir_file = redir_file->next;
 	}
 	return (0);
