@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 15:18:24 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/06 19:38:57 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ t_token	*dollar_pars(t_token *list_token)
 				while (tmp->value[i])
 				{
 					if (tmp->value[i] == '$')
+					{
 						tmp = dollar_pars_help(tmp, list_token, i);
+						if (ft_isalpha(tmp->value[i + 1]))
+							i = -1;
+					}
 					i++;
 				}
 			}
