@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_prog.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:44:51 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 17:35:58 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/06 20:59:18 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token	*expand_prog(t_token *list_token)
 				if (tmp->key != e_single_quote
 					&& tmp->key != e_double_quote && tmp->connect == 1)
 				{
-					list_token = del_elem_list(tmp, list_token);
+					list_token = del_elem_list(tmp, &list_token);
 					tmp = list_token;
 				}
 			}

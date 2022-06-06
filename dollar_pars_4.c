@@ -6,28 +6,28 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 15:14:01 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/06 20:25:42 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/06 21:44:08 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*del_elem_list_help(t_token	*tmp, t_token *head)
-{
-	tmp = tmp->next;
-	head->value = tmp->value;
-	head->key = tmp->key;
-	head->next = tmp->next;
-	free(tmp);
-	return (head);
-}
+// t_token	*del_elem_list_help(t_token	*tmp, t_token *head)
+// {
+// 	tmp = tmp->next;
+// 	head->value = tmp->value;
+// 	head->key = tmp->key;
+// 	head->next = tmp->next;
+// 	//free(tmp);
+// 	return (head);
+// }
 
-t_token	*del_elem_list(t_token *del, t_token *head)
+t_token	*del_elem_list(t_token *del, t_token **head)
 {
-	t_token	*tmp;
+	/* t_token	*tmp;
 
-	tmp = head;
-	if (head == del)
+	tmp = *head;
+	if (*head == del)
 	{	
 		if (tmp->next)
 			return (del_elem_list_help(tmp, head));
@@ -44,8 +44,25 @@ t_token	*del_elem_list(t_token *del, t_token *head)
 	while (tmp->next != del)
 		tmp = tmp->next;
 	tmp->next = del->next;
-	free (del);
-	return (head);
+	free (del); */
+	t_token *prev;
+	t_token *tmp;
+
+	prev = *head;
+	tmp = *head;
+	while (tmp != del)
+	{
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	if (prev == tmp)
+		token_destroy(head);
+	else
+	{
+		prev->next = tmp->next;
+		token_destroy(&tmp);
+	}
+	return (*head);
 }
 
 int	check_str(char *str1, char *str2)

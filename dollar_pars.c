@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_pars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/06 19:56:14 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/06 21:39:24 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_token	*dollar_pars_help(t_token *tmp, t_token *list_token, int i)
 		change_value = change_in_env(tmp->value, tmp->key);
 		//printf("posle = %s\n", change_value);
 		if (change_value[0] == '\0')
-			tmp = del_elem_list(tmp, list_token);
+			tmp = del_elem_list(tmp, &list_token);
 		else
 			tmp->value = change_value;
 	}
@@ -79,12 +79,13 @@ t_token	*dollar_pars_help(t_token *tmp, t_token *list_token, int i)
 t_token	*dollar_pars(t_token *list_token)
 {
 	t_token	*tmp;
+	t_token **head;
 	char	*prev;
 	int		i;
 
-	//print_list_token(list_token);
 	prev = NULL;
 	tmp = list_token;
+	head = &tmp;
 	while (tmp)
 	{
 		if (!check_str_red(prev, "<<"))
@@ -92,21 +93,24 @@ t_token	*dollar_pars(t_token *list_token)
 			i = 0;
 			if (tmp->key != e_single_quote)
 			{
-				while (tmp->value[i])
+				while (tmp && tmp->value[i])
 				{
 					if (tmp->value[i] == '$')
 					{
 						tmp = dollar_pars_help(tmp, list_token, i);
-						if (ft_isalpha(tmp->value[i + 1]))
+						if (tmp && ft_isalpha(tmp->value[i + 1]))
 							i = -1;
 					}
 					i++;
 				}
 			}
 		}
-		prev = tmp->value;
-		tmp = tmp->next;
+		if (tmp != NULL)
+		{	
+			prev = tmp->value;
+			tmp = tmp->next;
+		}
 	}
-	//print_list_token(list_token);
-	return (list_token);
+	//token_destroy_all(&list_token);
+	return (*head);
 }
