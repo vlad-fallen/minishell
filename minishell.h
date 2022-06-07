@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/06 19:04:25 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/06 20:42:30 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ char 		*del_posle_dol(char *old_value, char *value);
 char		*digit_arg_dol(char *value, char *old_value);
 int			correct_count(char *elem_split_value);
 int			check_str_n(char *str1, char *str2, int n);
-t_token		*del_elem_list(t_token *del, t_token *head);
+t_token		*del_elem_list(t_token *del, t_token **head);
 int			check_str_red(char *str1, char *str2);
 
 /* expand_prog */

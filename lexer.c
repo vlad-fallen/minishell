@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/06 20:19:39 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/07 14:36:19 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	check_syntax(t_token *list_token)
 t_token	*lexer(char *input)
 {
 	t_token	*list_token;
+	//t_token *tmp;
 	int		i;
 
 	i = 0;
@@ -69,9 +70,15 @@ t_token	*lexer(char *input)
 		while (input[i] && ft_isspace(input[i]))
 			i++;
 	}
+	//tmp = list_token;
 	list_token = dollar_exit_status(list_token);
+	//token_destroy_all(&tmp);
+	//tmp = list_token;
 	list_token = dollar_pars(list_token);
+	//token_destroy_all(&tmp);
+	//tmp = list_token;
 	list_token = expand_prog(list_token);
+	//token_destroy_all(&tmp);
 	if (input[i] != '\0' || check_syntax(list_token))
 	{
 		token_destroy_all(&list_token);
