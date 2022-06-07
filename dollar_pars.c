@@ -6,60 +6,83 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/07 14:36:50 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:00:51 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_str_red(char *str1, char *str2)
+static char	*change_in_env_help(char *value, int flag_ex)
 {
 	int	i;
 
-	if (!str1)
-		return (0);
-	if (!str2)
-		return (0);
-	if (str1[0] == '\0')
-		return (0);
-	i = 0;
-	while (str1[i] != '\0' && str2[i] != '\0')
+	if (flag_ex == e_double_quote)
+		value = correct_dollar_pos(value);
+	else
 	{
-		if (str1[i] != str2[i])
-			return (0);
+		i = 0;
+		while (value[0] != '$')
+		{
+			value++;
+			i++;
+		}
+		value++;
+	}
+	return (value);
+}
+
+char	*digit_arg_dol(char *value, char *old_value)
+{
+	char	*new_val;
+	int		i;
+	int		count;
+	int		all_len;
+
+	all_len = ft_strlen(old_value);
+	count = all_len - correct_count(value) - 1;
+	new_val = (char *)malloc(sizeof(char) * count);
+	i = 0;
+	while (old_value[i] != '$')
+	{
+		new_val[i] = old_value[i];
 		i++;
 	}
-	return (1);
+	new_val[i] = '\0';
+	value++;
+	new_val = ft_strjoin(new_val, value);
+	return (new_val);
 }
 
-int	check_str_n(char *str1, char *str2, int n)
-{
-	int	i;
 
-	i = 0;
-	while (str1[i] != '\0' && str2[i] != '\0' && n != i)
+char	*change_in_env(char *value, int flag_ex)
+{
+	char		*old_value;
+	t_env_var	*env;
+	int			len_env;
+	int			len_sp_val;
+
+	//printf("value = %s\n", value);
+	env = g_envp.env_list;
+	old_value = value;
+	if (value[0] == '\"')
+		return (old_value);
+	value = change_in_env_help(value, flag_ex);
+	if (ft_isdigit(value[0]))
+		return (digit_arg_dol(value, old_value));
+	while (env)
 	{
-		if (str1[i] != str2[i])
-			return (0);
-		i++;
+		len_env = ft_strlen(env->key);
+		len_sp_val = correct_count(value);
+		if (check_str_n(env->key, value, len_sp_val) && len_env == len_sp_val)
+			return (change_value(value, old_value, len_sp_val, env->value));
+		env = env->next;
 	}
-	return (1);
+	if (ft_isalpha(value[0]))
+		return (del_posle_dol(old_value, value));
+	return (old_value);
 }
 
-int	correct_count(char *elem_split_value)
-{
-	int	i;
-
-	i = 0;
-	while (elem_split_value[i] && elem_split_value[i] != '\'' && \
-		elem_split_value[i] != '$' && elem_split_value[i] != ' ' && \
-		elem_split_value[i] != '\"' && elem_split_value[i] != '/' && \
-		elem_split_value[i] != '=' && elem_split_value[i] != ':' )
-		i++;
-	return (i);
-}
-
-t_token	*dollar_pars_help(t_token *tmp, t_token *list_token, int i)
+static t_token	*dollar_pars_help(t_token *tmp, t_token *list_token, int i)
 {
 	char	*change_value;
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/06/05 18:57:26 by mbutter          ###   ########.fr        #
+#    Updated: 2022/06/07 14:52:21 by echrysta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS		=	main.c \
 				signal.c\
 				dollar_pars.c\
 				dollar_pars_2.c\
-				dollar_pars_3.c\
+				dollar_pars_utils.c\
 				dollar_pars_4.c\
 				expand_prog.c\
 				dollar_exit_status.c\

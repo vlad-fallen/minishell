@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 13:36:12 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 20:10:53 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:04:05 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,27 @@ char	*del_posle_dol(char *old_value, char *value)
 	return (new_val);
 }
 
-int	check_asc(char *change_value)
-{
-	int	i;
-	int	flag;
+// int	check_asc(char *change_value)
+// {
+// 	int	i;
+// 	int	flag;
 
-	flag = 0;
-	if (ft_strlen(change_value) == 1)
-		return (0);
-	change_value++;
-	i = 0;
-	while (change_value[i])
-	{
-		if (ft_isalpha(change_value[i]))
-			flag = 1;
-		i++;
-	}
-	if (!flag)
-		return (0);
-	else
-		return (1);
-}
+// 	flag = 0;
+// 	if (ft_strlen(change_value) == 1)
+// 		return (0);
+// 	change_value++;
+// 	i = 0;
+// 	while (change_value[i])
+// 	{
+// 		if (ft_isalpha(change_value[i]))
+// 			flag = 1;
+// 		i++;
+// 	}
+// 	if (!flag)
+// 		return (0);
+// 	else
+// 		return (1);
+// }
 
 int	change_value_help_count(char *old, int c_new_val)
 {

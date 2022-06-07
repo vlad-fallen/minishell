@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 15:14:01 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/07 14:35:28 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/07 14:51:28 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,4 @@ t_token	*del_elem_list(t_token *del, t_token **head)
 		token_destroy(&tmp);
 	}
 	return (*head);
-}
-
-int	check_str(char *str1, char *str2)
-{
-	int	i;
-
-	if (!str1)
-		return (0);
-	if (!str2)
-		return (0);
-	i = 0;
-	while (str1[i] != '\0' && str2[i] != '\0')
-	{
-		if (str1[i] != str2[i])
-			return (0);
-		i++;
-	}
-	return (1);
 }
