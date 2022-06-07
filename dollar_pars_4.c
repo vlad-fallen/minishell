@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 15:14:01 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/07 14:51:28 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:41:53 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,30 @@
 
 t_token	*del_elem_list(t_token *del, t_token **head)
 {
-	/* t_token	*tmp;
+	// t_token	*tmp;
 
-	tmp = *head;
-	if (*head == del)
-	{	
-		if (tmp->next)
-			return (del_elem_list_help(tmp, head));
-		else
-		{
-			free(tmp->value);
-			tmp->value = NULL;
-			free(tmp->next);
-			free(tmp);
-			tmp = NULL;
-			return (head);
-		}
-	}
-	while (tmp->next != del)
-		tmp = tmp->next;
-	tmp->next = del->next;
-	free (del); */
+	// tmp = *head;
+	// // if (*head == del)
+	// // {	
+	// // 	if (tmp->next)
+	// 		return (del_elem_list_help(tmp, head));
+	// 	else
+	// 	{
+	// 		free(tmp->value);
+	// 		tmp->value = NULL;
+	// 		free(tmp->next);
+	// 		free(tmp);
+	// 		tmp = NULL;
+	// 		return (head);
+	// 	}
+	// }
+	// while (tmp->next != del)
+	// 	tmp = tmp->next;
+	// tmp->next = del->next;
+	// //printf("del->value = %s, p = %p\n", del->value, &del->value);
+	// free(del->value);
+	// free (del);
+	
 	t_token *prev;
 	t_token *tmp;
 

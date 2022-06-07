@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 13:36:12 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/07 15:04:05 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:39:50 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*del_posle_dol(char *old_value, char *value)
 {
 	char	*new_val;
+	char	*tmp;
 	int		i;
 	int		count;
 	int		all_len;
@@ -22,14 +23,14 @@ char	*del_posle_dol(char *old_value, char *value)
 
 	all_len = ft_strlen(old_value);
 	count = all_len - correct_count(value) - 1;
-	new_val = (char *)malloc(sizeof(char) * count);
+	tmp = (char *)malloc(sizeof(char) * count);
 	i = 0;
 	while (old_value[i] != '$')
 	{
-		new_val[i] = old_value[i];
+		tmp[i] = old_value[i];
 		i++;
 	}
-	new_val[i] = '\0';
+	tmp[i] = '\0';
 	ost = value;
 	i = 0;
 	while (i != correct_count(value))
@@ -37,8 +38,19 @@ char	*del_posle_dol(char *old_value, char *value)
 		ost++;
 		i++;
 	}
-	new_val = ft_strjoin(new_val, ost);
-//	printf("new value = %s\n", new_val);
+	new_val = ft_strjoin(tmp, ost);
+	free(tmp);
+	tmp = NULL;
+	//printf("tmp = %s, p = %p\n", tmp, tmp);
+	//printf("new_val = %s, p = %p\n", new_val, new_val);
+	//printf("tmp = %s\n", tmp);
+	// free(old_value);
+	// old_value = NULL;
+	if (new_val[0] == '\0')
+	{
+		free(new_val);
+		new_val = NULL;
+	}
 	return (new_val);
 }
 
@@ -93,6 +105,8 @@ int	change_value_help(char *old, char *env_value)
 char	*change_value(char *value, char *old, int len_sp_val, char *env_value)
 {
 	char	*new_value;
+	char	*tmp;
+	char	*tmp2;
 	int		c_new_val;
 	int		count;
 	int		i;
@@ -104,15 +118,19 @@ char	*change_value(char *value, char *old, int len_sp_val, char *env_value)
 	while (i++ != len_sp_val)
 		value++;
 	c_new_val = c_new_val + i;
-	new_value = (char *)malloc(sizeof(char) * c_new_val + 1);
+	tmp = (char *)malloc(sizeof(char) * c_new_val + 1);
 	i = 0;
 	while (i != count)
 	{
-		new_value[i] = old[i];
+		tmp[i] = old[i];
 		i++;
 	}
-	new_value[i] = '\0';
-	new_value = ft_strjoin(new_value, env_value);
-	new_value = ft_strjoin(new_value, value);
+	tmp[i] = '\0';
+	tmp2 = ft_strjoin(tmp, env_value);
+	free(tmp);
+	tmp = NULL;
+	new_value = ft_strjoin(tmp2, value);
+	free(tmp2);
+	tmp2 = NULL;
 	return (new_value);
 }

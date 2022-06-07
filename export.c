@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:55:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 18:07:18 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/07 20:26:03 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ t_val_and_key	data_create(char *str, t_val_and_key data)
 	}
 	data.key[i] = '\0';
 	if (str[i] != '\0' && str[i])
+	{		
 		data.value = strdup(&str[i]);
+	}
 	return (data);
 }
 

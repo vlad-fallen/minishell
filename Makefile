@@ -6,7 +6,7 @@
 #    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/06/07 14:52:21 by echrysta         ###   ########.fr        #
+#    Updated: 2022/06/07 20:21:42 by echrysta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRCS		=	main.c \
 				pwd.c\
 				env.c\
 				export.c\
-				export_2.c\
+				export_print.c\
 				export_3.c\
 				exit.c\
 				unset.c\
