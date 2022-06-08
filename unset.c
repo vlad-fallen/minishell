@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:19:47 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 17:28:51 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:34:11 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ t_env_var	*del_elem_env(t_env_var *del, t_env_var *head)
 	if (head == del)
 	{
 		tmp = tmp->next;
+		free(head->value);
+		head->value = NULL;
 		head->value = tmp->value;
+		free(head->key);
+		head->key = NULL;
 		head->key = tmp->key;
 		head->next = tmp->next;
 		free(tmp);
@@ -29,6 +33,8 @@ t_env_var	*del_elem_env(t_env_var *del, t_env_var *head)
 	while (tmp->next != del)
 		tmp = tmp->next;
 	tmp->next = del->next;
+	free(del->key);
+	free(del->value);
 	free (del);
 	return (tmp);
 }
