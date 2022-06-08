@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:05:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 20:16:49 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/08 20:45:35 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*find_path(char *cmd, char **envp)
 			return (NULL);
 		i++;
 	}
+	if (!ft_strncmp(cmd, "\0", 1) || !ft_strncmp(cmd, ".", 2) || !ft_strncmp(cmd, "..", 3))
+		return (NULL);
 	path_envp = ft_split(envp[i] + 5, ':');
 	return (find_path_util(path_envp, cmd));
 }
@@ -60,7 +62,7 @@ int	error_proc(char **cmd, char *path)
 		print_error("minishell", cmd[0], NULL, "permision denied");
 		exit_stat = 126;
 	}
-	else if (stat(cmd[0], &buf) == 0)
+	else if (stat(path, &buf) == 0)
 	{
 		if (S_ISDIR(buf.st_mode))
 		{
@@ -70,7 +72,7 @@ int	error_proc(char **cmd, char *path)
 	}
 	else
 	{
-		print_error("minishell", cmd[0], NULL, "command not found");
+		print_error("minishell", cmd[0], NULL, "no such file or directiory");
 		exit_stat = 127;
 	}
 	return (exit_stat);
@@ -87,5 +89,10 @@ int	exec_proc(char **cmd, char **envp)
 	else
 		path = cmd[0];
 	execve(path, cmd, envp);
+	if (path == NULL)
+	{
+		print_error("minishell", cmd[0], NULL, "command not found");
+		return (127);
+	}
 	return (error_proc(cmd, path));
 }
