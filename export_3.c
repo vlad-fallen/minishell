@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:47:04 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 17:41:29 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 13:18:17 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	update_env_help(t_env_var	*copy_list, int i)
 		{
 			tmp2 = ft_strdup(copy_list->value);
 			new_env[i] = ft_strjoin(tmp, tmp2);
+			free(tmp);
+			free(tmp2);
 		}
 		else
 			new_env[i] = tmp;
@@ -35,6 +37,7 @@ void	update_env_help(t_env_var	*copy_list, int i)
 		copy_list = copy_list->next;
 		i++;
 	}
+	free_global_env();
 	g_envp.env = new_env;
 }
 
