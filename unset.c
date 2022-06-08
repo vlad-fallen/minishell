@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:19:47 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 16:34:11 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:41:56 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,13 @@ int	unset_help(int flag_p_e, t_table_cmd *table, int i)
 	return (flag_p_e);
 }
 
+int	ft_isalpha_and(int c)
+{
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_')
+		return (1);
+	return (0);
+}
+
 int	unset_fun(t_table_cmd *table)
 {
 	int	i;
@@ -85,7 +92,7 @@ int	unset_fun(t_table_cmd *table)
 		j = 0;
 		while (table->arguments[i][j])
 		{
-			if (!ft_isalpha(table->arguments[i][j]))
+			if (!ft_isalpha_and(table->arguments[i][j]))
 			{
 				exit_status = EXIT_FAILURE;
 				flag_print_err = 1;

@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:41:39 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 15:03:18 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:48:33 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ char	*without_ravno(char *str)
 		new_str[i] = str[i + 1];
 		i++;
 	}
+	new_str[i] = '\0';
 	free(str);
+	str = NULL;
 	return (new_str);
 }
 
