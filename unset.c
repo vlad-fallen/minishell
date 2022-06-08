@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:19:47 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 16:41:56 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:02:58 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ int	unset_fun(t_table_cmd *table)
 		flag_print_err = unset_help(flag_print_err, table, i);
 		i++;
 	}
+	update_env(g_envp.env_list);
 	return (exit_status);
 }

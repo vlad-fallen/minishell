@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:54:32 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/07 14:33:34 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:27:13 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	echo_check(t_table_cmd *table)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		return (EXIT_SUCCESS);
 	}
-	//printf("nbr_argc(table) = %d\n", nbr_argc(table));
 	if (table->arguments[1][0] == '\0' && nbr_argc(table) == 2)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
@@ -90,7 +89,6 @@ int	echo(t_table_cmd *table)
 	int	i;
 	int	j;
 
-	//print_list_arguments(table->arguments);
 	if (!echo_check(table))
 		return (EXIT_SUCCESS);
 	n_flag = 0;
@@ -98,15 +96,14 @@ int	echo(t_table_cmd *table)
 	j = 1;
 	while (table->arguments[j] && check_str(table->arguments[j], "-n"))
 	{
-		if (check_str_red(table->arguments[j], "-n") && all_n(table->arguments[j]))
+		if (check_str_red(table->arguments[j], "-n")
+			&& all_n(table->arguments[j]))
 		{
 			n_flag = 1;
 			i++;
 		}
 		j++;
 	}
-	//printf("n_flag = %d\n", n_flag);
-	//printf("i = %d\n", i);
 	echo_help(table, n_flag, i);
 	return (EXIT_SUCCESS);
 }

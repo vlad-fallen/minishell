@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:41:39 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 16:48:33 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:52:07 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	change_env(char *which_pwd, char *value)
 	{
 		correct_env = find_key(env_init_tmp, which_pwd);
 		free(env_init_tmp->value);
+		env_init_tmp->value = NULL;
 		correct_env = find_key(env_init_tmp, "PWD");
 		new_value = ft_strdup(correct_env->value);
 		env_init_tmp->value = new_value;
@@ -42,6 +43,7 @@ void	change_env(char *which_pwd, char *value)
 	{
 		correct_env = find_key(env_init_tmp, which_pwd);
 		free(env_init_tmp->value);
+		env_init_tmp->value = NULL;
 		new_value = ft_strdup(value);
 		env_init_tmp->value = new_value;
 	}
@@ -82,12 +84,14 @@ int	cd_home_dir(t_table_cmd *table)
 	if (chdir(home_dir) != 0)
 	{
 		free(home_dir);
+		home_dir = NULL;
 		return (local_cd_exit(EXIT_FAILURE, &cwd, table));
 	}
 	change_env("OLDPWD", NULL);
 	cwd = getcwd(cwd, 0);
 	change_env("PWD", cwd);
 	free(home_dir);
+	home_dir = NULL;
 	return (local_cd_exit(EXIT_SUCCESS, &cwd, table));
 }
 
