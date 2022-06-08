@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:55:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/07 20:26:03 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 15:37:59 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,21 @@ void	add_elem_env_help(t_env_var *env_list, char *key, char *value)
 	while (env_list->next)
 		env_list = env_list->next;
 	if (value != NULL)
+	{
 		new_env_list = envlist_new(key, value);
+		free(key);
+		key = NULL;
+		free(value);
+		value = NULL;
+	}
 	else
+	{
 		new_env_list = envlist_new_alone(key);
+		free(key);
+		key = NULL;
+		free(value);
+		value = NULL;
+	}
 	envlist_add_back(&env_list, new_env_list);
 }
 
@@ -64,7 +76,13 @@ int	add_elem_env(char *str, t_env_var *env_list)
 			&& ft_strlen(copy_env_list->key) == ft_strlen(data.key))
 		{
 			if (data.value)
+			{
 				change_val_ex(copy_env_list, data.value);
+				free(data.key);
+				data.key = NULL;
+				free(data.value);
+				data.value = NULL;
+			}
 			return (EXIT_SUCCESS);
 		}
 		copy_env_list = copy_env_list->next;

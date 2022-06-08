@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:47:04 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 13:20:57 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 15:29:31 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	update_env_help(t_env_var	*copy_list, int i)
 	char	*tmp2;
 	char	**new_env;
 
-	new_env = (char **)malloc((i + 1) * sizeof(char *));
+	arr_free(&g_envp.env);
+	g_envp.env = NULL;
+	new_env = (char **)malloc((i + 2) * sizeof(char *));
 	i = 0;
 	while (copy_list)
 	{
@@ -37,13 +39,14 @@ void	update_env_help(t_env_var	*copy_list, int i)
 		copy_list = copy_list->next;
 		i++;
 	}
-	//free_global_env();
+	new_env[i] = NULL;
 	g_envp.env = new_env;
 }
 
 void	update_env(t_env_var *env_list)
 {
 	t_env_var	*copy_list;
+
 	int			i;
 
 	i = 0;
@@ -104,15 +107,19 @@ void	change_val_ex(t_env_var	*list, char *val)
 	if (ft_strlen(val) == 1)
 	{
 		free(list->value);
+		list->value = NULL;
 		new_val = (char *)malloc(sizeof(char) * 1);
 		new_val[0] = '\0';
-		list->value = new_val;
+		list->value = strdup(new_val);
+		free(new_val);
+		new_val = NULL;
 		return ;
 	}
 	else
 	{
 		free(list->value);
-		list->value = val;
+		list->value = NULL;
+		list->value = ft_strdup(val);
 		return ;
 	}
 }

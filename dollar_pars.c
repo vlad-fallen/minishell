@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/07 20:13:44 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 15:30:19 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ t_token	*dollar_pars(t_token *list_token)
 	char	*prev;
 	int		i;
 
+	//print_list_token(list_token);
 	prev = NULL;
 	tmp = list_token;
 	head = &tmp;
@@ -193,5 +194,6 @@ t_token	*dollar_pars(t_token *list_token)
 	// printf("p tmp value = %p\n", tmp);
 	//token_destroy_all(&list_token);
 	//return (*head);
+	//print_list_token(list_token);
 	return(list_token);
 }
