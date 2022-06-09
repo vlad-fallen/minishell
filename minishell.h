@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/09 18:49:49 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/09 20:52:23 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_redir
 	char			*name;
 	int				type;
 	int				fd;
+	int				quote_flag;
 	struct s_redir	*next;
 }	t_redir;
 

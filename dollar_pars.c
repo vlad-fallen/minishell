@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_pars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 22:10:08 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/09 20:59:49 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ char	*change_in_env(char *value, int flag_ex)
 
 	env = g_envp.env_list;
 	old_value = value;
-	if (value[0] == '\"')
-		return (old_value);
 	value = change_in_env_help(value, flag_ex);
 	if (ft_isdigit(value[0]))
 		return (digit_arg_dol(value, old_value));
