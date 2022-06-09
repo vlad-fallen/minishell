@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:07:01 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/08 21:31:17 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/09 18:56:41 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	heredoc_util(int *fd, t_redir *redir)
 		{
 			free(line);
 			close(fd[1]);
+			printf("lol\n");
 			exit(EXIT_SUCCESS);
 		}
 		tmp = line;
@@ -53,6 +54,11 @@ void	heredoc_util(int *fd, t_redir *redir)
 		free(tmp);
 	}
 }
+
+/* void	init_heredoc(t_redir *redir, char **filename)
+{
+	*filename = ft_strdup("")
+} */
 
 void	heredoc(t_redir *redir)
 {
@@ -69,7 +75,7 @@ void	heredoc(t_redir *redir)
 		close(fd[0]);
 		heredoc_util(fd, redir);
 	}
-	waitpid(pid, NULL, 0);
+	wait(NULL);
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
