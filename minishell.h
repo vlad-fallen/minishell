@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/08 22:09:24 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:49:49 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_val_and_key
 {
 	char	*key;
 	char	*value;
+	int		plus;
 }	t_val_and_key;
 
 t_info	g_envp;
@@ -106,12 +107,11 @@ t_token	*token_new(key_token key, char *value);
 void	token_add_back(t_token **lst, t_token *new);
 void	token_destroy(t_token **token);
 void	token_destroy_all(t_token **token);
-void	del_elem(t_token *del, t_token *head); //для удаления токена
+void	del_elem(t_token *del, t_token *head);
 
 /* lexer */
 int		ft_quotelen(char *str);
 int		ft_wordlen(char *str);
-void	find_duplicate_flags(t_token **list_token); // для исключения повторяющихся флагов
 int		lexer_token_whitespace(char *input, int *i, t_token **list_token);
 int		lexer_token_pipe(char *input, int *i, t_token **list_token);
 int		lexer_token_bracket(char *input, int *i, t_token **list_token);
@@ -176,27 +176,41 @@ void	executor(t_table_cmd *table);
 /* builtin */
 int			check_builtin(t_table_cmd *table);
 void		run_builtin(t_table_cmd *table);
+
+/* echo */
 int			echo(t_table_cmd *table);
+
+/* cd */
 int			cd(t_table_cmd *table);
 int			local_cd_exit(int exit_status, char **cwd, t_table_cmd *table);
+
+/* pwd */
 int			pwd(void);
+
+/* export */
 int			export_fun(t_table_cmd *table);
 void		change_val_ex(t_env_var	*list, char *val);
+void		change_val_ex_plus(t_env_var	*list, char *val);
 int			check_argc(char *str);
+int			find_plus(char *str);
 t_env_var	*envlist_new_alone(char	*key);
 void		print_sorted_e(t_env_var *env);
 void		update_env(t_env_var *env_list);
+
+/* unset */
 int			unset_fun(t_table_cmd *table);
+
+/* env */
 int 		env(void);
 void		print_list_env(t_env_var *list_token);
+
+/* exit */
 int			exit_prog(t_table_cmd *table);
 
 /* utils */
 void	arr_free(char ***arr);
 int		print_error(char *shell_name, char *cmd, char *arg, char *message);
 void	free_and_exit(int status, t_table_cmd **table);
-
-/* для тестов*/
 void	print_list_token(t_token *list_token);
 void	print_list_arguments(char **arg);
 

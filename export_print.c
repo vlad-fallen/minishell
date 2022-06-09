@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_2.c                                         :+:      :+:    :+:   */
+/*   export_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:24:31 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 17:03:13 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:55:13 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	print_declare(char *key)
 	{
 		if (!ft_strcmp(env->key, key))
 		{
-			ft_putstr_fd("export ", STDOUT_FILENO);
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
 			ft_putstr_fd(env->key, STDOUT_FILENO);
 			if (env->value)
 			{

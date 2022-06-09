@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:55:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 21:10:39 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:51:42 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,53 +42,58 @@ t_val_and_key	data_create(char *str, t_val_and_key data)
 	int		i;
 
 	i = 0;
-	while (str[i] != '=' && str[i] != '\0')
+	data.plus = find_plus(str);
+	while (str[i] != '=' && str[i] != '+' && str[i] != '\0')
 		i++;
 	data.key = (char *)malloc(sizeof(char) * (i + 1));
 	i = 0;
-	while (str[i] != '=' && str[i] != '\0')
+	while (str[i] != '=' && str[i] != '+' && str[i] != '\0')
 	{
 		data.key[i] = str[i];
 		i++;
 	}
 	data.key[i] = '\0';
+	if (str[i] == '+')
+		i++;
 	if (str[i] != '\0' && str[i])
-	{		
 		data.value = strdup(&str[i]);
-	}
 	return (data);
 }
 
-void	add_elem_env_help_2(char *key, char *value, t_env_var *copy_env_list)
+void	add_elem_env_help_2(char *key, char *v, t_env_var *copy_e_l, int plus)
 {
-	change_val_ex(copy_env_list, value);
+	if (!plus)
+		change_val_ex(copy_e_l, v);
+	else
+		change_val_ex_plus(copy_e_l, v);
 	free(key);
 	key = NULL;
-	free(value);
-	value = NULL;
+	free(v);
+	v = NULL;
 }
 
 int	add_elem_env(char *str, t_env_var *env_list)
 {
-	t_env_var		*copy_env_list;
+	t_env_var		*copy_e_l;
 	t_val_and_key	data;
 
 	data.value = NULL;
 	data.key = NULL;
+	data.plus = 0;
 	if (check_argc(str))
 		return (EXIT_FAILURE);
 	data = data_create(str, data);
-	copy_env_list = env_list;
-	while (copy_env_list)
+	copy_e_l = env_list;
+	while (copy_e_l)
 	{
-		if (check_str(copy_env_list->key, data.key)
-			&& ft_strlen(copy_env_list->key) == ft_strlen(data.key))
+		if (check_str(copy_e_l->key, data.key)
+			&& ft_strlen(copy_e_l->key) == ft_strlen(data.key))
 		{
 			if (data.value)
-				add_elem_env_help_2(data.key, data.value, copy_env_list);
+				add_elem_env_help_2(data.key, data.value, copy_e_l, data.plus);
 			return (EXIT_SUCCESS);
 		}
-		copy_env_list = copy_env_list->next;
+		copy_e_l = copy_e_l->next;
 	}	
 	add_elem_env_help(env_list, data.key, data.value);
 	return (EXIT_SUCCESS);

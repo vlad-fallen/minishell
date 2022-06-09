@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:47:04 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 16:03:10 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:54:09 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ int	check_argc(char *str)
 		print_error("minishell", "export", str, "not a valid identifier");
 		return (EXIT_FAILURE);
 	}
-	while (str[i] != '=' && str[i])
+	while ((str[i] != '=' && str[i]) || (str[i] != '='
+			&& str[i - 1] != '+' && str[i]))
 	{
 		ch = str[i];
 		if (!(97 <= ch && ch <= 122) && !(65 <= ch && ch <= 90)
-			&& !(48 <= ch && ch <= 57))
+			&& !(48 <= ch && ch <= 57) && !(str[i + 1] == '=' && str[i] == '+'))
 		{
 			print_error("minishell", "export", str, "not a valid identifier");
 			return (EXIT_FAILURE);
@@ -62,7 +63,7 @@ void	change_val_ex(t_env_var	*list, char *val)
 		list->value = NULL;
 		new_val = (char *)malloc(sizeof(char) * 1);
 		new_val[0] = '\0';
-		list->value = strdup(new_val);
+		list->value = ft_strdup(new_val);
 		free(new_val);
 		new_val = NULL;
 		return ;
@@ -74,4 +75,29 @@ void	change_val_ex(t_env_var	*list, char *val)
 		list->value = ft_strdup(val);
 		return ;
 	}
+}
+
+void	change_val_ex_plus(t_env_var	*list, char *val)
+{
+	char	*new_val;
+
+	val++;
+	new_val = ft_strjoin(list->value, val);
+	free(list->value);
+	list->value = NULL;
+	list->value = new_val;
+}
+
+int	find_plus(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '+')
+			return (1);
+		i++;
+	}
+	return (0);
 }
