@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/10 20:39:38 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 21:12:09 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,10 @@ int			echo(t_table_cmd *table);
 
 /* cd */
 int	cd_fun(t_table_cmd *table);
-int	local_cd_exit(int exit_status, char **cwd, t_table_cmd *table);
+
+/* cd_utils */
+int			local_cd_exit(int exit_status, char **cwd, t_table_cmd *table);
+t_env_var	*find_key(t_env_var	*env_init_tmp, char *which_pwd);
 
 /* pwd */
 int			pwd_fun(void);

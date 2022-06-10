@@ -6,41 +6,22 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:41:39 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/10 20:24:14 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 21:43:06 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	local_cd_exit(int exit_status, char **cwd, t_table_cmd *table)
+int check_pwd_oldpwd(t_env_var *env_list)
 {
-	free(*cwd);
-	*cwd = NULL;
-	if (exit_status == EXIT_SUCCESS)
-		return (EXIT_SUCCESS);
-	else
-	{
-		ft_putstr_fd("zhs: cd: ", 2);
-		perror(table->arguments[1]);
-		return (EXIT_FAILURE);
-	}
-}
-
-t_env_var	*find_key(t_env_var	*env_init_tmp, char *which_pwd)
-{
-	t_env_var	*tmp;
-
-	tmp = env_init_tmp;
-	while (tmp)
-	{
-		if (ft_strlen(tmp->key) == ft_strlen(which_pwd))
-		{
-			if (check_str(tmp->key, which_pwd))
-				break ;
-		}
-		tmp = tmp->next;
-	}
-	return (tmp);
+	t_env_var	*correct_env;
+	t_env_var	*correct_env_2;
+	
+	correct_env = find_key(env_list, "PWD");
+	correct_env_2 = find_key(env_list, "OLDPWD");
+	if (check_str(correct_env->value, correct_env_2->value))
+		return(1);
+	return (0);
 }
 
 void	cd_change_env(char *which_pwd, char *value, t_env_var *env_list)
@@ -49,7 +30,6 @@ void	cd_change_env(char *which_pwd, char *value, t_env_var *env_list)
 	t_env_var	*correct_env_2;
 	char		*new_value;
 	char		*oldpwd;
-
 
 	if (check_str(which_pwd, "PWD"))
 	{
@@ -100,10 +80,26 @@ int	cd_home_dir(t_table_cmd *table, t_env_var	*env_list)
 	return (local_cd_exit(EXIT_SUCCESS, &cwd, table));
 }
 
+void	change_env_back(t_env_var *env_list)
+{
+	t_env_var	*correct_env;
+	t_env_var	*correct_env_2;
+	char		*tmp;
+
+	if (check_pwd_oldpwd(env_list))
+		return;
+	correct_env = find_key(env_list, "PWD");
+	correct_env_2 = find_key(env_list, "OLDPWD");
+	tmp = correct_env->value;
+	correct_env->value = correct_env_2->value;
+	correct_env_2->value = tmp;
+}
+
 int	cd_back(t_env_var *env_list, t_table_cmd *table)
 {
 	t_env_var	*correct_env;
 	char		*cwd;
+	char		*tmp;
 		
 	cwd = NULL;
 	correct_env = find_key(env_list, "OLDPWD");
@@ -114,13 +110,13 @@ int	cd_back(t_env_var *env_list, t_table_cmd *table)
 	}
 	else
 	{
-		correct_env->value++;
-		ft_putendl_fd(correct_env->value, STDOUT_FILENO);
-		if (chdir(correct_env->value) != 0)
+		tmp = correct_env->value;
+		tmp++;
+		ft_putendl_fd(tmp, STDOUT_FILENO);
+		if (chdir(tmp) != 0)
 			return (local_cd_exit(EXIT_FAILURE, &cwd, table));
-		//cd_change_env("OLDPWD", NULL, env_list);
+		change_env_back(env_list);
 		cwd = getcwd(cwd, 0);
-		//cd_change_env("PWD", cwd, env_list);
 	}
 	return(local_cd_exit(EXIT_SUCCESS, &cwd, table));
 }
