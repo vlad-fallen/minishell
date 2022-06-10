@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/09 20:52:23 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/09 23:03:22 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,14 +182,15 @@ void		run_builtin(t_table_cmd *table);
 int			echo(t_table_cmd *table);
 
 /* cd */
-int			cd(t_table_cmd *table);
-int			local_cd_exit(int exit_status, char **cwd, t_table_cmd *table);
+int	cd_fun(t_table_cmd *table);
+int	local_cd_exit(int exit_status, char **cwd, t_table_cmd *table);
 
 /* pwd */
-int			pwd(void);
+int			pwd_fun(void);
 
 /* export */
 int			export_fun(t_table_cmd *table);
+void		add_elem_env_help(t_env_var *env_list, char *key, char *value);
 void		change_val_ex(t_env_var	*list, char *val);
 void		change_val_ex_plus(t_env_var	*list, char *val);
 int			check_argc(char *str);
@@ -200,6 +201,7 @@ void		update_env(t_env_var *env_list);
 
 /* unset */
 int			unset_fun(t_table_cmd *table);
+void		del_add_elem_env(char	*str, t_env_var	*env_list);
 
 /* env */
 int 		env(void);

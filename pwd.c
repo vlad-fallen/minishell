@@ -6,13 +6,13 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:17:54 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 17:32:07 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/09 22:06:15 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pwd(void)
+int	pwd_fun(void)
 {
 	char	*str;
 
@@ -20,11 +20,12 @@ int	pwd(void)
 	str = getcwd(str, 0);
 	if (str == NULL)
 	{
-		ft_putstr_fd("pwd failure\n", 2);
+		ft_putstr_fd("pwd failure\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-	ft_putstr_fd(str, 1);
-	ft_putchar_fd('\n', 1);
+	ft_putstr_fd(str, STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
 	free(str);
+	str = NULL;
 	return (EXIT_SUCCESS);
 }
