@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/08 20:48:57 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/10 21:05:14 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,34 +48,8 @@ static int	check_syntax(t_token *list_token)
 			err_flag = 1;
 			break ;
 		}
-		/* if (list_token->key == e_pipe && list_token->next == NULL)
-		return (print_error("minishell", "syntax error", NULL,
-				"incomplete pipe"));
-		if (list_token->key == e_pipe && list_token->next->key == e_pipe)
-			return (print_error("minishell", "syntax error", NULL,
-					"incomplete pipe"));
-		if (list_token->key == e_redir && list_token->next == NULL)
-			return (print_error("minishell", "syntax error", NULL,
-					"invalid redirection"));
-		if (list_token->key == e_redir && list_token->next->key == e_redir)
-			return (print_error("minishell", "syntax error", NULL,
-					"invalid redirection"));
-		if (list_token->key == e_redir && list_token->next->key == e_pipe)
-			return (print_error("minishell", "syntax error", NULL,
-					"invalid redirection")); */
-		/* if (ft_strncmp(list_token->value, "\0", 1) && empty_flag == 1)
-			empty_flag = 0; */
 		list_token = list_token->next;
 	}
-	/* if (empty_flag == 1)
-		return (1); */
-	/* if (empty_flag == 1)
-	{
-		err_flag = 1;
-		g_envp.status_exit = 127;
-	}
-	else
-		g_envp.status_exit = 2; */
 	return (err_flag);
 }
 

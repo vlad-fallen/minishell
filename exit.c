@@ -6,45 +6,48 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:04:13 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/10 18:34:44 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 21:04:11 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+unsigned long	value_exit(char	*str)
+{
+	int				i;
+	unsigned long	nbr;
+	int				minus;
+
+	i = 0;
+	minus = 1;
+	if (str[i] == '-')
+	{
+		minus = -1;
+		i++;
+	}
+	nbr = 0;
+	while (ft_isdigit(str[i]))
+	{
+		nbr = nbr * 10 + str[i] - 48;
+		if ((minus == 1 && nbr > LONG_MAX)
+			|| (minus == -1 && nbr > (unsigned long)(LONG_MAX + 1UL)))
+			exit (255);
+		i++;
+	}
+	return ((long)(minus * nbr));
+}
+
 int	check_argc_exit(char *str)
 {
-	long long
-	int	asw;
-	// if (check_str(str, "9223372036854775809"))
-	// 	return (255);
-	// if (check_str(str, "-9223372036854775808"))
-	// 	return (0);
-	// if (check_str(str, "-9223372036854775810"))
-	// 	return (0);
-	if (check_str(str, "-9223372036854775809"))
-	{
-		//(unsigned char)str;
-		printf("str = %d\n", (int)str);
-	}
-	if (check_str(str, "-9223372036854775810"))
-	{
-		//(unsigned char)str;
-		printf("str = %d\n", (int)str);
-	}
-	if (ft_strlen(str) >= 20)
-	{
-		asw = ft_atoi(str);
-		return ((unsigned char)asw);
-	}
-	if ((ft_atoi(str) == 0 && str[0] != '0'))
+	if (ft_atoi(str) == 0 && str[0] != '0'
+		&& !check_str(str, "-9223372036854775808"))
 	{
 		if (check_str("+0", str))
 			return (0);
 		return (255);
 	}
 	else
-		return ((unsigned char)ft_atoi(str));
+		return (value_exit(str));
 }
 
 int	count_arg(char **str)

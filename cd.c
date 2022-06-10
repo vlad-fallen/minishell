@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 14:41:39 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/10 18:03:01 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 20:24:14 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ int	cd_home_dir(t_table_cmd *table, t_env_var	*env_list)
 	home_dir++;
 	if (chdir(home_dir) != 0)
 		return (local_cd_exit(EXIT_FAILURE, &cwd, table));
-	//cd_change_env("OLDPWD", NULL, env_list);
+	cd_change_env("OLDPWD", NULL, env_list);
 	cwd = getcwd(cwd, 0);
-	//cd_change_env("PWD", cwd, env_list);
+	cd_change_env("PWD", cwd, env_list);
 	return (local_cd_exit(EXIT_SUCCESS, &cwd, table));
 }
 

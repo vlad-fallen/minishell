@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 14:21:57 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/10 19:28:44 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 21:04:30 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,6 @@ char	*append_token_conect(t_token **list_token)
 	char	*tmp_str;
 	t_token	*tmp_token;
 
-	/* if (!ft_strncmp((*list_token)->value, "$", 2) && (*list_token)->connect
-		&& ((*list_token)->next->key == e_double_quote
-			|| (*list_token)->next->key == e_single_quote)
-		&& !ft_strncmp((*list_token)->next->value, "", 1))
-		new_str = ft_strdup("");
-	else */
 	new_str = ft_strdup((*list_token)->value);
 	while ((*list_token)->connect)
 	{
