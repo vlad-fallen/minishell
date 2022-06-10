@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 16:29:52 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/07 17:28:14 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 19:25:33 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	del_elem(t_token *del, t_token *head)
 
 void	token_destroy(t_token **token)
 {
-	t_token *tmp;
-	
+	t_token	*tmp;
+
 	tmp = *token;
 	if (tmp != NULL)
 	{

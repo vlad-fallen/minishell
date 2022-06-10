@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 13:36:12 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 22:00:32 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 20:08:24 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,29 @@ char	*change_value(char *value, char *old, int len_sp_val, char *env_value)
 	c_new_val = c_new_val + i;
 	new_value = ch_val_help_2(old, env_value, c_new_val, value);
 	return (new_value);
+}
+
+char	*digit_arg_dol(char *value, char *old_value)
+{
+	char	*new_val;
+	char	*tmp;
+	int		i;
+	int		count;
+	int		all_len;
+
+	all_len = ft_strlen(old_value);
+	count = all_len - correct_count(value) - 1;
+	tmp = (char *)malloc(sizeof(char) * count);
+	i = 0;
+	while (old_value[i] != '$')
+	{
+		tmp[i] = old_value[i];
+		i++;
+	}
+	tmp[i] = '\0';
+	value++;
+	new_val = ft_strjoin(tmp, value);
+	free(tmp);
+	tmp = NULL;
+	return (new_val);
 }

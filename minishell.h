@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/09 23:03:22 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 20:09:05 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,11 @@ t_token	*dollar_pars(t_token *list_token);
 
 /* dollar_pars_2 */
 char	*change_value(char *value, char *old, int len_sp_val, char *env_value);
+char	*digit_arg_dol(char *value, char *old_value);
+
+/* dollar_pars_3 */
+t_token	*del_elem_list(t_token *del, t_token **head);
+char 	*del_posle_dol(char *old_value, char *value);
 
 /* dollar_pars_utils */
 int		check_str_red(char *str1, char *str2);
@@ -155,10 +160,6 @@ char	*correct_dollar_pos(char *value);
 /* dollar_pars_utils_2 */
 int	count_token(t_token *list_token);
 int	check_str_for_clean(char *str1, char *str2);
-
-/* dollar_pars_3 */
-t_token	*del_elem_list(t_token *del, t_token **head);
-char 	*del_posle_dol(char *old_value, char *value);
 
 /* expand_prog */
 t_token	*expand_prog(t_token *list_token);

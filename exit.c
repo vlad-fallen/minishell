@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:04:13 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/05 16:04:54 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 18:34:44 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,29 @@
 
 int	check_argc_exit(char *str)
 {
-	if (check_str(str, "9223372036854775809"))
-		return (255);
-	if (check_str(str, "-9223372036854775808"))
-		return (0);
+	long long
+	int	asw;
+	// if (check_str(str, "9223372036854775809"))
+	// 	return (255);
+	// if (check_str(str, "-9223372036854775808"))
+	// 	return (0);
+	// if (check_str(str, "-9223372036854775810"))
+	// 	return (0);
+	if (check_str(str, "-9223372036854775809"))
+	{
+		//(unsigned char)str;
+		printf("str = %d\n", (int)str);
+	}
+	if (check_str(str, "-9223372036854775810"))
+	{
+		//(unsigned char)str;
+		printf("str = %d\n", (int)str);
+	}
+	if (ft_strlen(str) >= 20)
+	{
+		asw = ft_atoi(str);
+		return ((unsigned char)asw);
+	}
 	if ((ft_atoi(str) == 0 && str[0] != '0'))
 	{
 		if (check_str("+0", str))

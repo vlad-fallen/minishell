@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_pars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/09 20:59:49 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/10 20:08:20 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,6 @@ static char	*change_in_env_help(char *value, int flag_ex)
 		value++;
 	}
 	return (value);
-}
-
-char	*digit_arg_dol(char *value, char *old_value)
-{
-	char	*new_val;
-	char	*tmp;
-	int		i;
-	int		count;
-	int		all_len;
-
-	all_len = ft_strlen(old_value);
-	count = all_len - correct_count(value) - 1;
-	tmp = (char *)malloc(sizeof(char) * count);
-	i = 0;
-	while (old_value[i] != '$')
-	{
-		tmp[i] = old_value[i];
-		i++;
-	}
-	tmp[i] = '\0';
-	value++;
-	new_val = ft_strjoin(tmp, value);
-	free(tmp);
-	tmp = NULL;
-	return (new_val);
 }
 
 char	*change_in_env(char *value, int flag_ex)
@@ -92,6 +67,11 @@ t_token	*dollar_pars_help(t_token *tmp, t_token *list_token, int i)
 		{
 			free(tmp->value);
 			tmp->value = NULL;
+			if (tmp->key == 3)
+			{
+				if (!change_value)
+					change_value = ft_strdup("");
+			}
 		}
 		if (!change_value)
 			tmp = del_elem_list(tmp, &list_token);
@@ -101,33 +81,35 @@ t_token	*dollar_pars_help(t_token *tmp, t_token *list_token, int i)
 	return (tmp);
 }
 
+t_token	*dollar_pars_cycle(t_token *list_token, t_token *tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp && tmp->value[i])
+	{
+		if (tmp->value[i] == '$')
+		{
+			tmp = dollar_pars_help(tmp, list_token, i);
+			if (tmp && ft_isalpha(tmp->value[i + 1]))
+				i = -1;
+		}
+		i++;
+	}
+	return (tmp);
+}
+
 t_token	*dollar_pars(t_token *list_token)
 {
 	t_token	*tmp;
 	char	*prev;
-	int		i;
-	
+
 	prev = NULL;
 	tmp = list_token;
 	while (tmp)
 	{
-		if (!check_str_red(prev, "<<"))
-		{
-			i = 0;
-			if (tmp->key != e_single_quote)
-			{
-				while (tmp && tmp->value[i])
-				{
-					if (tmp->value[i] == '$')
-					{
-						tmp = dollar_pars_help(tmp, list_token, i);
-						if (tmp && ft_isalpha(tmp->value[i + 1]))
-							i = -1;
-					}
-					i++;
-				}
-			}
-		}
+		if (tmp->key != e_single_quote && !check_str_red(prev, "<<"))
+			tmp = dollar_pars_cycle(list_token, tmp);
 		if (tmp != NULL)
 		{	
 			prev = tmp->value;

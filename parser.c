@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:17:11 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 20:11:57 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/10 19:28:37 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ t_table_cmd	*parser(t_token **list_token)
 {
 	t_table_cmd	*table;
 	t_table_cmd	*head;
-	//t_token		*tmp;
 	t_token		*next;
 
-	//tmp = *list_token;
 	table = table_create();
 	if (table == NULL)
 		return (NULL);
