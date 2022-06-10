@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:19:47 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/10 18:12:24 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/10 18:15:08 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	unset_help(int flag_p_e, t_table_cmd *table, int i)
 
 int	ft_isalpha_and(int c)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_' || (c >= '0' && c <= '9'))
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_'
+		|| (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
 }
