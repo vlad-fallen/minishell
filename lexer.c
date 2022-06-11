@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/11 15:51:55 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/11 16:23:23 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,11 @@ static int	check_syntax(t_token *list_token)
 	return (err_flag);
 }
 
-t_token	*lexer(char *input)
+t_token	*create_list_token(t_token	*list_token, char *input)
 {
-	t_token	*list_token;
-	int		i;
+	int	i;
 
 	i = 0;
-	list_token = NULL;
-	if (input[0] == 0)
-		return (list_token);
 	while (input[i])
 	{
 		if (lexer_token_pipe(input, &i, &list_token) == 1)
@@ -78,12 +74,21 @@ t_token	*lexer(char *input)
 			i++;
 	}
 	list_token = dollar_exit_status(list_token);
-	list_token = dollar_pars(list_token);
-	list_token = expand_prog(list_token);
 	if (input[i] != '\0' || check_syntax(list_token))
 	{
 		token_destroy_all(&list_token);
 		g_envp.status_exit = 2;
 	}
+	return (list_token);
+}
+
+t_token	*lexer(char *input)
+{
+	t_token	*list_token;
+
+	list_token = NULL;
+	if (input[0] == 0)
+		return (list_token);
+	list_token = create_list_token(list_token, input);
 	return (list_token);
 }

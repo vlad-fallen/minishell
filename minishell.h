@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/11 15:39:19 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/11 17:31:58 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,26 +103,26 @@ void		envlist_add_back(t_env_var **lst, t_env_var *new);
 void		free_global_env(void);
 
 /* tokens */
-t_token	*token_new(t_key_token key, char *value);
-void	token_add_back(t_token **lst, t_token *new);
-void	token_destroy(t_token **token);
-void	token_destroy_all(t_token **token);
-void	del_elem(t_token *del, t_token *head);
+t_token		*token_new(t_key_token key, char *value);
+void		token_add_back(t_token **lst, t_token *new);
+void		token_destroy(t_token **token);
+void		token_destroy_all(t_token **token);
+void		del_elem(t_token *del, t_token *head);
 
 /* lexer */
-int		ft_quotelen(char *str);
-int		ft_wordlen(char *str);
-int		lexer_token_whitespace(char *input, int *i, t_token **list_token);
-int		lexer_token_pipe(char *input, int *i, t_token **list_token);
-int		lexer_token_bracket(char *input, int *i, t_token **list_token);
-int		lexer_token_redir(char *input, int *i, t_token **list_token);
-int		lexer_token_quote(char *input, int *i, t_token **list_token);
-int		lexer_token_word(char *input, int *i, t_token **list_token);
-t_token	*lexer(char *input);
+int			ft_quotelen(char *str);
+int			ft_wordlen(char *str);
+int			lexer_token_whitespace(char *input, int *i, t_token **list_token);
+int			lexer_token_pipe(char *input, int *i, t_token **list_token);
+int			lexer_token_bracket(char *input, int *i, t_token **list_token);
+int			lexer_token_redir(char *input, int *i, t_token **list_token);
+int			lexer_token_quote(char *input, int *i, t_token **list_token);
+int			lexer_token_word(char *input, int *i, t_token **list_token);
+t_token		*lexer(char *input);
 
 /* signal */
-void	sig_prog(int sig);
-void	all_signals(void);
+void		sig_prog(int sig);
+void		all_signals(void);
 
 /* table struct */
 t_table_cmd	*table_create(void);
@@ -136,43 +136,45 @@ void		free_table(t_table_cmd **table);
 t_table_cmd	*parser(t_token **list_token);
 
 /* dollar_exit_status */
-t_token	*dollar_exit_status(t_token *list_token);
+t_token		*dollar_exit_status(t_token *list_token);
 
 /* dollar_pars */
-t_token	*dollar_pars(t_token *list_token);
+t_token		*dollar_pars(t_token *list_token);
 
 /* dollar_pars_2 */
-char	*change_value(char *value, char *old, int len_sp_val, char *env_value);
-char	*digit_arg_dol(char *value, char *old_value);
+char		*change_value(char *value, char *old, int len_sp_val,
+				char *env_value);
+char		*digit_arg_dol(char *value, char *old_value);
 
 /* dollar_pars_3 */
-t_token	*del_elem_list(t_token *del, t_token **head);
-char 	*del_posle_dol(char *old_value, char *value);
+t_token		*del_elem_list(t_token *del, t_token **head);
+char		*del_posle_dol(char *old_value, char *value);
 
 /* dollar_pars_utils */
-int		check_str_red(char *str1, char *str2);
-int		check_str_n(char *str1, char *str2, int n);
-int		check_str(char *str1, char *str2);
-int		correct_count(char *elem_split_value);
-char	*correct_dollar_pos(char *value);
+int			check_str_red(char *str1, char *str2);
+int			check_str_n(char *str1, char *str2, int n);
+int			check_str(char *str1, char *str2);
+int			correct_count(char *elem_split_value);
+char		*correct_dollar_pos(char *value);
 
 /* dollar_pars_utils_2 */
-int	count_token(t_token *list_token);
-int	check_str_for_clean(char *str1, char *str2);
+int			count_token(t_token *list_token);
+int			check_str_for_clean(char *str1, char *str2);
 
 /* expand_prog */
-t_token	*expand_prog(t_token *list_token);
+t_token		*expand_prog(t_token *list_token);
 
 /* executor */
-void	stream_op(int *initial_stdin, int *initial_stdout, int mode);
-void	exec_wait_one(int proc_id);
-int		make_fork(pid_t *proc_id);
-int		exec_proc(char **cmd, char **envp);
-int		execute_redirect(t_table_cmd *table);
-void	exec_wait_all(int proc_id, int *stdin_dup, int *stdout_dup);
-void	exec_scmd(t_table_cmd *table);
-void	exec_pipe(t_table_cmd *table);
-void	executor(t_table_cmd *table);
+void		stream_op(int *initial_stdin, int *initial_stdout, int mode);
+void		exec_wait_one(int proc_id);
+int			make_fork(pid_t *proc_id);
+int			exec_proc(char **cmd, char **envp);
+int			execute_redirect(t_table_cmd *table);
+void		execute_redirect_help(t_redir *redir_file, t_table_cmd *table);
+void		exec_wait_all(int proc_id, int *stdin_dup, int *stdout_dup);
+void		exec_scmd(t_table_cmd *table);
+void		exec_pipe(t_table_cmd *table);
+void		executor(t_table_cmd *table);
 
 /* builtin */
 int			check_builtin(t_table_cmd *table);
@@ -182,11 +184,11 @@ void		run_builtin(t_table_cmd *table);
 int			echo(t_table_cmd *table);
 
 /* cd */
-int	cd_fun(t_table_cmd *table);
+int			cd_fun(t_table_cmd *table);
 
 /* cd_2 */
-void	cd_change_env(char *which_pwd, char *value, t_env_var *env_list);
-int		check_pwd_oldpwd(t_env_var *env_list);
+void		cd_change_env(char *which_pwd, char *value, t_env_var *env_list);
+int			check_pwd_oldpwd(t_env_var *env_list);
 
 /* cd_utils */
 int			local_cd_exit(int exit_status, char **cwd, t_table_cmd *table);
@@ -218,10 +220,10 @@ void		print_list_env(t_env_var *list_token);
 int			exit_prog(t_table_cmd *table);
 
 /* utils */
-void	arr_free(char ***arr);
-int		print_error(char *shell_name, char *cmd, char *arg, char *message);
-void	free_and_exit(int status, t_table_cmd **table);
-void	print_list_token(t_token *list_token);
-void	print_list_arguments(char **arg);
+void		arr_free(char ***arr);
+int			print_error(char *shell_name, char *cmd, char *arg, char *message);
+void		free_and_exit(int status, t_table_cmd **table);
+void		print_list_token(t_token *list_token);
+void		print_list_arguments(char **arg);
 
 #endif

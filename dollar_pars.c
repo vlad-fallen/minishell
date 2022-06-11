@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 17:33:40 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/10 20:08:20 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/11 16:24:02 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,5 @@ t_token	*dollar_pars(t_token *list_token)
 	}
 	if (count_token(list_token) == 1 && !list_token->next && !list_token->value)
 		list_token = NULL;
-	return (list_token);
+	return (expand_prog(list_token));
 }

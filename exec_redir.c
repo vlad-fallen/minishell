@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:07:01 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/11 15:46:33 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/11 17:31:16 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	heredoc_util(int *fd, t_redir *redir)
 			break ;
 		}
 		tmp = line;
-		/* if (redir->quote_flag == 0)
-			tmp = change_in_env(tmp, 0); */
 		line = ft_strjoin(tmp, "\n");
 		ft_putstr_fd(line, *fd);
 		free(line);
@@ -105,14 +103,6 @@ int	execute_redirect(t_table_cmd *table)
 		}
 		redir_file = redir_file->next;
 	}
-	redir_file = table->redirections;
-	while (redir_file != NULL)
-	{
-		if (redir_file->type == REDIR_IN)
-			dup2(redir_file->fd, STDIN_FILENO);
-		else
-			dup2(redir_file->fd, STDOUT_FILENO);
-		redir_file = redir_file->next;
-	}
+	execute_redirect_help(redir_file, table);
 	return (0);
 }
