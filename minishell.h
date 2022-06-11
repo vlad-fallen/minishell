@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:31:33 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/10 21:12:09 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:39:19 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include <dirent.h>
 # include <limits.h>
 # include "libft.h"
-
 
 # define REDIR_OUT 1
 # define REDIR_IN 2
@@ -60,11 +59,11 @@ typedef enum e_key_token
 	e_pipe,
 	e_left_bracket,
 	e_right_bracket
-}	key_token;
+}	t_key_token;
 
 typedef struct s_token
 {
-	key_token		key;
+	t_key_token		key;
 	char			*value;
 	int				connect;
 	struct s_token	*next;
@@ -103,9 +102,8 @@ t_env_var	*envlist_new(char *key, char *value);
 void		envlist_add_back(t_env_var **lst, t_env_var *new);
 void		free_global_env(void);
 
-
 /* tokens */
-t_token	*token_new(key_token key, char *value);
+t_token	*token_new(t_key_token key, char *value);
 void	token_add_back(t_token **lst, t_token *new);
 void	token_destroy(t_token **token);
 void	token_destroy_all(t_token **token);
@@ -186,6 +184,10 @@ int			echo(t_table_cmd *table);
 /* cd */
 int	cd_fun(t_table_cmd *table);
 
+/* cd_2 */
+void	cd_change_env(char *which_pwd, char *value, t_env_var *env_list);
+int		check_pwd_oldpwd(t_env_var *env_list);
+
 /* cd_utils */
 int			local_cd_exit(int exit_status, char **cwd, t_table_cmd *table);
 t_env_var	*find_key(t_env_var	*env_init_tmp, char *which_pwd);
@@ -209,7 +211,7 @@ int			unset_fun(t_table_cmd *table);
 void		del_add_elem_env(char	*str, t_env_var	*env_list);
 
 /* env */
-int 		env(void);
+int			env(void);
 void		print_list_env(t_env_var *list_token);
 
 /* exit */
@@ -221,6 +223,5 @@ int		print_error(char *shell_name, char *cmd, char *arg, char *message);
 void	free_and_exit(int status, t_table_cmd **table);
 void	print_list_token(t_token *list_token);
 void	print_list_arguments(char **arg);
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:04:13 by echrysta          #+#    #+#             */
-/*   Updated: 2022/06/10 21:04:11 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:30:13 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	check_argc_exit(char *str)
 	{
 		if (check_str("+0", str))
 			return (0);
+		print_error("minishell", "exit", str, "numeric argument required");
 		return (255);
 	}
 	else
@@ -69,8 +70,7 @@ int	exit_prog(t_table_cmd *table)
 		g_envp.status_exit = check_argc_exit(table->arguments[1]);
 	if (count >= 3)
 	{
-		ft_putstr_fd("exit\n", 2);
-		ft_putstr_fd("zhs: exit: too many arguments\n", 2);
+		print_error("minishell", "exit", NULL, "too many arguments");
 		if (g_envp.status_exit != 255)
 			g_envp.status_exit = 1;
 		return (g_envp.status_exit);

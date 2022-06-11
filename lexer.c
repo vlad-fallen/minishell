@@ -6,13 +6,13 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 14:14:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/10 21:05:14 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/11 15:51:55 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int syntax_error(t_token *list_token)
+static int	syntax_error(t_token *list_token)
 {
 	if (list_token->key == e_pipe && list_token->next == NULL)
 		return (print_error("minishell", "syntax error", NULL,
@@ -34,8 +34,8 @@ static int syntax_error(t_token *list_token)
 
 static int	check_syntax(t_token *list_token)
 {
-	int empty_flag;
-	int err_flag;
+	int	empty_flag;
+	int	err_flag;
 
 	empty_flag = 1;
 	err_flag = 0;

@@ -6,7 +6,7 @@
 #    By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 15:40:50 by mbutter           #+#    #+#              #
-#    Updated: 2022/06/10 21:10:38 by echrysta         ###   ########.fr        #
+#    Updated: 2022/06/11 15:38:34 by echrysta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS		=	main.c \
 				builtin.c \
 				echo.c\
 				cd.c\
+				cd_2.c\
 				cd_utils.c\
 				pwd.c\
 				env.c\

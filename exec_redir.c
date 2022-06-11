@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:07:01 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/09 21:16:36 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/11 15:46:33 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	execute_redirect(t_table_cmd *table)
 		redir_file = redir_file->next;
 	}
 	redir_file = table->redirections;
-	while(redir_file != NULL)
+	while (redir_file != NULL)
 	{
 		if (redir_file->type == REDIR_IN)
 			dup2(redir_file->fd, STDIN_FILENO);

@@ -6,13 +6,13 @@
 /*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 16:29:52 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/10 19:25:33 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/11 14:50:12 by echrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*token_new(key_token key, char *value)
+t_token	*token_new(t_key_token key, char *value)
 {
 	t_token	*list;
 
