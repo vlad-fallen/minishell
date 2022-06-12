@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:05:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/10 19:29:22 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/12 12:31:27 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,28 @@ char	*find_path_util(char **path_envp, char *cmd)
 	return (path);
 }
 
-char	*find_path(char *cmd, char **envp)
+char	*find_path(char *cmd, char **envp, int *path_flag)
 {
 	char	**path_envp;
 	int		i;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
+	path_envp = NULL;
+	while (envp[i])
 	{
-		if (envp[i] == NULL)
-			return (NULL);
+		if (!ft_strncmp(envp[i], "PATH", 4))
+		{
+			*path_flag = 1;
+			path_envp = ft_split(envp[i] + 5, ':');
+			break ;
+		}
 		i++;
 	}
+	if (envp[i] == NULL && path_envp == NULL)
+		return (NULL);
 	if (!ft_strncmp(cmd, "\0", 1) || !ft_strncmp(cmd, ".", 2)
 		|| !ft_strncmp(cmd, "..", 3))
 		return (NULL);
-	path_envp = ft_split(envp[i] + 5, ':');
 	return (find_path_util(path_envp, cmd));
 }
 
@@ -81,12 +87,14 @@ int	error_proc(char **cmd, char *path)
 
 int	exec_proc(char **cmd, char **envp)
 {
-	char		*path;
+	char	*path;
+	int		path_flag;
 
+	path_flag = 0;
 	if (cmd == NULL)
 		exit(EXIT_SUCCESS);
 	if (!ft_strchr(cmd[0], '/'))
-		path = find_path(cmd[0], envp);
+		path = find_path(cmd[0], envp, &path_flag);
 	else
 		path = cmd[0];
 	execve(path, cmd, envp);
