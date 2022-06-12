@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 18:44:24 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/05 18:56:33 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/12 12:50:35 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void	exec_wait_one(int proc_id)
 	waitpid(proc_id, &status, 0);
 	if (WIFSIGNALED(status))
 	{
+		if (WTERMSIG(status) == SIGINT)
+			ft_putstr_fd("\n", 2);
+		else if (WTERMSIG(status) == SIGQUIT)
+			ft_putstr_fd("Quit: 3\n", 2);
 		g_envp.status_exit = 128 + WTERMSIG(status);
 	}
 	else if (WIFEXITED(status))

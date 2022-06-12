@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:05:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/12 12:31:27 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/12 12:52:14 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int	exec_proc(char **cmd, char **envp)
 	int		path_flag;
 
 	path_flag = 0;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (cmd == NULL)
 		exit(EXIT_SUCCESS);
 	if (!ft_strchr(cmd[0], '/'))

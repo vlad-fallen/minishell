@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: echrysta <echrysta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 12:55:00 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/11 16:06:09 by echrysta         ###   ########.fr       */
+/*   Updated: 2022/06/12 12:52:38 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int	main(void)
 
 	env_init();
 	g_envp.status_exit = EXIT_SUCCESS;
-	all_signals();
 	rl_outstream = stderr;
 	while (1)
 	{
+		all_signals();
 		line = readline("minishell$> ");
 		if (!line)
 			exit_all_prog();
