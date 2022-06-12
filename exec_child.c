@@ -6,7 +6,7 @@
 /*   By: mbutter <mbutter@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:05:14 by mbutter           #+#    #+#             */
-/*   Updated: 2022/06/12 12:52:14 by mbutter          ###   ########.fr       */
+/*   Updated: 2022/06/12 13:41:10 by mbutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	exec_proc(char **cmd, char **envp)
 	else
 		path = cmd[0];
 	execve(path, cmd, envp);
-	if (path == NULL)
+	if (path == NULL && path_flag == 1)
 	{
 		print_error("minishell", cmd[0], NULL, "command not found");
 		return (127);
